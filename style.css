@@ -1,0 +1,2460 @@
+/* ==========================================================================
+   GATO Y CRUNCHY — ESTILO CARTOON INTERACTIVO & CUENTO
+   Diseño Continuo Fluido con Elementos Visuales 100% Flotantes (Sin Cajas)
+   ========================================================================== */
+
+/* --- RESET & VARIABLES GLOBALES --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Tipografía ÚNICA y Coherente para toda la lectura y diálogos */
+  --font-logo: 'Titan One', 'Luckiest Guy', cursive, sans-serif;
+  --font-title: 'Luckiest Guy', 'Titan One', cursive, sans-serif;
+  --font-heading: 'Fredoka', 'Sniglet', sans-serif;
+  --font-body: 'Fredoka', sans-serif;
+  --font-dialog: 'Fredoka', 'Sniglet', cursive, sans-serif;
+
+  /* Paleta de Personajes */
+  --c-gato: #FE7A01;
+  --c-gato-text: #ea580c;
+  --c-gato-bg: #fff7ed;
+
+  --c-crunchy: #FB467D;
+  --c-crunchy-text: #e11d48;
+  --c-crunchy-bg: #fff0f5;
+
+  --c-oti: #883F22;
+  --c-oti-text: #78350f;
+  --c-oti-bg: #fcf6ee;
+
+  --c-riolita-text: #c42e4d;
+  --c-basalto-text: #3d393e;
+
+  /* Portales (Star vs the Forces of Evil / Rick & Morty) */
+  --portal-neon-cyan: #00e5ff;
+  --portal-plasma-blue: #0284c7;
+  --portal-star-spark: #ffd000;
+  --portal-orange: #ff9100;
+
+  /* Fondos */
+  --bg-cartoon-paper: #fefbf3;
+  --text-dark: #27211e;
+  --stroke-cartoon: 3px solid #27211e;
+
+  /* Tokens UI */
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-lg: 26px;
+  --radius-full: 9999px;
+
+  --shadow-cartoon: 4px 4px 0px #27211e;
+  --shadow-cartoon-lg: 7px 7px 0px #27211e;
+  --shadow-glow-star: 0 0 35px rgba(0, 229, 255, 0.8), 0 0 65px rgba(255, 208, 0, 0.6);
+
+  --transition-bounce: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-cartoon-paper);
+  color: var(--text-dark);
+  line-height: 1.6;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* --- BARRA DE PROGRESO SUPERIOR --- */
+@keyframes barra-creix {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* --- LÍNEA DE TIEMPO: LA COLA DE GATO (3 ONDAS DE PELAJE) --- */
+.barra-progres {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 18px;
+  width: 0%;
+  background-color: #fd8401;
+  background-image:
+    linear-gradient(to right, #fcaf56, #fcaf56),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='18' viewBox='0 0 16 18'%3E%3Cpath d='M16,0 L6,0 C1,1 0,3 6,6 C1,7 0,9 6,12 C1,13 0,15 6,18 L16,18 Z' fill='%23fcaf56'/%3E%3C/svg%3E");
+  background-size: 28px 18px, 16px 18px;
+  background-position: right 0 top 0, right 27px top 0;
+  background-repeat: no-repeat, no-repeat;
+  border-top: 2.5px solid #27211e;
+  border-bottom: 2.5px solid #27211e;
+  border-right: 2.5px solid #27211e;
+  border-left: none;
+  border-top-right-radius: 9999px;
+  border-bottom-right-radius: 9999px;
+  z-index: 9999;
+  box-shadow: none;
+  pointer-events: none;
+  transition: width 0.06s linear;
+}
+
+/* --- BOTÓN FLOTANTE ÚNICO DE SONIDO / SFX --- */
+.audio-control-fixed {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  z-index: 1000;
+}
+
+.btn-cartoon-sound {
+  background: #ffffff;
+  border: 2.5px solid #27211e;
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 900;
+  color: var(--text-dark);
+  cursor: pointer;
+  box-shadow: var(--shadow-cartoon);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.btn-cartoon-sound:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: var(--shadow-cartoon-lg);
+  background: #fffbeb;
+}
+
+/* ========================================================
+   PORTADA / HERO (CON PERSONAJES DECORATIVOS EN FONDO)
+   ======================================================== */
+.seccio-portada {
+  min-height: 90vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 90px 20px 70px;
+  background: var(--bg-cream);
+  position: relative;
+  overflow: hidden;
+}
+
+/* PERSONAJES ILUSTRADOS EN LA PORTADA */
+.portada-bg-characters {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.portada-char-art {
+  position: absolute;
+  bottom: 0;
+  height: clamp(280px, 38vw, 470px);
+  width: clamp(230px, 28vw, 390px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+/* CRUNCHY EN LA IZQUIERDA (CAMBIO NÍTIDO DE POSE CON UVAS) */
+.char-crunchy-bg {
+  left: 2%;
+  transform: rotate(-3deg);
+  opacity: 1;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+}
+
+.char-crunchy-bg .char-img-normal,
+.char-crunchy-bg .char-img-hover,
+.char-gato-bg .char-img-normal,
+.char-gato-bg .char-img-hover {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  opacity: 1;
+}
+
+.char-crunchy-bg .char-img-normal {
+  display: block;
+}
+
+.char-crunchy-bg .char-img-hover {
+  display: none;
+}
+
+.char-crunchy-bg:hover {
+  transform: rotate(0deg) scale(1.05) translateY(-8px);
+  opacity: 1;
+}
+
+.char-crunchy-bg:hover .char-img-normal {
+  display: none;
+}
+
+.char-crunchy-bg:hover .char-img-hover {
+  display: block;
+}
+
+/* GATO EN LA DERECHA (CAMBIO NÍTIDO DE POSE CON PISTOLA) */
+.char-gato-bg {
+  right: 2%;
+  transform: rotate(3deg);
+  opacity: 1;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+}
+
+.char-gato-bg .char-img-normal {
+  display: block;
+}
+
+.char-gato-bg .char-img-hover {
+  display: none;
+}
+
+.char-gato-bg:hover {
+  transform: rotate(0deg) scale(1.05) translateY(-8px);
+  opacity: 1;
+}
+
+.char-gato-bg:hover .char-img-normal {
+  display: none;
+}
+
+.char-gato-bg:hover .char-img-hover {
+  display: block;
+}
+
+.portada-img-fluid {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+}
+
+.bloc-central-cartoon {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ========================================================
+   LOGOTIPO OFICIAL CON ZOOM ELÁSTICO FLUIDO Y BIDIRECCIONAL
+   ======================================================== */
+.logo-official-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 660px;
+  width: 100%;
+  margin: 10px 0 16px;
+  cursor: pointer;
+  animation: logo-float-subtle 4.5s ease-in-out infinite alternate;
+}
+
+@keyframes logo-float-subtle {
+  0% {
+    transform: translateY(0px);
+  }
+
+  100% {
+    transform: translateY(-7px);
+  }
+}
+
+.logo-official-img {
+  width: 100%;
+  max-width: clamp(340px, 86vw, 650px);
+  height: auto;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+  transform-origin: center center;
+  transition: transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Al pasar el ratón: la imagen hace el zoom elástico suave hacia afuera */
+.logo-official-container:hover .logo-official-img {
+  transform: scale(1.065) translateY(-5px);
+}
+
+.logo-official-container:active .logo-official-img {
+  transform: scale(0.98) translateY(1px);
+  transition: transform 0.12s ease;
+}
+
+.descripcio-divertida {
+  font-family: var(--font-heading);
+  font-size: clamp(1.2rem, 2.3vw, 1.45rem);
+  font-weight: 600;
+  color: var(--text-dark);
+  max-width: 680px;
+  line-height: 1.55;
+  padding: 14px 24px;
+}
+
+
+/* ========================================================
+   SECCIONES EDITORIALES UNIFICADAS (01 A 08) EN DOS COLUMNAS
+   ======================================================== */
+.seccio-pagina-cuento {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 85px 30px;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  align-items: center;
+  gap: 55px;
+}
+
+/* Columna Izquierda: Texto y Diálogos */
+.cuento-col-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.numero-escena-badge {
+  display: flex;
+  align-items: center;
+}
+
+.num-escena {
+  font-family: var(--font-title);
+  font-size: clamp(3.2rem, 5.5vw, 4.6rem);
+  color: var(--c-gato);
+  opacity: 0.38;
+  line-height: 1;
+}
+
+.titol-escena {
+  font-family: var(--font-title);
+  font-size: clamp(2.2rem, 3.8vw, 3rem);
+  color: var(--text-dark);
+  line-height: 1.15;
+}
+
+/* ========================================================
+   TIPOGRAFÍA MAESTRA COMPARTIDA (MISMA REGLA CSS EXACTA PARA TEXTO DEL CUENTO, DIÁLOGOS Y LLAMADA A LA ACCIÓN)
+   ======================================================== */
+.paragraf-cuento,
+.bubble-dialogue-content,
+.bubble-dialogue-text,
+.live-subtitle-text,
+.scene-live-subtitle-pill .live-subtitle-text {
+  font-family: var(--font-body) !important;
+  font-size: 1.15rem !important;
+  font-weight: 600 !important;
+  line-height: 1.6 !important;
+  color: #000000 !important;
+  letter-spacing: normal !important;
+}
+
+.paragraf-cuento {
+  max-width: 550px;
+}
+
+.destacat-cyan {
+  color: #0284c7;
+  font-weight: 800;
+}
+
+.destacat-orange {
+  color: #ea580c;
+  font-weight: 800;
+}
+
+.destacat-lava {
+  color: #ff5722;
+  font-weight: 800;
+}
+
+.destacat-gato {
+  color: var(--c-gato-text, #ea580c);
+  font-weight: 800;
+}
+
+.destacat-crunchy {
+  color: var(--c-crunchy-text, #e11d48);
+  font-weight: 800;
+}
+
+.destacat-oti {
+  color: var(--c-oti-text, #78350f);
+  font-weight: 800;
+}
+
+.destacat-carbon,
+.destacat-riolita {
+  color: var(--c-riolita-text, #c42e4d);
+  font-weight: 800;
+}
+
+.destacat-basalto {
+  color: var(--c-basalto-text, #3d393e);
+  font-weight: 800;
+}
+
+.cita-aprendizaje {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #854d0e;
+  background: #fef9c3;
+  border-left: 6px solid #eab308;
+  padding: 16px 20px;
+  border-radius: var(--radius-md);
+  box-shadow: 2px 2px 0px #27211e;
+  margin-top: 10px;
+}
+
+/* ========================================================
+   COLUMNA VISUAL: ELEMENTOS 100% FLOTANTES (SIN CONTENEDOR)
+   ======================================================== */
+.cuento-col-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* Escenario Flotante sin caja, sin fondo y sin marcos oscuros */
+.escena-visual-card {
+  width: 100%;
+  max-width: 500px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform var(--transition-bounce);
+  animation: visual-levitate 4s ease-in-out infinite alternate;
+}
+
+@keyframes visual-levitate {
+  0% {
+    transform: translateY(0px);
+  }
+
+  100% {
+    transform: translateY(-8px);
+  }
+}
+
+.escena-visual-card:hover {
+  transform: translateY(-4px) scale(1.03);
+}
+
+
+/* ========================================================
+   BURBUJAS DE DIÁLOGO OFICIALES ILUSTRADAS
+   ======================================================== */
+.scene-live-subtitle-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  z-index: 20;
+  width: 100%;
+  max-width: 680px;
+  cursor: pointer;
+  transition: transform 0.25s var(--transition-bounce), filter 0.25s ease;
+  user-select: none;
+  min-height: 90px;
+}
+
+/* Estado de llamada a la acción inicial (sin activar): idéntica en estructura, tamaño y avatar al diálogo */
+.scene-live-subtitle-pill.is-ready-cta,
+.character-speech-bubble.bubble-ready-cta {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 680px;
+  margin-left: 70px;
+  background: #fffdf8;
+  border: 4.5px solid #373432 !important;
+  border-radius: 46px;
+  padding: 16px 32px 16px 85px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+  min-height: 90px;
+  transition: transform 0.25s var(--transition-bounce);
+}
+
+.scene-live-subtitle-pill.is-ready-cta:hover,
+.character-speech-bubble.bubble-ready-cta:hover {
+  transform: translateY(-2px);
+  border-color: #373432 !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.scene-live-subtitle-pill.is-ready-cta .live-subtitle-text,
+.character-speech-bubble.bubble-ready-cta .live-subtitle-text {
+  text-align: left;
+  width: 100%;
+}
+
+/* BURBUJA DE DIÁLOGO DINÁMICA CON CABEZAS ADAPTABLES */
+.character-speech-bubble {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 680px;
+  margin-left: 70px;
+  /* Espacio para que la cabeza gigante sobresalga por la izquierda */
+  background: #fffdf8;
+  border-radius: 46px;
+  padding: 16px 32px 16px 85px;
+  /* Margen izquierdo amplio para no tocar la cabeza grande */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+  animation: bubble-pop-in 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border: 4.5px solid var(--c-gato, #FE7A01);
+  min-height: 90px;
+}
+
+@keyframes bubble-pop-in {
+  0% {
+    transform: scale(0.92) translateY(5px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Contenedor e ilustración de la cabeza del personaje o guante (TAMAÑO DESTACADO GIGANTE) */
+.bubble-avatar-slot {
+  position: absolute;
+  left: -75px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 155px;
+  height: 155px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.bubble-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: none;
+}
+
+.bubble-avatar-img.bubble-glove-img {
+  transform: scale(0.92);
+}
+
+/* Iconos de slot para sistema o personajes sin arte de viñeta */
+.bubble-avatar-slot.avatar-slot-icon {
+  left: -32px;
+  width: 64px;
+  height: 64px;
+  font-size: 2rem;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3px solid currentColor;
+}
+
+/* Colores de bordes uniformes por personaje (sin sombras de bloque pesadas) */
+.character-speech-bubble.bubble-gato {
+  border-color: #FE7A01;
+}
+
+.character-speech-bubble.bubble-crunchy {
+  border-color: #FB467D;
+}
+
+.character-speech-bubble.bubble-oti {
+  border-color: #883F22;
+}
+
+.character-speech-bubble.bubble-carbon,
+.character-speech-bubble.bubble-riolita {
+  border-color: #c42e4d;
+  background: #fff5f7;
+}
+
+.character-speech-bubble.bubble-basalto {
+  border-color: #3d393e;
+  background: #f8fafc;
+}
+
+.character-speech-bubble.bubble-system,
+.character-speech-bubble.bubble-replay {
+  margin-left: 70px;
+  padding: 16px 32px 16px 85px;
+  border-color: #373432 !important;
+  background: #fffdf8;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  text-align: left;
+  justify-content: flex-start;
+}
+
+.character-speech-bubble.bubble-system:hover,
+.character-speech-bubble.bubble-replay:hover {
+  border-color: #373432 !important;
+}
+
+.character-speech-bubble.bubble-system .bubble-dialogue-content,
+.character-speech-bubble.bubble-replay .bubble-dialogue-content {
+  text-align: left;
+}
+
+/* Contenido de texto y distribución */
+.bubble-dialogue-content {
+  flex: 1;
+  word-wrap: break-word;
+  text-align: left;
+}
+
+.scene-live-subtitle-pill .live-subtitle-text {
+  text-align: center;
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .character-speech-bubble {
+    margin-left: 45px;
+    border-radius: 32px;
+    padding: 12px 18px 12px 60px;
+    border-width: 3.5px;
+    min-height: 68px;
+  }
+
+  .bubble-avatar-slot {
+    left: -50px;
+    width: 105px;
+    height: 105px;
+  }
+
+  .bubble-avatar-slot.avatar-slot-icon {
+    left: -24px;
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
+  }
+
+  .bubble-dialogue-content {
+    font-size: 0.95rem;
+    line-height: 1.32;
+  }
+}
+
+.pill-action-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--c-gato);
+  color: #ffffff;
+  border: 2px solid #27211e;
+  border-radius: 50%;
+  font-size: 0.85rem;
+  box-shadow: 2px 2px 0px #27211e;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.scene-live-subtitle-pill:hover .pill-action-icon {
+  transform: scale(1.15) rotate(8deg);
+}
+
+.sound-wave-icon {
+  display: flex;
+  align-items: center;
+  gap: 3.5px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.sound-wave-icon span {
+  width: 4px;
+  height: 100%;
+  background: var(--portal-plasma-blue);
+  border-radius: 2px;
+  border: 1px solid #27211e;
+  animation: sound-bounce 0.75s infinite alternate ease-in-out;
+}
+
+.sound-wave-icon span:nth-child(1) {
+  animation-delay: 0.1s;
+  height: 35%;
+  background: var(--portal-neon-cyan);
+}
+
+.sound-wave-icon span:nth-child(2) {
+  animation-delay: 0.35s;
+  height: 95%;
+  background: var(--c-gato);
+}
+
+.sound-wave-icon span:nth-child(3) {
+  animation-delay: 0.2s;
+  height: 65%;
+  background: var(--c-crunchy);
+}
+
+.sound-wave-icon span:nth-child(4) {
+  animation-delay: 0.45s;
+  height: 100%;
+  background: var(--portal-star-spark);
+}
+
+@keyframes sound-bounce {
+  from {
+    transform: scaleY(0.25);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+.live-subtitle-text {
+  font-family: var(--font-dialog);
+  font-size: 1.08rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  line-height: 1.4;
+  transition: color 0.2s ease;
+}
+
+/* Colores de Orador en el Subtítulo */
+.sub-speaker-gato {
+  color: var(--c-gato-text) !important;
+  font-weight: 900;
+}
+
+.sub-speaker-crunchy {
+  color: var(--c-crunchy-text) !important;
+  font-weight: 900;
+}
+
+.sub-speaker-oti {
+  color: var(--c-oti-text) !important;
+  font-weight: 900;
+}
+
+.sub-speaker-carbon,
+.sub-speaker-riolita {
+  color: #c42e4d !important;
+  font-weight: 900;
+}
+
+.sub-speaker-basalto {
+  color: #3d393e !important;
+  font-weight: 900;
+}
+
+/* EFECTO DE RABIA EN GRITOS */
+.shout-rage {
+  text-transform: uppercase !important;
+  font-weight: 900 !important;
+  display: inline-block;
+  animation: rage-shake 0.22s infinite alternate ease-in-out;
+  letter-spacing: 0.5px;
+}
+
+@keyframes rage-shake {
+  0% {
+    transform: translate(-1.5px, 1px) rotate(-1.2deg);
+  }
+
+  25% {
+    transform: translate(2px, -1.5px) rotate(1.5deg);
+  }
+
+  50% {
+    transform: translate(-1px, 2px) rotate(-0.8deg);
+  }
+
+  75% {
+    transform: translate(1.5px, -1px) rotate(1deg);
+  }
+
+  100% {
+    transform: translate(-2px, -1.5px) rotate(-1.5deg);
+  }
+}
+
+
+/* ========================================================
+   PORTAL FLOTANTE (ESCENA 01)
+   ======================================================== */
+.portal-floating-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 20px;
+  animation: visual-levitate 4s ease-in-out infinite alternate;
+}
+
+.portal-star-wrapper {
+  position: relative;
+  width: 330px;
+  height: 330px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transform: scale(0);
+  opacity: 0;
+  pointer-events: auto;
+}
+
+/* Emergencia del portal: al llegar no hay nada durante casi un segundo, y luego emerge de la nada */
+.portal-star-wrapper.is-portal-opened {
+  animation: portal-emerge-expand 2.2s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
+}
+
+@keyframes portal-emerge-expand {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  8% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.portal-floating-stage:hover .portal-star-wrapper.is-portal-opened {
+  transform: scale(1.06);
+}
+
+/* Capa de membrana pulsante del portal (simula la vibración de la membrana de un altavoz cuando habla Crunchy) */
+.portal-membrane-pulse-wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease-out;
+}
+
+.portal-membrane-pulse-wrap.is-crunchy-vibrating {
+  animation: portal-speaker-membrane-pump 0.68s infinite alternate ease-in-out;
+}
+
+/* Efecto de membrana de altavoz acústico: pulsación de escala limpia sin sombras ni brillos de color */
+@keyframes portal-speaker-membrane-pump {
+  0% {
+    transform: scale(0.985);
+  }
+
+  50% {
+    transform: scale(1.038);
+  }
+
+  100% {
+    transform: scale(1.01);
+  }
+}
+
+/* Contenedor que hace girar la foto del portal de forma continua */
+.portal-spin-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: portal-photo-infinite-spin 12s linear infinite;
+  pointer-events: none;
+}
+
+.portal-spinning-art {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+@keyframes portal-photo-infinite-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.portal-actors-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Gato dentro del portal: oculto al inicio (no aparece con el portal, sino al hacer clic) */
+.actor-gato-portal-wrap {
+  position: absolute;
+  width: 250px;
+  height: 290px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.4) translateY(30px);
+  opacity: 0;
+  transition: transform 0.65s var(--transition-bounce), opacity 0.4s ease;
+  pointer-events: none;
+}
+
+/* Al iniciar la secuencia por clic, emerge dentro del portal y levita suavemente de forma continua */
+.actor-gato-portal-wrap.is-visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  animation: gato-portal-subtle-levitate 3.4s ease-in-out infinite alternate;
+}
+
+.actor-gato-portal-art {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.45));
+}
+
+/* Efecto de levitación sutil dentro del portal */
+@keyframes gato-portal-subtle-levitate {
+  0% {
+    transform: scale(1) translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: scale(1.025) translateY(-10px) rotate(1.2deg);
+  }
+
+  100% {
+    transform: scale(1) translateY(0px) rotate(0deg);
+  }
+}
+
+.actor-crunchy-art {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
+}
+
+
+/* ========================================================
+   ELEMENTOS VISUALES FLOTANTES (SIN RECUADRO)
+   ======================================================== */
+.escena-visual-card {
+  width: 100%;
+  max-width: 500px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  animation: visual-levitate 4s ease-in-out infinite alternate;
+}
+
+@keyframes visual-levitate {
+  0% {
+    transform: translateY(0px);
+  }
+
+  100% {
+    transform: translateY(-8px);
+  }
+}
+
+/* ========================================================
+   CUADRO 3D EN PERSPECTIVA Y CAPAS DE PROFUNDIDAD (ESCENA 02)
+   ======================================================== */
+.cuadro-3d-stage {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 3 / 2;
+  perspective: 1100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  margin: 10px auto;
+}
+
+.cuadro-3d-stage:active {
+  cursor: grabbing;
+}
+
+.cuadro-3d-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  will-change: transform;
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.22));
+  transition: filter 0.3s ease;
+}
+
+.cuadro-3d-stage:hover .cuadro-3d-card {
+  filter: drop-shadow(0 22px 38px rgba(0, 0, 0, 0.32));
+}
+
+.cuadro-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  pointer-events: none;
+  will-change: transform;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cuadro-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+/* Capa 1: Fondo interior de la habitación */
+.cuadro-layer.layer-fondo {
+  /* 👇 CAMBIA AQUÍ EL TAMAÑO / ESCALA DEL FONDO 👇 */
+  transform: translate3d(calc(var(--norm-x, 0) * -5px), calc(var(--norm-y, 0) * -4px), -10px) scale(0.85);
+  z-index: 1;
+}
+
+/* Capa 2: Grupo de Personajes */
+.cuadro-layer.layer-grupo {
+  top: 20px;
+  /* 👈 Pon aquí 10px, 15px, 20px, etc. para bajar la imagen */
+  transform: translate3d(calc(var(--norm-x, 0) * 3px), calc(var(--norm-y, 0) * 2px), 10px) scale(0.96);
+  z-index: 2;
+}
+
+
+/* Capa 3: Marco exterior de madera (plano frontal) */
+.cuadro-layer.layer-marco {
+  transform: translate3d(calc(var(--norm-x, 0) * 6px), calc(var(--norm-y, 0) * 5px), 24px);
+  z-index: 3;
+}
+
+/* Capa 4: Reflejo y brillo óptico del cristal (desactivado) */
+.cuadro-glass-glare {
+  display: none;
+}
+
+/* ========================================================
+   SARTÉN CENITAL (VISTA DE ARRIBA) CON ILUSTRACIÓN OFICIAL
+   ======================================================== */
+.kitchen-pan-interactive-stage {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 10px;
+  perspective: 900px;
+}
+
+.frying-pan-topview {
+  position: relative;
+  width: clamp(340px, 48vw, 470px);
+  aspect-ratio: 1536 / 1024;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  transform-style: preserve-3d;
+  filter: none;
+  user-select: none;
+  will-change: transform;
+}
+
+.frying-pan-topview:active {
+  cursor: grabbing;
+}
+
+.pan-art-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* Superficie circular interior: fondo plano de cocinado de sarten.png */
+.pan-circle-inner {
+  position: absolute;
+  left: 21.5%;
+  top: 12.2%;
+  width: 36.2%;
+  height: 51.3%;
+  border-radius: 50%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Capa de físicas de migas reales */
+.migas-physics-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.miga-particle {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+  will-change: transform;
+  pointer-events: none;
+  filter: drop-shadow(1px 3px 4px rgba(0, 0, 0, 0.4));
+}
+
+.miga-sprite-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+
+
+
+
+.kitchen-characters-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 380px;
+  margin-top: 6px;
+}
+
+.oti-mini-chef {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.oti-chef-label {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 800;
+  background: var(--c-oti-bg);
+  border: 2px solid var(--c-oti);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-cartoon);
+  color: var(--c-oti-text);
+}
+
+.gato-jump-img {
+  width: 105px;
+  height: 115px;
+  object-fit: contain;
+  filter: drop-shadow(4px 8px 12px rgba(234, 88, 12, 0.25));
+}
+
+.gato-rocket-jump {
+  transition: transform 0.4s var(--transition-bounce);
+  cursor: pointer;
+}
+
+.gato-rocket-jump.jump-up {
+  transform: translateY(-70px) scale(1.25);
+}
+
+/* ========================================================
+   CAJAS SUPERPUESTAS EN EL DESVÁN (ESCENA 04)
+   ======================================================== */
+.attic-chest-stage {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 300px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  user-select: none;
+  margin: 10px auto 28px auto;
+}
+
+.chest-box-base {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.chest-item-layer {
+  position: absolute;
+  cursor: pointer;
+  transition: transform 0.45s var(--transition-bounce), opacity 0.35s ease, filter 0.25s ease;
+  z-index: 10;
+  user-select: none;
+  -webkit-user-drag: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  transform-origin: bottom center;
+}
+
+.chest-item-layer:hover {
+  filter: none;
+}
+
+.chest-item-layer:hover .caja-img {
+  transform: scale(1.03);
+}
+
+/* Sombra suave de contacto en el suelo del desván */
+.chest-box-base::after {
+  content: '';
+  position: absolute;
+  bottom: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 88%;
+  height: 26px;
+  background: radial-gradient(ellipse at center, rgba(39, 33, 30, 0.18) 0%, rgba(39, 33, 30, 0) 72%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Pistola más arriba y flotando sobre el suelo */
+.layer-pistola {
+  bottom: 58px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+/* Caja 4 (Vara mágica): Apoyada perfectamente sobre la sombra */
+.layer-caja-4 {
+  bottom: 0px;
+  left: 37%;
+  transform: translateX(-50%);
+  z-index: 11;
+  width: clamp(165px, 31vw, 210px);
+}
+
+.layer-caja-4 .caja-img {
+  filter: none;
+}
+
+/* Caja 3 (Gato negro): Apoyada perfectamente sobre la sombra */
+.layer-caja-3 {
+  bottom: 0px;
+  left: 59%;
+  transform: translateX(-50%);
+  z-index: 12;
+  width: clamp(160px, 30vw, 205px);
+}
+
+.layer-caja-3 .caja-img {
+  filter: none;
+}
+
+/* Caja 2 (Caja roja): Apoyada perfectamente sobre la sombra */
+.layer-caja-2 {
+  bottom: 0px;
+  left: 63%;
+  transform: translateX(-50%);
+  z-index: 13;
+  width: clamp(150px, 28vw, 190px);
+}
+
+.layer-caja-2 .caja-img {
+  filter: none;
+}
+
+/* Caja 1 (Baúl morado): Apoyada perfectamente sobre la sombra */
+.layer-caja-1 {
+  bottom: 0px;
+  left: 35%;
+  transform: translateX(-50%);
+  z-index: 14;
+  width: clamp(185px, 34vw, 235px);
+}
+
+.layer-caja-1 .caja-img {
+  filter: none;
+}
+
+/* Estado animado al apartar una caja (sale volando con giro dinámico) */
+.chest-item-layer.is-tossed-left {
+  transform: translate(-230px, -85px) rotate(-55deg) scale(0.5) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.chest-item-layer.is-tossed-right {
+  transform: translate(230px, -85px) rotate(55deg) scale(0.5) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Imágenes de las cajas ilustradas */
+.caja-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  pointer-events: auto;
+  transition: transform 0.25s var(--transition-bounce), filter 0.25s ease;
+}
+
+/* ========================================================
+   PISTOLA INTERDIMENSIONAL (4 ESTADOS ANIMADOS SECUENCIALES)
+   ======================================================== */
+.slot-pistola {
+  position: relative;
+  width: 215px;
+  height: 155px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: center center;
+  filter: none;
+  animation: gun-idle-smooth-float 3s ease-in-out infinite alternate;
+}
+
+@keyframes gun-idle-smooth-float {
+  0% {
+    transform: translateY(0px) rotate(-1.5deg);
+  }
+
+  50% {
+    transform: translateY(-9px) rotate(1deg);
+  }
+
+  100% {
+    transform: translateY(0px) rotate(-1.5deg);
+  }
+}
+
+.slot-pistola:hover {
+  filter: none;
+}
+
+.pistola-state-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+  filter: none;
+}
+
+/* 1. Pistola Base */
+.pistola-state-img.state-base {
+  opacity: 1;
+  z-index: 1;
+}
+
+/* 2. Pistola Pita (Parpadeo continuo de la antena mientras está en el baúl) */
+.pistola-state-img.state-pita {
+  opacity: 0;
+  z-index: 2;
+  animation: antenna-pita-blink 1.2s infinite ease-in-out;
+}
+
+@keyframes antenna-pita-blink {
+
+  0%,
+  30% {
+    opacity: 0;
+  }
+
+  45%,
+  85% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+/* 3. Pistola Encendida (Núcleo de portal activo al clicar) */
+.pistola-state-img.state-encendida {
+  opacity: 0;
+  z-index: 3;
+}
+
+/* 4. Pistola Dispara (Rayo de plasma dimensional) */
+.pistola-state-img.state-dispara {
+  opacity: 0;
+  z-index: 4;
+}
+
+/* --- ESTADO AL HACER CLIC: SE ACERCA / SE HACE GRANDE, FLOTA SUAVEMENTE Y LUZ AZUL --- */
+.layer-pistola.is-charging .slot-pistola {
+  animation: gun-pure-smooth-float 3.2s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 35px #00e5ff) drop-shadow(0 0 60px rgba(2, 132, 199, 0.8));
+  z-index: 100;
+}
+
+/* Vibración de sobrecarga energética antes de disparar */
+.layer-pistola.is-charging.is-vibrating .slot-pistola {
+  animation: gun-charging-vibrate 0.08s infinite alternate ease-in-out;
+  filter: drop-shadow(0 0 45px #00e5ff) drop-shadow(0 0 75px rgba(0, 229, 255, 0.95));
+}
+
+@keyframes gun-charging-vibrate {
+  0% {
+    transform: scale(1.7) translateY(-25px) translateX(-2.5px) rotate(-3.5deg);
+  }
+
+  100% {
+    transform: scale(1.7) translateY(-23px) translateX(2.5px) rotate(-1.5deg);
+  }
+}
+
+.layer-pistola.is-charging .state-base,
+.layer-pistola.is-charging .state-pita {
+  opacity: 0 !important;
+  animation: none !important;
+}
+
+.layer-pistola.is-charging .state-encendida {
+  opacity: 1 !important;
+  animation: gun-blue-core-pulse 0.9s infinite alternate ease-in-out;
+}
+
+@keyframes gun-blue-core-pulse {
+  0% {
+    filter: drop-shadow(0 0 16px #00e5ff);
+  }
+
+  100% {
+    filter: drop-shadow(0 0 38px #00e5ff) drop-shadow(0 0 60px rgba(0, 229, 255, 0.9));
+  }
+}
+
+/* --- ESTADO DISPARO: FLOTACIÓN 100% SUAVE Y CONTINUA CON HAZ AZUL (SIN GOLPES) --- */
+.layer-pistola.is-shooting .slot-pistola {
+  animation: gun-pure-smooth-float 3.2s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 45px #00e5ff) drop-shadow(0 0 80px rgba(2, 132, 199, 0.85));
+  z-index: 101;
+}
+
+.layer-pistola.is-shooting .state-base,
+.layer-pistola.is-shooting .state-pita,
+.layer-pistola.is-shooting .state-encendida {
+  opacity: 0 !important;
+  animation: none !important;
+}
+
+.layer-pistola.is-shooting .state-dispara {
+  opacity: 1 !important;
+  animation: gun-blue-beam-flare 1s infinite alternate ease-in-out;
+}
+
+@keyframes gun-pure-smooth-float {
+  0% {
+    transform: scale(1.68) translateY(-18px) rotate(-3deg);
+  }
+
+  50% {
+    transform: scale(1.71) translateY(-30px) rotate(-1.5deg);
+  }
+
+  100% {
+    transform: scale(1.68) translateY(-18px) rotate(-3deg);
+  }
+}
+
+@keyframes gun-blue-beam-flare {
+  0% {
+    filter: drop-shadow(0 0 25px #00e5ff) drop-shadow(0 0 40px rgba(2, 132, 199, 0.7));
+  }
+
+  100% {
+    filter: drop-shadow(0 0 50px #00e5ff) drop-shadow(0 0 85px rgba(0, 229, 255, 0.95));
+  }
+}
+
+/* ========================================================
+   ESCENA 05: PORTAL DIMENSIONAL GIRATORIO Y MUNDO VOLCÁNICO
+   ======================================================== */
+.portal-viewport-stage {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  margin: 10px auto;
+}
+
+.portal-aperture-disc {
+  position: relative;
+  width: clamp(260px, 45vw, 330px);
+  height: clamp(260px, 45vw, 330px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.portal-aperture-disc:hover {
+  transform: scale(1.05);
+}
+
+/* 1. Capa del Mundo Volcánico revelada en el centro del portal */
+.portal-world-inner {
+  position: absolute;
+  width: 70%;
+  height: 70%;
+  top: 15%;
+  left: 15%;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  z-index: 2;
+  opacity: 0;
+  transform: scale(0.85);
+  filter: blur(8px);
+  transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), filter 0.55s ease;
+  pointer-events: none;
+  box-shadow: inset 0 0 16px rgba(0, 229, 255, 0.6), inset 0 0 28px rgba(0, 0, 0, 0.5);
+}
+
+.portal-world-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  filter: none;
+  pointer-events: none;
+  transition: transform 0.3s ease-out;
+}
+
+.portal-heat-overlay {
+  display: none;
+}
+
+/* Al pasar el ratón: Transición suave, progresiva y fluida */
+.portal-aperture-disc:hover .portal-world-inner {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0px);
+}
+
+/* 2. Vórtice azul que gira continuamente con su propia silueta original */
+.portal-swirl-vortex {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.portal-swirl-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: portal-continuous-spin 12s linear infinite;
+  filter: none;
+}
+
+@keyframes portal-continuous-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.portal-glow-rim {
+  display: none;
+}
+
+.char-jump-stage {
+  width: 110px;
+  height: 120px;
+  object-fit: contain;
+  filter: drop-shadow(4px 8px 14px rgba(0, 0, 0, 0.18));
+}
+
+/* ========================================================
+   ESCENA 06: PRISMÁTICOS Y VISOR VOLCÁNICO INTERACTIVO
+   ======================================================== */
+.binoculars-interactive-stage {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  min-height: 270px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+/* Portada inicial con los prismáticos antes de hacer clic */
+.binoculars-cover-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 20px 0;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.binoculars-cover-box:hover {
+  transform: scale(1.08) translateY(-6px);
+}
+
+.binoculars-cover-img {
+  width: 260px;
+  max-width: 90%;
+  height: auto;
+  object-fit: contain;
+  filter: none;
+  animation: binoculars-float 2.6s infinite alternate ease-in-out;
+}
+
+@keyframes binoculars-float {
+  0% { transform: translateY(0) rotate(-2deg); }
+  100% { transform: translateY(-8px) rotate(2deg); }
+}
+
+/* Visor de doble círculo entrelazado */
+.binoculars-dual-circles-container {
+  display: none;
+  position: relative;
+  width: 490px;
+  height: 280px;
+  margin: 0 auto;
+  filter: none;
+}
+
+.binoculars-interactive-stage.is-opened .binoculars-cover-box {
+  display: none;
+}
+
+.binoculars-interactive-stage.is-opened .binoculars-dual-circles-container {
+  display: block;
+  animation: binoculars-pop-in 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes binoculars-pop-in {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Contenido interior recortado exactamente con la forma de los dos círculos */
+.binoculars-clipped-world {
+  position: absolute;
+  inset: 0;
+  width: 490px;
+  height: 280px;
+  clip-path: url(#binoculars-double-circle-clip);
+  -webkit-clip-path: url(#binoculars-double-circle-clip);
+  background: #2a110b;
+  overflow: hidden;
+}
+
+/* Fondo volcánico luminoso y claro */
+.binoculars-bg-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+  filter: brightness(1) contrast(1.02);
+}
+
+/* Personajes y roca dentro del visor (SIN ZOOM en hover) */
+.binoculars-actors-row {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 16px;
+  padding: 0 20px 20px;
+  z-index: 2;
+}
+
+.binoculars-char-wrap {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  flex-shrink: 0;
+  pointer-events: none; /* Desactiva zoom en hover */
+}
+
+.binoculars-actor-char {
+  height: 160px;
+  width: auto;
+  object-fit: contain;
+  filter: none;
+  pointer-events: none; /* Desactiva zoom en hover */
+}
+
+.binoculars-rock-wrap {
+  display: flex;
+  align-items: flex-end;
+  flex-shrink: 0;
+  pointer-events: none; /* Desactiva zoom en hover */
+  margin-bottom: 2px;
+}
+
+.binoculars-actor-rock {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  filter: none;
+  pointer-events: none; /* Desactiva zoom en hover */
+}
+
+/* Animación de rodadura recta hacia la derecha con velocidad lineal constante */
+.binoculars-actor-rock.is-rolling-away {
+  animation: rock-roll-in-binoculars 2.8s linear forwards;
+}
+
+@keyframes rock-roll-in-binoculars {
+  0% {
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(360px) rotate(320deg);
+    opacity: 0;
+  }
+}
+
+/* Desenfoque y viñeta óptica suave en el perímetro antes del borde */
+.binoculars-lens-blur-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Marco SVG exterior de los dos círculos de prismáticos (SOLO contorno exterior) */
+.binoculars-frame-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* ========================================================
+   ESCENA 07: PACTO DE EQUIPO - MANOS PROGRESIVAS SIN FONDO
+   ======================================================== */
+.team-hands-interactive-card {
+  cursor: pointer;
+}
+
+.team-hands-stage {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  height: 290px;
+  margin: 0 auto;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* Brazos / Manos: Inician ocultos y viajan al centro uno a uno */
+.team-arm-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.arm-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.team-arm-img {
+  width: 105px;
+  height: 105px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.3));
+  transition: transform 0.3s ease;
+}
+
+.arm-name-badge {
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 900;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid #27211e;
+  margin-top: -8px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+  white-space: nowrap;
+}
+
+.badge-riolita { background: var(--c-badge-riolita); color: #fff; }
+.badge-basalto { background: var(--c-badge-basalto); color: #fff; }
+.badge-gato    { background: var(--c-badge-gato); color: #27211e; }
+.badge-crunchy { background: var(--c-badge-crunchy); color: #27211e; }
+
+/* Posiciones de inicio (Fuera del centro) */
+.arm-riolita { transform: translate(-150%, -150%) rotate(-45deg) scale(0.6); }
+.arm-basalto { transform: translate(50%, -150%) rotate(45deg) scale(0.6); }
+.arm-crunchy { transform: translate(50%, 50%) rotate(-45deg) scale(0.6); }
+.arm-gato    { transform: translate(-150%, 50%) rotate(45deg) scale(0.6); }
+
+/* Posición 1 (Riolita llega al centro - base de la pila) */
+.arm-riolita.is-in-center {
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(-18deg) scale(1);
+  z-index: 10;
+}
+
+/* Posición 2 (Basalto coloca su mano sobre la de Riolita) */
+.arm-basalto.is-in-center {
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(24deg) scale(1.04);
+  z-index: 11;
+}
+
+/* Posición 3 (Crunchy coloca su mano sobre la de Basalto) */
+.arm-crunchy.is-in-center {
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(-40deg) scale(1.08);
+  z-index: 12;
+}
+
+/* Posición 4 (Gato coloca su pata coronando la pila del equipo) */
+.arm-gato.is-in-center {
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(12deg) scale(1.12);
+  z-index: 13;
+}
+
+/* Rebote de júbilo cuando las 4 manos están juntas */
+.team-hands-stage.is-all-united .team-arm-wrapper.is-in-center .team-arm-img {
+  animation: hand-cheer-bounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes hand-cheer-bounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+/* ========================================================
+   ESCENA 08: DESTRUCCIÓN COOPERATIVA DE LA ROCA (4 GOLPES)
+   ======================================================== */
+.rock-break-card {
+  cursor: pointer;
+}
+
+.rock-smash-stage {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px auto;
+  user-select: none;
+}
+
+/* Escenario y Contenedor de la Roca */
+.rock-boulder-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.volcanic-smash-boulder {
+  position: relative;
+  width: clamp(260px, 45vw, 310px);
+  height: clamp(260px, 45vw, 310px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.volcanic-rock-art-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: none;
+  transition: transform 0.15s ease;
+}
+
+.volcanic-smash-boulder:hover .volcanic-rock-art-img {
+  transform: scale(1.04);
+}
+
+/* Animación de impacto limpio y temblor físico sin destellos */
+.volcanic-smash-boulder.is-punch-struck .volcanic-rock-art-img {
+  animation: rock-clean-impact 0.22s ease-in-out;
+}
+
+@keyframes rock-clean-impact {
+  0% { transform: translate(0, 0) scale(1.04); }
+  20% { transform: translate(-6px, 3px) scale(0.98); }
+  40% { transform: translate(6px, -3px) scale(1.02); }
+  60% { transform: translate(-4px, 2px) scale(0.99); }
+  80% { transform: translate(3px, -1px) scale(1.01); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+/* ========================================================
+   ESCENA 09: REGALO Y RECOLECCIÓN DE UVAS DE LA CESTA
+   ======================================================== */
+.cesta-interactive-card {
+  cursor: pointer;
+}
+
+.cesta-gift-stage {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  height: 290px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  background: transparent;
+  overflow: visible;
+}
+
+/* Fondo del portal cósmico en segundo plano */
+.portal-backdrop-wrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -58%);
+  width: 220px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.88;
+}
+
+.portal-return-sprite {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.5));
+  animation: portal-spin-gentle 18s linear infinite;
+}
+
+@keyframes portal-spin-gentle {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.portal-glow-aura {
+  position: absolute;
+  inset: -15px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.3) 10%, rgba(234, 88, 12, 0.25) 55%, transparent 75%);
+  animation: portal-aura-pulse 2.8s infinite alternate ease-in-out;
+}
+
+@keyframes portal-aura-pulse {
+  0% { transform: scale(0.92); opacity: 0.5; }
+  100% { transform: scale(1.1); opacity: 0.9; }
+}
+
+/* Contenedor de la cesta en primer plano */
+.cesta-container-wrap {
+  position: relative;
+  z-index: 5;
+  width: 260px;
+  height: 160px;
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Base de la cesta (diseñada para recibir el PNG de la cesta o mostrar contenedor cartoon) */
+.cesta-basket-base {
+  position: absolute;
+  bottom: 0;
+  width: 220px;
+  height: 105px;
+  background: linear-gradient(180deg, #c27d38 0%, #854d0e 100%);
+  border: 3.5px solid #27211e;
+  border-radius: 12px 12px 60px 60px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3), inset 0 6px 12px rgba(254, 240, 138, 0.2);
+  z-index: 2;
+}
+
+.cesta-basket-rim {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 236px;
+  height: 22px;
+  background: #d97706;
+  border: 3px solid #27211e;
+  border-radius: var(--radius-full);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Racimo de 6 Uvas Ígneas dentro de la cesta */
+.cesta-grapes-cluster {
+  position: absolute;
+  bottom: 30px;
+  width: 200px;
+  height: 110px;
+  z-index: 4;
+}
+
+.cesta-grape-slot {
+  position: absolute;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease;
+  user-select: none;
+}
+
+.cesta-grape-img {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(234, 88, 12, 0.5));
+  transition: transform 0.2s ease;
+}
+
+.cesta-grape-slot:hover .cesta-grape-img {
+  transform: scale(1.25) translateY(-6px);
+  filter: drop-shadow(0 6px 16px rgba(253, 224, 71, 0.8));
+}
+
+/* Posiciones naturales y escalonadas dentro de la cesta */
+.grape-pos-1 { bottom: 12px; left: 16px; transform: rotate(-12deg); z-index: 5; }
+.grape-pos-2 { bottom: 35px; left: 45px; transform: rotate(8deg); z-index: 4; }
+.grape-pos-3 { bottom: 16px; left: 78px; transform: rotate(-5deg); z-index: 6; }
+.grape-pos-4 { bottom: 38px; left: 108px; transform: rotate(14deg); z-index: 4; }
+.grape-pos-5 { bottom: 14px; left: 138px; transform: rotate(-10deg); z-index: 5; }
+.grape-pos-6 { bottom: 42px; left: 76px; transform: rotate(4deg); z-index: 7; }
+
+/* Animación cuando se recoge una uva: vuela hacia arriba y desaparece en la bolsa */
+.cesta-grape-slot.is-collected {
+  transform: translateY(-65px) scale(1.4) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Pastilla de contador de uvas recogidas */
+.cesta-counter-badge {
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffffff;
+  border: 2.5px solid #27211e;
+  border-radius: var(--radius-full);
+  padding: 4px 14px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.cesta-counter-text {
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #27211e;
+}
+
+.cesta-counter-text strong {
+  color: #ea580c;
+  font-size: 0.95rem;
+};
+
+@keyframes grape-fire-pulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.3);
+    opacity: 1;
+    filter: drop-shadow(0 0 14px #ff5722);
+  }
+}
+
+/* ========================================================
+   ESCENA 10: EL FESTÍN Y EL PLATO DE MIGAS CON 6 UVAS
+   ======================================================== */
+.migas-plate-stage {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  min-height: 270px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  cursor: pointer;
+  padding: 10px 0;
+}
+
+.migas-dish-wrapper {
+  position: relative;
+  width: 300px;
+  height: 275px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.migas-plate-stage:hover .migas-dish-wrapper {
+  transform: scale(1.05);
+}
+
+.migas-base-plate-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.16));
+}
+
+/* Uvas individuales más pequeñas, desordenadas y posicionadas 100% dentro del plato de migas */
+.grape-placed-item {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  transform: rotate(var(--rot, 0deg));
+  z-index: 10;
+}
+
+.grape-placed-item.is-placed {
+  opacity: 1;
+}
+
+.grape-placed-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 8px rgba(255, 87, 34, 0.45));
+}
+
+.grape-placed-item.is-placed .grape-placed-img {
+  animation: grape-pop-drop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes grape-pop-drop {
+  0% {
+    transform: scale(0.3) translateY(-22px);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.15) translateY(2px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Posiciones gourmet espaciosas, orgánicas y desordenadas por todo el plato */
+.grape-spot-1 { top: 18%; left: 30%; --rot: -12deg; width: 33px; height: 38px; }
+.grape-spot-2 { top: 40%; left: 16%; --rot: 35deg;  width: 30px; height: 35px; }
+.grape-spot-3 { top: 66%; left: 35%; --rot: -22deg; width: 34px; height: 39px; }
+.grape-spot-4 { top: 22%; left: 63%; --rot: 18deg;  width: 32px; height: 37px; }
+.grape-spot-5 { top: 46%; left: 70%; --rot: -35deg; width: 35px; height: 40px; }
+.grape-spot-6 { top: 48%; left: 42%; --rot: 10deg;  width: 31px; height: 36px; }
+
+/* Screen Shake */
+@keyframes shake-screen {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  15%,
+  45%,
+  75% {
+    transform: translate(-6px, 4px) rotate(-0.5deg);
+  }
+
+  30%,
+  60%,
+  90% {
+    transform: translate(6px, -4px) rotate(0.5deg);
+  }
+}
+
+.is-shaking {
+  animation: shake-screen 0.5s ease-in-out 3;
+}
+
+/* Animaciones del Portal */
+@keyframes portal-spin-forward {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes portal-spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes portal-wobble {
+  0% {
+    border-radius: 46% 54% 58% 42% / 50% 46% 54% 50%;
+  }
+
+  100% {
+    border-radius: 54% 46% 42% 58% / 46% 54% 50% 54%;
+  }
+}
+
+@keyframes spark-orbit-fly {
+  0% {
+    transform: scale(0) translate(0, 0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1.6) translate(35px, -45px);
+    opacity: 0;
+  }
+}
+
+
+/* ========================================================
+   SECCIÓN FINAL: FIN DEL CUENTO (100% LIBRE Y ABIERTO)
+   ======================================================== */
+.seccio-final {
+  min-height: 55vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px 80px;
+}
+
+.final-open-cartoon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.titol-fi-cartoon {
+  font-family: var(--font-logo);
+  font-size: clamp(5rem, 13vw, 9rem);
+  color: var(--c-gato);
+  -webkit-text-stroke: 4px #27211e;
+  text-shadow: 6px 6px 0px #27211e, 0 0 35px rgba(255, 122, 0, 0.4);
+  line-height: 0.95;
+  margin: 4px 0;
+  animation: final-bounce 2s infinite alternate ease-in-out;
+}
+
+@keyframes final-bounce {
+  0% {
+    transform: translateY(0) rotate(-1deg);
+  }
+
+  100% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+.autor-final {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  letter-spacing: 0.5px;
+  margin-top: 6px;
+}
+
+.moralitat-final {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #78716c;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 960px) {
+  .seccio-portada {
+    padding: 70px 20px 140px;
+  }
+
+  .char-gato-bg {
+    left: -20px;
+    width: 140px;
+  }
+
+  .char-crunchy-bg {
+    right: -20px;
+    width: 130px;
+  }
+
+  .seccio-pagina-cuento {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding: 50px 20px;
+  }
+
+  .cuento-col-texto {
+    align-items: center;
+    text-align: center;
+  }
+
+  .audio-control-fixed {
+    top: 12px;
+    right: 14px;
+  }
+
+  .scene-live-subtitle-pill {
+    padding: 10px 14px;
+  }
+
+  .live-subtitle-text {
+    font-size: 0.95rem;
+  }
+}

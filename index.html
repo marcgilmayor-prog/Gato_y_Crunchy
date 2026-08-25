@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gato y Crunchy — Pitch Bible Interactiva</title>
+  <meta name="description" content="Pitch Bible interactiva de Gato y Crunchy por Marc Gil Mayor. Un viaje dimensional a través de la gestión emocional, la amistad y la convivencia." />
+  
+  <!-- Google Fonts: Tipografía única y coherente para lectura y diálogos -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800;900&family=Sniglet:wght@400;800&family=Titan+One&family=Luckiest+Guy&display=swap"
+    rel="stylesheet" />
+  
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="theme-paper">
+
+  <!-- Elemento de audio nativo para el sonido de portal de Freesound -->
+  <audio id="portal-audio-element" src="assets/audio/portal_sound.mp3" preload="auto"></audio>
+
+  <!-- Barra de progreso superior -->
+  <div class="barra-progres" id="barra-progres" aria-hidden="true"></div>
+
+  <!-- Botón flotante único de sonido / SFX -->
+  <div class="audio-control-fixed">
+    <button id="btn-audio-toggle" class="btn-cartoon-sound" title="Activar o desactivar sonido y voces">
+      <span class="icon-audio">🔊</span>
+      <span class="lbl-audio">SFX & VOCES: ON</span>
+    </button>
+  </div>
+
+  <main id="contenidor-principal">
+
+    <!-- ========================================================
+         PORTADA / HERO
+         Gato y Crunchy integrados como arte de fondo en la portada
+         ======================================================== -->
+    <section class="seccio-portada" id="seccio-portada">
+      
+      <!-- Personajes Ilustrados en la Portada: Crunchy a la izquierda, Gato a la derecha -->
+      <div class="portada-bg-characters">
+        <!-- Crunchy en la Izquierda (Interacción hover: aparece con las uvas) -->
+        <div class="portada-char-art char-crunchy-bg" id="portada-crunchy-interactive" title="¡Pasa el ratón para ver a Crunchy con las uvas!">
+          <img src="assets/personajes/crunchy/crunchy.png" alt="Crunchy" class="portada-img-fluid char-img-normal" />
+          <img src="assets/personajes/crunchy/crunchy_uvas.png" alt="Crunchy con Uvas" class="portada-img-fluid char-img-hover" />
+        </div>
+        
+        <!-- Gato en la Derecha (Interacción hover: aparece con la pistola interdimensional) -->
+        <div class="portada-char-art char-gato-bg" id="portada-gato-interactive" title="¡Pasa el ratón para ver a Gato con la pistola interdimensional!">
+          <img src="assets/personajes/gato/gato.png" alt="Gato" class="portada-img-fluid char-img-normal" />
+          <img src="assets/personajes/gato/gato_pistola.png" alt="Gato con Pistola Interdimensional" class="portada-img-fluid char-img-hover" />
+        </div>
+      </div>
+
+      <div class="bloc-central-cartoon">
+        <!-- Logotipo Oficial GATO Y CRUNCHY -->
+        <div class="logo-official-container">
+          <img src="assets/ui/logo_gato_y_crunchy.png" alt="Gato y Crunchy" class="logo-official-img" />
+        </div>
+
+        <p class="descripcio-divertida">
+          Una aventura cartoon donde cada mundo fantástico es el reflejo de una emoción y cada conflicto se convierte en una oportunidad para crecer.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- ========================================================
+         ESCENA 01: ÉRASE UNA VEZ... (EL PORTAL MÁGICO)
+         ======================================================== -->
+    <section class="seccio-pagina-cuento" id="escena-01">
+      
+      <!-- Columna Izquierda: Texto Editorial -->
+      <div class="cuento-col-texto">
+        <div class="numero-escena-badge">
+          <span class="num-escena">01</span>
+        </div>
+        
+        <h2 class="titol-escena">Érase una vez...</h2>
+        
+        <p class="paragraf-cuento">
+          En un cuento muy especial, una página que parecía completamente vacía. Durante unos segundos no había nada en ella, como si la historia aún no hubiese comenzado...
+        </p>
+        <p class="paragraf-cuento destacat-cyan">
+          ¡Pero de pronto, un resplandor azul parpadeó en el centro! Un mágico portal interdimensional empezó a crecer, haciendo crujir el propio papel del libro como si algo intentase abrirse paso desde el interior.
+        </p>
+      </div>
+
+      <!-- Columna Derecha: Portal Flotante Interactivo con Subtítulos Dinámicos -->
+      <div class="cuento-col-visual">
+        <div class="portal-floating-stage" id="portal-interactive-stage" title="¡Haz clic en el portal para abrirlo!">
+          
+          <div class="portal-star-wrapper" id="portal-star-disc">
+            <!-- Capa de membrana pulsante del portal (efecto altavoz cuando habla Crunchy) -->
+            <div class="portal-membrane-pulse-wrap" id="portal-membrane-pulse">
+              <!-- Imagen completa del portal con rotación continua en CSS -->
+              <div class="portal-spin-container">
+                <img src="assets/portal/Portal-1.png" alt="Portal Dimensional" class="portal-spinning-art" />
+              </div>
+            </div>
+
+            <!-- Personaje interactivo Gato dentro del portal -->
+            <div class="portal-actors-stage" id="portal-actors-layer">
+              <div class="actor-gato-portal-wrap" id="actor-gato-portal">
+                <img src="assets/personajes/gato/portal/Gato_Portal-1.png" alt="Gato en el portal" id="actor-gato-portal-img" class="actor-gato-portal-art" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Indicador de Subtítulo Dinámico en Directo -->
+          <div class="scene-live-subtitle-pill is-ready-cta" id="sub-escena-01" title="¡Haz clic para escuchar a Gato!">
+            <div class="bubble-avatar-slot">
+              <img src="assets/ui/Guante.png" alt="Toca aquí" class="bubble-avatar-img bubble-glove-img" />
+            </div>
+            <div class="bubble-dialogue-content">
+              <span class="live-subtitle-text">¡Toca para escuchar a Gato!</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================
+         ESCENA 02: EL HOGAR EN EL GRAN ÁRBOL
+         ======================================================== -->
+    <section class="seccio-pagina-cuento" id="escena-02">
+      
+      <!-- Columna Izquierda: Texto Narrativo -->
+      <div class="cuento-col-texto">
+        <div class="numero-escena-badge">
+          <span class="num-escena">02</span>
+        </div>
+        
+        <h2 class="titol-escena">El hogar en el gran árbol</h2>
+        
+        <p class="paragraf-cuento">
+          En lo alto del bosque se alzaba la acogedora casa del gran árbol donde vivían los tres inseparables amigos: un hogar lleno de vida, mapas antiguos y recuerdos de grandes aventuras.
+        </p>
+      </div>
+
+      <!-- Columna Derecha: Cuadro 3D Interactivo con Perspectiva y Capas de Profundidad -->
+      <div class="cuento-col-visual">
+        <div class="escena-visual-card interactive-card" id="card-escena-02" title="¡Mueve el ratón sobre el cuadro para inclinar la foto en 3D!">
+          
+          <!-- Escenario del Cuadro 3D en Perspectiva -->
+          <div class="cuadro-3d-stage" id="cuadro-3d-container">
+            <div class="cuadro-3d-card" id="cuadro-3d-card-elem">
+              
+              <!-- Capa 1: Fondo de la habitación (Profundidad lejana) -->
+              <div class="cuadro-layer layer-fondo" id="cuadro-layer-fondo">
+                <img src="assets/objetos/cuadro/Fondo.png" alt="Fondo del Hogar" class="cuadro-img" />
+              </div>
+              
+              <!-- Capa 2: Grupo de Personajes (Profundidad media) -->
+              <div class="cuadro-layer layer-grupo" id="cuadro-layer-grupo">
+                <img src="assets/objetos/cuadro/Grupo.png" alt="Gato, Crunchy y Oti" class="cuadro-img" />
+              </div>
+              
+              <!-- Capa 3: Marco de la Foto (Profundidad frontal) -->
+              <div class="cuadro-layer layer-marco" id="cuadro-layer-marco">
+                <img src="assets/objetos/cuadro/Marco_.png" alt="Marco del Cuadro" class="cuadro-img" />
+              </div>
+
+              <!-- Capa 4: Brillo de cristal reflectante dinámico -->
+              <div class="cuadro-glass-glare" id="cuadro-glass-shine"></div>
+
+            </div>
+          </div>
+          
+          <!-- Subtítulo Dinámico en Directo -->
+          <div class="scene-live-subtitle-pill is-ready-cta" id="sub-escena-02" title="¡Haz clic en el cuadro para escuchar a los tres amigos!">
+            <div class="bubble-avatar-slot">
+              <img src="assets/ui/Guante.png" alt="Toca aquí" class="bubble-avatar-img bubble-glove-img" />
+            </div>
+            <div class="bubble-dialogue-content">
+              <span class="live-subtitle-text">¡Mueve el ratón para explorar el cuadro 3D o toca para escuchar!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================
+         ESCENA 03: LA COCINA Y LAS MIGAS DE OTI
+         ======================================================== -->
+    <section class="seccio-pagina-cuento" id="escena-03">
+      
+      <!-- Columna Izquierda: Texto Narrativo -->
+      <div class="cuento-col-texto">
+        <div class="numero-escena-badge">
+          <span class="num-escena">03</span>
+        </div>
+        
+        <h2 class="titol-escena">La cocina y las migas de Oti</h2>
+        
+        <p class="paragraf-cuento">
+          En la cocina, <strong class="destacat-oti">Oti Reboti</strong>, el oso bonachón y gran cocinero, removía tranquilamente una gran sartén de migas aragonesas mientras tarareaba una alegre melodía.
+        </p>
+        <p class="paragraf-cuento destacat-orange">
+          ¡Pero para que el festín estuviese completo faltaban unas ricas uvas dulces, así que decidieron subir a buscarlas al desván!
+        </p>
+      </div>
+
+      <!-- Columna Derecha: Sartén Interactiva Cenital con Física en Tiempo Real -->
+      <div class="cuento-col-visual">
+        <div class="escena-visual-card interactive-card" id="card-escena-03" title="¡Mueve el ratón sobre la sartén o haz clic para saltear las migas!">
+          <div class="kitchen-pan-interactive-stage" id="kitchen-pan-stage">
+            
+            <!-- Sartén Cenital con Ilustración Oficial -->
+            <div class="frying-pan-topview" id="frying-pan-element">
+              <img src="assets/objetos/sarten/sarten.png" alt="Sartén de migas" class="pan-art-img" />
+              
+              <!-- Superficie circular interior para las físicas de migas -->
+              <div class="pan-circle-inner" id="pan-circle-arena">
+                <!-- Capa de físicas de migas con sprites reales de assets/objetos/migas -->
+                <div class="migas-physics-layer" id="migas-physics-container"></div>
+              </div>
+            </div>
+
+          </div>
+          
+          <!-- Subtítulo Dinámico en Directo -->
+          <div class="scene-live-subtitle-pill is-ready-cta" id="sub-escena-03" title="¡Haz clic para saltear las migas y escuchar la escena!">
+            <div class="bubble-avatar-slot">
+              <img src="assets/ui/Guante.png" alt="Toca aquí" class="bubble-avatar-img bubble-glove-img" />
+            </div>
+            <div class="bubble-dialogue-content">
+              <span class="live-subtitle-text">¡Toca para saltear las migas y escuchar a Oti!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================
+         ESCENA 04: EL DESVÁN Y LA DISCUSIÓN
+         ======================================================== -->
+    <section class="seccio-pagina-cuento" id="escena-04">
+      
+      <!-- Columna Izquierda: Texto Narrativo -->
+      <div class="cuento-col-texto">
+        <div class="numero-escena-badge">
+          <span class="num-escena">04</span>
+        </div>
+        
+        <h2 class="titol-escena">El desván y la discusión</h2>
+        
+        <p class="paragraf-cuento">
+          <strong class="destacat-gato">Gato</strong> y <strong class="destacat-crunchy">Crunchy</strong> subieron a buscar las uvas al desván, un rincón tranquilo lleno de cajas apiladas y recuerdos olvidados.
+        </p>
+        <p class="paragraf-cuento">
+          <strong class="destacat-gato">Gato</strong> apartó con curiosidad las cajas y descubrió un extraño artefacto. Al cogerlo, <strong class="destacat-crunchy">Crunchy</strong> se molestó de inmediato y le reprochó que dejase de tocar cosas que no eran suyas. La discusión empezó al instante: <strong class="destacat-gato">Gato</strong> estaba cansado de que <strong class="destacat-crunchy">Crunchy</strong> siempre le dijese lo que tenía que hacer.
+        </p>
+        <p class="paragraf-cuento destacat-cyan">
+          Al sentir la energía de su enfado, la misteriosa <strong>pistola interdimensional</strong> comenzó a sobrecargarse de energía azul, respondiendo al conflicto de ambos...
+        </p>
+      </div>
+
+      <!-- Columna Derecha: Cajas Superpuestas en el Desván -->
+      <div class="cuento-col-visual">
+        <div class="escena-visual-card interactive-card" id="card-escena-04">
+          
+          <!-- Escenario Interactivo de Cajas en Capas -->
+          <div class="attic-chest-stage" id="attic-chest-container" title="¡Haz clic en las cajas para apartarlas!">
+            <div class="chest-box-base">
+              
+              <!-- Capa Fondo: Pistola Interdimensional (Secuencia Multi-estado) -->
+              <div class="chest-item-layer layer-pistola" id="item-pistola" data-item="pistola" title="¡Haz clic en la pistola interdimensional!">
+                <div class="item-visual-slot slot-pistola" id="slot-pistola-interactive">
+                  <img src="assets/objetos/pistola/pistola_base.png" alt="Pistola Base" class="pistola-state-img state-base" />
+                  <img src="assets/objetos/pistola/pistola_pita.png" alt="Pistola Parpadeo" class="pistola-state-img state-pita" />
+                  <img src="assets/objetos/pistola/pistola_encendida.png" alt="Pistola Encendida" class="pistola-state-img state-encendida" />
+                  <img src="assets/objetos/pistola/pistola_dispara.png" alt="Pistola Dispara" class="pistola-state-img state-dispara" />
+                </div>
+              </div>
+
+              <!-- Capa Caja 4 (Caja con vara mágica) -->
+              <div class="chest-item-layer layer-caja layer-caja-4" id="item-caja-4" data-item="caja-4" title="Haz clic para apartar esta caja">
+                <div class="item-visual-slot slot-caja">
+                  <img src="assets/objetos/cajas/Cajas-4.png" alt="Caja 4 del desván" class="item-custom-img caja-img" />
+                </div>
+              </div>
+
+              <!-- Capa Caja 3 (Caja con gato negro y ovillo) -->
+              <div class="chest-item-layer layer-caja layer-caja-3" id="item-caja-3" data-item="caja-3" title="Haz clic para apartar esta caja">
+                <div class="item-visual-slot slot-caja">
+                  <img src="assets/objetos/cajas/Cajas-3.png" alt="Caja 3 del desván" class="item-custom-img caja-img" />
+                </div>
+              </div>
+
+              <!-- Capa Caja 2 (Caja roja con estrella) -->
+              <div class="chest-item-layer layer-caja layer-caja-2" id="item-caja-2" data-item="caja-2" title="Haz clic para apartar esta caja">
+                <div class="item-visual-slot slot-caja">
+                  <img src="assets/objetos/cajas/Cajas-2.png" alt="Caja 2 del desván" class="item-custom-img caja-img" />
+                </div>
+              </div>
+
+              <!-- Capa Caja 1 (Baúl morado cósmico) -->
+              <div class="chest-item-layer layer-caja layer-caja-1" id="item-caja-1" data-item="caja-1" title="Haz clic para apartar este baúl">
+                <div class="item-visual-slot slot-caja">
+                  <img src="assets/objetos/cajas/Cajas-1.png" alt="Baúl morado del desván" class="item-custom-img caja-img" />
+                </div>
+              </div>
+
+            </div>
+          </div>
+          
+          <!-- Subtítulo Dinámico en Directo -->
+          <div class="scene-live-subtitle-pill is-ready-cta" id="sub-escena-04" title="¡Haz clic en las cajas para apartarlas!">
+            <div class="bubble-avatar-slot">
+              <img src="assets/ui/Guante.png" alt="Toca aquí" class="bubble-avatar-img bubble-glove-img" />
+            </div>
+            <div class="bubble-dialogue-content">
+              <span class="live-subtitle-text">¡Busquemos por el desván! Haz clic para apartar las cajas y ver qué hay...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================
+         ESCENA 05: EL SALTO DIMENSIONAL
+         ======================================================== -->
+    <section class="seccio-pagina-cuento" id="escena-05">
+      
+      <!-- Columna Izquierda: Texto Narrativo -->
+      <div class="cuento-col-texto">
+        <div class="numero-escena-badge">
+          <span class="num-escena">05</span>
+        </div>
+        
+        <h2 class="titol-escena">El salto dimensional</h2>
+        
+        <p class="paragraf-cuento">
+          El potente rayo de plasma impactó contra el suelo del desván, abriendo una enorme brecha resplandeciente bajo sus pies.
+        </p>
+        <p class="paragraf-cuento">
+          Antes de que pudieran hacer nada, el portal los absorbió por completo y fueron transportados sin control hacia una dimensión desconocida.
+        </p>
+      </div>
+
+      <!-- Columna Derecha: Portal Giratorio Interactivo y Revelación del Mundo Volcánico -->
+      <div class="cuento-col-visual">
+        <div class="escena-visual-card interactive-card portal-interactive-card" id="card-escena-05" title="¡Acerca el ratón para descubrir el mundo!">
+          <div class="portal-viewport-stage" id="portal-stage">
+            
+            <!-- Contenedor del portal circular con lente dimensional -->
+            <div class="portal-aperture-disc" id="portal-aperture">
+              
+              <!-- Imagen interior del Mundo Volcánico revelada al pasar el ratón -->
+              <div class="portal-world-inner" id="portal-world-view">
+                <img src="assets/fondos/mundo_volcanico.png" alt="Mundo Volcánico" class="portal-world-img" id="portal-world-img" />
+                <div class="portal-heat-overlay"></div>
+              </div>
+
+              <!-- Vórtice azul del portal que gira continuamente -->
+              <div class="portal-swirl-vortex" id="portal-swirl">
+                <img src="assets/portal/Portal-1.png" alt="Portal Dimensional" class="portal-swirl-img" />
+              </div>
+
+              <!-- Anillo exterior y resplandor de plasma -->
+              <div class="portal-glow-rim"></div>
+            </div>
+
+          </div>
+          
+          <!-- Subtítulo Dinámico en Directo -->
+          <div class="scene-live-subtitle-pill is-ready-cta" id="sub-escena-05" title="¡Acerca el ratón para descubrir el mundo!">
+            <div class="bubble-avatar-slot">
+              <img src="assets/ui/Guante.png" alt="Pasa el ratón" class="bubble-avatar-img bubble-glove-img" />
+            </div>
+            <div class="bubble-dialogue-content">
+              <span class="live-subtitle-text">¡Acerca el ratón para descubrir el mundo al otro lado del portal!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================
+         ESCENA 06: EL MUNDO DE ROCA Y LAVA
+         ======================================================== -->
+    <section class="seccio-pagina-cuento" id="escena-06">
+      
+      <!-- Columna Izquierda: Texto Narrativo -->
+      <div class="cuento-col-texto">
+        <div class="numero-escena-badge">
+          <span class="num-escena">06</span>
+        </div>
+        
+        <h2 class="titol-escena">El mundo de roca y lava</h2>
+        
+        <p class="paragraf-cuento">
+          Al cruzar el portal y salir al exterior de la cueva, <strong class="destacat-gato">Gato</strong> y <strong class="destacat-crunchy">Crunchy</strong> contemplaron asombrados aquel nuevo mundo volcánico. A lo lejos, divisaron a dos habitantes del lugar llamados <strong class="destacat-riolita">Riolita</strong> y <strong class="destacat-basalto">Basalto</strong>, quienes se disputaban acaloradamente una gran roca redonda.
+        </p>
+        <p class="paragraf-cuento">
+          De tanto enfadarse y discutir sin escucharse, la roca se les escapó de las manos y cayó rodando montaña abajo hasta encajarse con un tremendo estruendo en la entrada de la cueva.
+        </p>
+      </div>
+
+      <!-- Columna Derecha: Prismáticos Interactivos -->
+      <div class="cuento-col-visual">
+        <div class="escena-visual-card interactive-card" id="card-escena-06" title="¡Haz clic en los prismáticos para observar!">
+          
+          <div class="binoculars-interactive-stage" id="binoculars-stage">
+            
+            <!-- Definición SVG de la máscara de dos círculos entrelazados y filtros progresivos -->
+            <svg class="binoculars-svg-defs" style="position: absolute; width: 0; height: 0;" aria-hidden="true">
+              <defs>
+                <clipPath id="binoculars-double-circle-clip" clipPathUnits="userSpaceOnUse">
+                  <path d="M 245 228.74 A 130 130 0 1 1 245 51.26 A 130 130 0 1 1 245 228.74 Z" />
+                </clipPath>
+                
+                <!-- Filtros para transición de desenfoque y oscuridad progresiva -->
+                <filter id="lens-soft-blur-wide">
+                  <feGaussianBlur stdDeviation="15" />
+                </filter>
+                <filter id="lens-soft-blur-mid">
+                  <feGaussianBlur stdDeviation="8" />
+                </filter>
+                <filter id="lens-soft-blur-tight">
+                  <feGaussianBlur stdDeviation="4" />
+                </filter>
+              </defs>
+            </svg>
+
+            <!-- Vista 1: Portada con los prismáticos esperando clic -->
+            <div class="binoculars-cover-box" id="binoculars-trigger-btn">
+              <img src="assets/ui/prismaticos.png?v=9.0" alt="Prismáticos de observación" class="binoculars-cover-img" />
+            </div>
+
+            <!-- Vista 2: Visor de dos círculos entrelazados con fondo volcánico claro y nítido -->
+            <div class="binoculars-dual-circles-container" id="binoculars-visor-elem">
+              
+              <!-- Contenido interior recortado con la forma exterior unificada de los dos círculos -->
+              <div class="binoculars-clipped-world">
+                <!-- Fondo volcánico de roca y magma -->
+                <img src="assets/fondos/Fondo_Roca.png?v=1.0" alt="Fondo Roca Volcánica" class="binoculars-bg-layer" />
+
+                <!-- Personajes y la roca dentro del visor (Sin zoom al pasar el ratón) -->
+                <div class="binoculars-actors-row">
+                  <div class="binoculars-char-wrap" id="speaker-carbon-card">
+                    <img src="assets/personajes/riolita/Riolita-3.png" alt="Riolita enfadada" class="binoculars-actor-char" id="img-riolita-dispute" />
+                  </div>
+                  <div class="binoculars-char-wrap" id="speaker-basalto-card">
+                    <img src="assets/personajes/basalto/Basalto-1.png" alt="Basalto enfadado" class="binoculars-actor-char" id="img-basalto-dispute" />
+                  </div>
+                  <div class="binoculars-rock-wrap" id="dispute-center-boulder">
+                    <img src="assets/objetos/roca/Roca-5.png" alt="Roca de la discordia" class="binoculars-actor-rock" id="dispute-round-rock" />
+                  </div>
+                </div>
+
+                <!-- Desenfoque óptico periférico progresivo que se funde fluidamente en negro puro -->
+                <svg class="binoculars-lens-blur-overlay" viewBox="0 0 490 280">
+                  <!-- Capa 1: Desenfoque amplio y suave hacia el interior -->
+                  <path d="M 245 228.74 A 130 130 0 1 1 245 51.26 A 130 130 0 1 1 245 228.74 Z" 
+                        fill="none" stroke="rgba(0, 0, 0, 0.65)" stroke-width="64" filter="url(#lens-soft-blur-wide)" />
+                  <!-- Capa 2: Oscurecimiento intermedio -->
+                  <path d="M 245 228.74 A 130 130 0 1 1 245 51.26 A 130 130 0 1 1 245 228.74 Z" 
+                        fill="none" stroke="rgba(0, 0, 0, 0.9)" stroke-width="36" filter="url(#lens-soft-blur-mid)" />
+                  <!-- Capa 3: Borde profundo fundido con el marco -->
+                  <path d="M 245 228.74 A 130 130 0 1 1 245 51.26 A 130 130 0 1 1 245 228.74 Z" 
+                        fill="none" stroke="#000000" stroke-width="20" filter="url(#lens-soft-blur-tight)" />
+                </svg>
+              </div>
+
+              <!-- Marco exterior negro puro continuo de los prismáticos -->
+              <svg class="binoculars-frame-overlay" viewBox="0 0 490 280">
+                <path d="M 245 228.74 A 130 130 0 1 1 245 51.26 A 130 130 0 1 1 245 228.74 Z" 
+                      fill="none" stroke="#000000" stroke-width="12" stroke-linejoin="round" />
+              </svg>
+
+            </div>
+
+          </div>
+          
+          <!-- Subtítulo Dinámico en Directo -->
+          <div class="scene-live-subtitle-pill is-ready-cta" id="sub-escena-06" title="¡Haz clic para observar y escuchar!">
+            <div class="bubble-avatar-slot">
+              <img src="assets/ui/Guante.png" alt="Toca aquí" class="bubble-avatar-img bubble-glove-img" />
+            </div>
+            <div class="bubble-dialogue-content">
+              <span class="live-subtitle-text">¡Toca los prismáticos para observar la discusión de Riolita y Basalto!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================
+         ESCENA 07: EL PELIGRO INMINENTE Y LA UNIÓN DE LOS CUATRO
+         ======================================================== -->
+    <section class="seccio-pagina-cuento" id="escena-07">
+      
+      <!-- Columna Izquierda: Texto Narrativo -->
+      <div class="cuento-col-texto">
+        <div class="numero-escena-badge">
+          <span class="num-escena">07</span>
+        </div>
+        
+        <h2 class="titol-escena">El peligro inminente</h2>
+        
+        <p class="paragraf-cuento">
+          El único camino de regreso al portal interdimensional había quedado completamente bloqueado por el gigantesco peñasco.
+        </p>
+        <p class="paragraf-cuento">
+          Al ver el desastre, <strong class="destacat-riolita">Riolita</strong> y <strong class="destacat-basalto">Basalto</strong> se dieron cuenta de las graves consecuencias de su terquedad, mientras que <strong class="destacat-gato">Gato</strong> y <strong class="destacat-crunchy">Crunchy</strong> se acercaron para calmar los ánimos.
+        </p>
+        <p class="paragraf-cuento destacat-lava">
+          Los cuatro comprendieron que los reproches no servirían de nada: la única solución para despejar el túnel y salvar la situación era dejar a un lado el orgullo, escucharse y ayudarse como un verdadero equipo.
+        </p>
+      </div>
+
+      <!-- Columna Derecha: Los 4 Juntan las Manos (Pacto de Equipo Progresivo) -->
+      <div class="cuento-col-visual">
+        <div class="escena-visual-card interactive-card team-hands-interactive-card" id="card-escena-07" title="¡Haz clic para que vayan poniendo las manos una a una!">
+          <div class="team-hands-stage" id="team-hands-box">
+            
+            <!-- Mano 1: Riolita (1º al centro) -->
+            <div class="team-arm-wrapper arm-riolita" id="arm-hand-1">
+              <div class="arm-content">
+                <img src="assets/personajes/riolita/Riolita-1.png" alt="Mano de Riolita" class="team-arm-img" />
+                <span class="arm-name-badge badge-riolita">Riolita</span>
+              </div>
+            </div>
+
+            <!-- Mano 2: Basalto (2º al centro) -->
+            <div class="team-arm-wrapper arm-basalto" id="arm-hand-2">
+              <div class="arm-content">
+                <img src="assets/personajes/basalto/Basalto-1.png" alt="Mano de Basalto" class="team-arm-img" />
+                <span class="arm-name-badge badge-basalto">Basalto</span>
+              </div>
+            </div>
+
+            <!-- Mano 3: Crunchy (3º al centro) -->
+            <div class="team-arm-wrapper arm-crunchy" id="arm-hand-3">
+              <div class="arm-content">
+                <img src="assets/personajes/crunchy/crunchy.png" alt="Mano de Crunchy" class="team-arm-img" />
+                <span class="arm-name-badge badge-crunchy">Crunchy</span>
+              </div>
+            </div>
+
+            <!-- Mano 4: Gato (4º al centro, remate del equipo) -->
+            <div class="team-arm-wrapper arm-gato" id="arm-hand-4">
+              <div class="arm-content">
+                <img src="assets/personajes/gato/gato.png" alt="Mano de Gato" class="team-arm-img" />
+                <span class="arm-name-badge badge-gato">Gato</span>
+              </div>
+            </div>
+
+          </div>
+          
+          <!-- Subtítulo Dinámico en Directo -->
+          <div class="scene-live-subtitle-pill is-ready-cta" id="sub-escena-07" title="¡Toca para ir poniendo las manos!">
+            <div class="bubble-avatar-slot">
+              <img src="assets/ui/Guante.png" alt="Toca aquí" class="bubble-avatar-img bubble-glove-img" />
+            </div>
+            <div class="bubble-dialogue-content">
+              <span class="live-subtitle-text">¡Toca para que los cuatro amigos unan sus manos una a una!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================
+         ESCENA 08: COOPERACIÓN Y TRABAJO EN EQUIPO
+         ======================================================== -->
+    <section class="seccio-pagina-cuento" id="escena-08">
+      
+      <!-- Columna Izquierda: Texto Narrativo -->
+      <div class="cuento-col-texto">
+        <div class="numero-escena-badge">
+          <span class="num-escena">08</span>
+        </div>
+        
+        <h2 class="titol-escena">Cooperación y trabajo en equipo</h2>
+        
+        <p class="paragraf-cuento">
+          Al ver el problema, <strong class="destacat-riolita">Riolita</strong> y <strong class="destacat-basalto">Basalto</strong> se dieron cuenta de que la roca no era tan importante y decidieron romperla juntos para hacer las paces y ayudar a sus nuevos amigos.
+        </p>
+        <p class="paragraf-cuento">
+          Uniendo sus fuerzas con <strong class="destacat-gato">Gato</strong> y <strong class="destacat-crunchy">Crunchy</strong>, los cuatro golpearon con todas sus fuerzas hasta romper la roca en pedazos, dejando el túnel de la cueva libre para volver a casa y resolviendo ambos conflictos gracias a la cooperación.
+        </p>
+      </div>
+
+      <!-- Columna Derecha: Golpe Conjunto para Romper la Roca -->
+      <div class="cuento-col-visual">
+        <div class="escena-visual-card interactive-card rock-break-card" id="card-escena-08" title="¡Haz clic en la roca para golpearla!">
+          
+          <div class="rock-smash-stage" id="rock-smash-box">
+            <!-- Escenario de la gran roca volcánica con las imágenes oficiales de rotura -->
+            <div class="rock-boulder-container" id="rock-boulder-target">
+              
+              <div class="volcanic-smash-boulder" id="volcanic-boulder">
+                <!-- Imagen de la roca que evoluciona en 5 fases oficiales -->
+                <img src="assets/objetos/roca/Roca-5.png" alt="Roca volcánica" class="volcanic-rock-art-img" id="volcanic-rock-art" />
+              </div>
+
+            </div>
+          </div>
+          
+          <!-- Subtítulo Dinámico en Directo -->
+          <div class="scene-live-subtitle-pill is-ready-cta" id="sub-escena-08" title="¡Haz clic para golpear la roca!">
+            <div class="bubble-avatar-slot">
+              <img src="assets/ui/Guante.png" alt="Toca aquí" class="bubble-avatar-img bubble-glove-img" />
+            </div>
+            <div class="bubble-dialogue-content">
+              <span class="live-subtitle-text">¡Toca la roca para golpear todos juntos en equipo!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================
+         ESCENA 09: LA DESPEDIDA Y EL REGALO DE LAS UVAS ÍGNEAS
+         ======================================================== -->
+    <section class="seccio-pagina-cuento" id="escena-09">
+      
+      <!-- Columna Izquierda: Texto Narrativo -->
+      <div class="cuento-col-texto">
+        <div class="numero-escena-badge">
+          <span class="num-escena">09</span>
+        </div>
+        
+        <h2 class="titol-escena">La despedida y el regalo de fuego</h2>
+        
+        <p class="paragraf-cuento">
+          Frente al túnel de la cueva ya despejado, el portal interdimensional brillaba con fuerza, listo para llevar a los dos amigos de regreso a casa.
+        </p>
+        <p class="paragraf-cuento">
+          Como agradecimiento por haber solucionado la disputa y devolverles la armonía, <strong class="destacat-riolita">Riolita</strong> y <strong class="destacat-basalto">Basalto</strong> sabían lo que buscaban y les habían recolectado una cesta llena de relucientes <strong>uvas ígneas</strong>, las más dulces y cálidas de todo el reino volcánico.
+        </p>
+        <p class="paragraf-cuento destacat-orange">
+          Tras recoger con alegría las uvas de la cesta y fundirse en un emotivo abrazo de despedida, <strong class="destacat-gato">Gato</strong> y <strong class="destacat-crunchy">Crunchy</strong> cruzaron el portal rumbo a su cocina.
+        </p>
+      </div>
+
+      <!-- Columna Derecha: Regalo y Cesta de Uvas Ígneas -->
+      <div class="cuento-col-visual">
+        <div class="escena-visual-card interactive-card cesta-interactive-card" id="card-escena-09" title="¡Haz clic en las uvas para recogerlas de la cesta!">
+          <div class="cesta-gift-stage" id="cesta-gift-box">
+            
+            <!-- Fondo brillante del portal interdimensional -->
+            <div class="portal-backdrop-wrap" id="scene09-portal-bg">
+              <img src="assets/portal/Portal-1.png" alt="Portal de regreso" class="portal-return-sprite" id="scene09-portal-img" />
+              <div class="portal-glow-aura"></div>
+            </div>
+
+            <!-- Cesta y las 6 uvas ígneas reposando dentro -->
+            <div class="cesta-container-wrap" id="cesta-container">
+              <!-- Ilustración o contenedor de la cesta (preparado para el PNG de la cesta del usuario) -->
+              <div class="cesta-basket-base" id="cesta-basket-art">
+                <div class="cesta-basket-rim"></div>
+              </div>
+
+              <!-- Las 6 Uvas Ígneas dentro de la cesta para recoger -->
+              <div class="cesta-grapes-cluster" id="cesta-grapes-cluster">
+                <div class="cesta-grape-slot grape-pos-1" data-index="1" title="Toca para recoger esta uva ígnea">
+                  <img src="assets/objetos/migas/uva_1.png?v=2.0" alt="Uva ígnea 1" class="cesta-grape-img" />
+                </div>
+                <div class="cesta-grape-slot grape-pos-2" data-index="2" title="Toca para recoger esta uva ígnea">
+                  <img src="assets/objetos/migas/uva_2.png?v=2.0" alt="Uva ígnea 2" class="cesta-grape-img" />
+                </div>
+                <div class="cesta-grape-slot grape-pos-3" data-index="3" title="Toca para recoger esta uva ígnea">
+                  <img src="assets/objetos/migas/uva_3.png?v=2.0" alt="Uva ígnea 3" class="cesta-grape-img" />
+                </div>
+                <div class="cesta-grape-slot grape-pos-4" data-index="4" title="Toca para recoger esta uva ígnea">
+                  <img src="assets/objetos/migas/uva_4.png?v=2.0" alt="Uva ígnea 4" class="cesta-grape-img" />
+                </div>
+                <div class="cesta-grape-slot grape-pos-5" data-index="5" title="Toca para recoger esta uva ígnea">
+                  <img src="assets/objetos/migas/uva_5.png?v=2.0" alt="Uva ígnea 5" class="cesta-grape-img" />
+                </div>
+                <div class="cesta-grape-slot grape-pos-6" data-index="6" title="Toca para recoger esta uva ígnea">
+                  <img src="assets/objetos/migas/uva_6.png?v=2.0" alt="Uva ígnea 6" class="cesta-grape-img" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Contador de uvas recolectadas -->
+            <div class="cesta-counter-badge" id="cesta-counter-badge">
+              <span class="cesta-counter-text">Uvas recogidas: <strong id="cesta-grape-count">0</strong> / 6</span>
+            </div>
+
+          </div>
+          
+          <!-- Subtítulo Dinámico en Directo -->
+          <div class="scene-live-subtitle-pill is-ready-cta" id="sub-escena-09" title="¡Haz clic en las uvas para recogerlas!">
+            <div class="bubble-avatar-slot">
+              <img src="assets/ui/Guante.png" alt="Toca aquí" class="bubble-avatar-img bubble-glove-img" />
+            </div>
+            <div class="bubble-dialogue-content">
+              <span class="live-subtitle-text">¡Toca las uvas de la cesta para recogerlas antes de cruzar el portal!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================
+         ESCENA 10: EL REGRESO Y EL GRAN FESTÍN
+         ======================================================== -->
+    <section class="seccio-pagina-cuento" id="escena-10">
+      
+      <!-- Columna Izquierda: Texto Narrativo -->
+      <div class="cuento-col-texto">
+        <div class="numero-escena-badge">
+          <span class="num-escena">10</span>
+        </div>
+        
+        <h2 class="titol-escena">El regreso y el gran festín</h2>
+        
+        <p class="paragraf-cuento">
+          De vuelta en la acogedora cocina del gran árbol, <strong class="destacat-oti">Oti</strong> los recibió con la sartén humeante de migas recién hechas.
+        </p>
+        <p class="paragraf-cuento">
+          Añadieron las uvas ígneas al plato, dándole un toque mágico, dulce y crujiente. Sentados alrededor de la mesa, <strong class="destacat-gato">Gato</strong> y <strong class="destacat-crunchy">Crunchy</strong> sonrieron sabiendo que, gracias a aprender a escucharse, habían salvado su amistad y conseguido el ingrediente perfecto.
+        </p>
+        <p class="paragraf-cuento destacat-cyan">
+          Mirando al lector con complicidad, <strong class="destacat-gato">Gato</strong> concluyó feliz: «—Al final no encontramos las uvas en el desván... ¡pero las que trajimos son de otra dimensión!»
+        </p>
+      </div>
+
+      <!-- Columna Derecha: El Plato de Migas con 6 Uvas Ígneas Interactivas -->
+      <div class="cuento-col-visual">
+        <div class="escena-visual-card interactive-card" id="card-escena-10" title="¡Haz clic en el plato para añadir las uvas ígneas!">
+          
+          <div class="migas-plate-stage" id="migas-plate-box">
+            
+            <!-- Plato de Migas Principal con Uvas Reales del Autor -->
+            <div class="migas-dish-wrapper" id="migas-dish-target">
+              <img src="assets/objetos/migas/migas_plato.png" alt="Plato de Migas de Oti" class="migas-base-plate-img" id="img-migas-plate" />
+              
+              <!-- 6 Uvas Ígneas Oficiales del Autor distribuidas dentro del plato -->
+              <div class="grape-placed-item grape-spot-1" id="grape-item-1">
+                <img src="assets/objetos/migas/uva_single_1.png?v=2.0" alt="Uva ígnea 1" class="grape-placed-img" />
+              </div>
+              <div class="grape-placed-item grape-spot-2" id="grape-item-2">
+                <img src="assets/objetos/migas/uva_single_2.png?v=2.0" alt="Uva ígnea 2" class="grape-placed-img" />
+              </div>
+              <div class="grape-placed-item grape-spot-3" id="grape-item-3">
+                <img src="assets/objetos/migas/uva_single_3.png?v=2.0" alt="Uva ígnea 3" class="grape-placed-img" />
+              </div>
+              <div class="grape-placed-item grape-spot-4" id="grape-item-4">
+                <img src="assets/objetos/migas/uva_single_4.png?v=2.0" alt="Uva ígnea 4" class="grape-placed-img" />
+              </div>
+              <div class="grape-placed-item grape-spot-5" id="grape-item-5">
+                <img src="assets/objetos/migas/uva_single_5.png?v=2.0" alt="Uva ígnea 5" class="grape-placed-img" />
+              </div>
+              <div class="grape-placed-item grape-spot-6" id="grape-item-6">
+                <img src="assets/objetos/migas/uva_single_6.png?v=2.0" alt="Uva ígnea 6" class="grape-placed-img" />
+              </div>
+
+            </div>
+
+          </div>
+          
+          <!-- Subtítulo Dinámico en Directo -->
+          <div class="scene-live-subtitle-pill is-ready-cta" id="sub-escena-10" title="¡Haz clic para añadir las uvas ígneas!">
+            <div class="bubble-avatar-slot">
+              <img src="assets/ui/Guante.png" alt="Toca aquí" class="bubble-avatar-img bubble-glove-img" />
+            </div>
+            <div class="bubble-dialogue-content">
+              <span class="live-subtitle-text">¡Toca el plato para añadir las uvas ígneas a las migas!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================
+         SECCIÓN FINAL: FIN DEL CUENTO (LIBRE Y ABIERTO)
+         ======================================================== -->
+    <section class="seccio-final" id="seccio-final">
+      <div class="final-open-cartoon">
+        <h2 class="titol-fi-cartoon">¡FIN!</h2>
+        <p class="autor-final">Marc Gil Mayor</p>
+        <p class="moralitat-final">
+          Gato y Crunchy — Pitch Bible Interactiva
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Script interactivo -->
+  <script src="script.js?v=11.7"></script>
+</body>
+
+</html>
