@@ -2191,8 +2191,8 @@ body {
   pointer-events: none;
 }
 
-/* Capa 1: Fondo bolsa abierta */
-.bag-open-back-img {
+/* Capa 1: Imagen Bolsa abierta */
+.bag-open-img {
   z-index: 1;
 }
 
@@ -2204,12 +2204,7 @@ body {
   pointer-events: none;
 }
 
-/* Capa 4: Frontal bolsa abierta (Tapa la uva voladora y las uvas interiores por delante) */
-.bag-open-front-img {
-  z-index: 4;
-}
-
-/* Capa 5: Bolsa cerrada */
+/* Capa 3: Bolsa cerrada */
 .bag-closed-img {
   z-index: 10;
 }
@@ -2220,8 +2215,7 @@ body {
   transform: scale(1);
 }
 
-.is-bag-closed .bag-open-back-img,
-.is-bag-closed .bag-open-front-img,
+.is-bag-closed .bag-open-img,
 .is-bag-closed .bag-inside-grapes {
   opacity: 0;
   transform: scale(0.92);
@@ -2233,8 +2227,8 @@ body {
   transform: scale(1.06);
 }
 
-.is-bag-open .bag-open-back-img,
-.is-bag-open .bag-open-front-img {
+.is-bag-open .bag-open-img,
+.is-bag-open .bag-inside-grapes {
   opacity: 1;
   transform: scale(1);
 }
