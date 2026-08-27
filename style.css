@@ -2200,7 +2200,7 @@ body {
 
 .bolsa-grape-slot:hover .bolsa-grape-img {
   transform: translateY(-4px);
-  filter: drop-shadow(0 6px 12px rgba(234, 88, 12, 0.5));
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.28));
 }
 
 /* Posiciones flotantes en arco */
