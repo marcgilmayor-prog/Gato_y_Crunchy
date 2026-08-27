@@ -1837,7 +1837,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ];
 
-  function animateGrapeToPlate(targetSlot, grapeSrc, onComplete) {
+  const grapeRotations = {
+    1: -12,
+    2: 35,
+    3: -22,
+    4: 18,
+    5: -35,
+    6: 10
+  };
+
+  function animateGrapeToPlate(targetSlot, grapeSrc, grapeIndex, onComplete) {
     const dishTarget = document.getElementById('migas-dish-target');
     if (!dishTarget || !targetSlot) {
       if (onComplete) onComplete();
@@ -1845,8 +1854,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const dishRect = dishTarget.getBoundingClientRect();
+    const rot = grapeRotations[grapeIndex] || 0;
 
-    // Posición inicial: en el centro en primer plano (grande)
+    // Posición inicial: en el centro en primer plano (grande con su rotación propia)
     const startLeft = (dishRect.width / 2) - 17;
     const startTop = (dishRect.height / 2) - 19 - 25;
 
@@ -1858,7 +1868,7 @@ document.addEventListener('DOMContentLoaded', () => {
     flyer.className = 'grape-zoom-projectile is-intro';
     flyer.style.left = `${startLeft}px`;
     flyer.style.top = `${startTop}px`;
-    flyer.style.transform = 'translate(0, -15px) scale(0.6) rotate(0deg)';
+    flyer.style.transform = `translate(0, -15px) scale(0.6) rotate(${rot}deg)`;
     flyer.style.opacity = '0';
 
     const img = document.createElement('img');
@@ -1870,17 +1880,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Forzar reflow del navegador
     void flyer.offsetWidth;
 
-    // Fase 1: Pop in en primer plano (aparece grande y flota medio segundo)
+    // Fase 1: Pop in en primer plano (aparece grande con su rotación única y flota medio segundo)
     flyer.style.opacity = '1';
-    flyer.style.transform = 'translate(0, 0) scale(2.8) rotate(0deg)';
+    flyer.style.transform = `translate(0, 0) scale(2.8) rotate(${rot}deg)`;
 
-    // Fase 2: Tras ~480ms de exhibición, vuela fluidamente hacia el plato encogiéndose en perspectiva
+    // Fase 2: Tras ~480ms de exhibición, vuela fluidamente hacia el plato encogiéndose en perspectiva con su rotación
     setTimeout(() => {
       const deltaX = endLeft - startLeft;
       const deltaY = endTop - startTop;
 
       flyer.className = 'grape-zoom-projectile is-flying';
-      flyer.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1) rotate(0deg)`;
+      flyer.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1) rotate(${rot}deg)`;
 
       // Al aterrizar en su posición del plato
       setTimeout(() => {
@@ -1921,7 +1931,7 @@ document.addEventListener('DOMContentLoaded', () => {
     SFXEngine.play('pop');
     SFXEngine.play('lava-bubble');
 
-    animateGrapeToPlate(slot, grapeSrc, () => {
+    animateGrapeToPlate(slot, grapeSrc, nextGrapeIndex, () => {
       if (myToken !== activeSequenceToken) return;
 
       if (slot) {
