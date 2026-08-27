@@ -1894,28 +1894,28 @@ body {
 /* Capa 1: Riolita (Llega al centro de la pila) */
 .arm-riolita.is-in-center {
   opacity: 1;
-  transform: translate(7%, 7%);
+  transform: translate(3.8%, 3.8%);
   z-index: 10;
 }
 
 /* Capa 2: Basalto (Se solapa y coloca su mano encima de Riolita) */
 .arm-basalto.is-in-center {
   opacity: 1;
-  transform: translate(-7%, 7%);
+  transform: translate(-3.8%, 3.8%);
   z-index: 11;
 }
 
 /* Capa 3: Crunchy (Se solapa encima de Basalto y Riolita) */
 .arm-crunchy.is-in-center {
   opacity: 1;
-  transform: translate(-7%, -7%);
+  transform: translate(-3.8%, -3.8%);
   z-index: 12;
 }
 
 /* Capa 4: Gato (Se solapa coronando la unión del equipo) */
 .arm-gato.is-in-center {
   opacity: 1;
-  transform: translate(7%, -7%);
+  transform: translate(3.8%, -3.8%);
   z-index: 13;
 }
 
