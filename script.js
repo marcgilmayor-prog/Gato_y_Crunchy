@@ -1613,7 +1613,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // ========================================================
   const cardEscena09 = document.getElementById('card-escena-09');
   const bolsaGiftBox = document.getElementById('bolsa-gift-box');
-  const bolsaCounterLabel = document.getElementById('bolsa-counter-label');
   let isBagOpen = false;
   let collectedGrapesCount = 0;
   const maxBolsaGrapes = 6;
@@ -1670,9 +1669,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (bolsaGiftBox) {
         bolsaGiftBox.classList.remove('is-all-collected');
       }
-      if (bolsaCounterLabel) {
-        bolsaCounterLabel.innerHTML = 'Bolsa: <strong>CERRADA</strong>';
-      }
       const allFloatingSlots = document.querySelectorAll('.bolsa-floating-grapes .bolsa-grape-slot');
       allFloatingSlots.forEach(slot => slot.classList.remove('is-collected'));
       const allInsideDots = document.querySelectorAll('.inside-grape-dot');
@@ -1689,9 +1685,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (cardEscena09) {
         cardEscena09.classList.remove('is-bag-closed');
         cardEscena09.classList.add('is-bag-open');
-      }
-      if (bolsaCounterLabel) {
-        bolsaCounterLabel.innerHTML = 'Uvas guardadas: <strong>0</strong> / 6';
       }
       SFXEngine.play('pop');
       SFXEngine.play('sparkle');
@@ -1723,10 +1716,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const insideDot = document.getElementById(`inside-grape-${collectedGrapesCount}`);
     if (insideDot) {
       insideDot.classList.add('is-filled');
-    }
-
-    if (bolsaCounterLabel) {
-      bolsaCounterLabel.innerHTML = `Uvas guardadas: <strong>${collectedGrapesCount}</strong> / 6`;
     }
 
     const step = bolsaGrapeDialogueSteps[collectedGrapesCount - 1];

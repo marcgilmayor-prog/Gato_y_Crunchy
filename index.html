@@ -673,18 +673,15 @@
               </div>
             </div>
 
-            <!-- Bolsa Ilustrada de Crunchy (Cerrada y Abierta con transición elástica) -->
+            <!-- Bolsa Ilustrada de Crunchy Multicapa (Fondo, Resplandor, Uvas Interiores, Frontal y Cerrada) -->
             <div class="crunchy-bag-assembly" id="crunchy-bag-box" title="¡Bolsa de Crunchy!">
-              <!-- Imagen Bolsa Cerrada -->
-              <img src="assets/objetos/bolsa/bolsa_cerrada.png" alt="Bolsa de Crunchy cerrada" class="bag-state-img bag-closed-img" id="bag-closed-img" />
-              
-              <!-- Imagen Bolsa Abierta -->
-              <img src="assets/objetos/bolsa/bolsa_abierta.png" alt="Bolsa de Crunchy abierta" class="bag-state-img bag-open-img" id="bag-open-img" />
+              <!-- Capa 1: Fondo de la bolsa abierta (Solapa + Cavidad interior + Asas) -->
+              <img src="assets/objetos/bolsa/bolsa_abierta_fondo.png" alt="Bolsa fondo" class="bag-state-img bag-open-back-img" id="bag-open-back-img" />
 
-              <!-- Resplandor interior cálido -->
-              <div class="bag-interior-glow"></div>
+              <!-- Capa 2: Resplandor interior cálido y mágico -->
+              <div class="bag-interior-glow" id="bag-interior-glow"></div>
 
-              <!-- Uvas que se van guardando dentro de la bolsa -->
+              <!-- Capa 3: Uvas que reposan dentro del hueco de la bolsa -->
               <div class="bag-inside-grapes" id="bag-inside-grapes">
                 <div class="inside-grape-dot dot-pos-1" id="inside-grape-1">
                   <img src="assets/objetos/migas/uva_1.png" alt="Uva guardada 1" class="inside-grape-img" />
@@ -705,11 +702,12 @@
                   <img src="assets/objetos/migas/uva_6.png" alt="Uva guardada 6" class="inside-grape-img" />
                 </div>
               </div>
-            </div>
 
-            <!-- Contador de estado de la bolsa y uvas guardadas -->
-            <div class="bolsa-counter-badge" id="bolsa-counter-badge">
-              <span class="bolsa-counter-text" id="bolsa-counter-label">Bolsa: <strong>CERRADA</strong></span>
+              <!-- Capa 4: Frontal de la bolsa abierta (Cubre naturalmente las uvas por delante) -->
+              <img src="assets/objetos/bolsa/bolsa_abierta_frente.png" alt="Bolsa frontal" class="bag-state-img bag-open-front-img" id="bag-open-front-img" />
+
+              <!-- Capa 5: Bolsa Cerrada (Visible únicamente en estado cerrado) -->
+              <img src="assets/objetos/bolsa/bolsa_cerrada.png" alt="Bolsa de Crunchy cerrada" class="bag-state-img bag-closed-img" id="bag-closed-img" />
             </div>
 
           </div>
