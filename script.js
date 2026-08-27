@@ -1687,8 +1687,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const deltaX = endX - startX;
     const deltaY = endY - startY;
-
-    flyingGrape.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.92) rotate(4deg)`;
+    flyingGrape.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1) rotate(0deg)`;
 
     setTimeout(() => {
       flyingGrape.remove();
