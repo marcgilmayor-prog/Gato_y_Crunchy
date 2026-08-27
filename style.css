@@ -2556,15 +2556,19 @@ body {
   box-shadow: none;
 }
 
-.titol-fi-cartoon {
-  font-family: var(--font-logo);
-  font-size: clamp(5rem, 13vw, 9rem);
-  color: var(--c-gato);
-  -webkit-text-stroke: 4px #27211e;
-  text-shadow: 6px 6px 0px #27211e, 0 0 35px rgba(255, 122, 0, 0.4);
-  line-height: 0.95;
-  margin: 4px 0;
-  animation: final-bounce 2s infinite alternate ease-in-out;
+.img-fin-wrapper {
+  max-width: 480px;
+  width: 90%;
+  margin: 0 auto 10px auto;
+  user-select: none;
+}
+
+.img-fin-cartoon {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.15));
+  animation: final-bounce 2.6s infinite alternate ease-in-out;
 }
 
 @keyframes final-bounce {
