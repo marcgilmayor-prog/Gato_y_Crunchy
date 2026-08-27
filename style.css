@@ -2151,14 +2151,14 @@ body {
 
 /* Partícula voladora fluida que viaja desde el clic hasta el interior de la bolsa */
 .grape-flying-projectile {
-  position: fixed;
-  z-index: 9999;
+  position: absolute;
+  z-index: 3;
   pointer-events: none;
   width: 44px;
   height: 44px;
   object-fit: contain;
   filter: drop-shadow(0 6px 16px rgba(253, 224, 71, 0.95)) drop-shadow(0 0 14px rgba(234, 88, 12, 0.85));
-  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1.12), opacity 0.42s ease;
+  transition: transform 0.44s cubic-bezier(0.22, 1, 0.36, 1.12), opacity 0.44s ease;
   will-change: transform, opacity;
 }
 
@@ -2196,7 +2196,15 @@ body {
   z-index: 1;
 }
 
-/* Capa 4: Frontal bolsa abierta */
+/* Capa 3: Capa contenedora de vuelo */
+.bag-flying-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Capa 4: Frontal bolsa abierta (Tapa la uva voladora y las uvas interiores por delante) */
 .bag-open-front-img {
   z-index: 4;
 }

@@ -1652,39 +1652,48 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   function animateGrapeToBag(fromElement, toElement, onComplete) {
-    if (!fromElement || !toElement) {
+    const flyingLayer = document.getElementById('bag-flying-layer') || document.getElementById('crunchy-bag-box');
+
+    if (!fromElement || !toElement || !flyingLayer) {
       if (onComplete) onComplete();
       return;
     }
 
+    const layerRect = flyingLayer.getBoundingClientRect();
     const fromRect = fromElement.getBoundingClientRect();
     const toRect = toElement.getBoundingClientRect();
+
+    // Posición inicial y final relativas a la capa interna z-index: 3 de la bolsa
+    const startX = fromRect.left - layerRect.left;
+    const startY = fromRect.top - layerRect.top;
+    const endX = (toRect.left + toRect.width / 2) - layerRect.left - (fromRect.width / 2);
+    const endY = (toRect.top + toRect.height / 2) - layerRect.top - (fromRect.height / 2);
 
     const flyingGrape = document.createElement('img');
     const sourceImg = fromElement.querySelector('img');
     flyingGrape.src = sourceImg ? sourceImg.src : 'assets/objetos/migas/uva_1.png';
     flyingGrape.className = 'grape-flying-projectile';
-    flyingGrape.style.left = `${fromRect.left}px`;
-    flyingGrape.style.top = `${fromRect.top}px`;
+    flyingGrape.style.left = `${startX}px`;
+    flyingGrape.style.top = `${startY}px`;
     flyingGrape.style.width = `${fromRect.width}px`;
     flyingGrape.style.height = `${fromRect.height}px`;
     flyingGrape.style.transform = 'translate(0, 0) scale(1) rotate(0deg)';
-    document.body.appendChild(flyingGrape);
+    flyingLayer.appendChild(flyingGrape);
 
     fromElement.classList.add('is-collected');
 
     // Force browser reflow to register initial transform
     void flyingGrape.offsetWidth;
 
-    const deltaX = (toRect.left + toRect.width / 2) - (fromRect.left + fromRect.width / 2);
-    const deltaY = (toRect.top + toRect.height / 2) - (fromRect.top + fromRect.height / 2);
+    const deltaX = endX - startX;
+    const deltaY = endY - startY;
 
     flyingGrape.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.88) rotate(18deg)`;
 
     setTimeout(() => {
       flyingGrape.remove();
       if (onComplete) onComplete();
-    }, 420);
+    }, 440);
   }
 
   function handleBolsaInteraction(e) {
