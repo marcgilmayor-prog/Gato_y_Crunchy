@@ -114,8 +114,8 @@ body {
 /* --- BOTÓN FLOTANTE ÚNICO DE SONIDO / SFX --- */
 .audio-control-fixed {
   position: fixed;
-  top: 20px;
-  right: 24px;
+  top: 34px;
+  right: 28px;
   z-index: 1000;
 }
 
