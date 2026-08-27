@@ -1837,6 +1837,53 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ];
 
+  function animateGrapeToPlate(targetSlot, grapeSrc, onComplete) {
+    const dishTarget = document.getElementById('migas-dish-target');
+    if (!dishTarget || !targetSlot) {
+      if (onComplete) onComplete();
+      return;
+    }
+
+    const dishRect = dishTarget.getBoundingClientRect();
+
+    // Posición inicial: en el centro y alto en perspectiva 3D (primer plano)
+    const startLeft = (dishRect.width / 2) - 17;
+    const startTop = (dishRect.height / 2) - 19 - 25;
+
+    // Posición final: dentro del slot exacto en el plato
+    const endLeft = targetSlot.offsetLeft;
+    const endTop = targetSlot.offsetTop;
+
+    const flyer = document.createElement('div');
+    flyer.className = 'grape-zoom-projectile';
+    flyer.style.left = `${startLeft}px`;
+    flyer.style.top = `${startTop}px`;
+    // Estado inicial: GIGANTE (scale 2.6) simulando perspectiva en primer plano
+    flyer.style.transform = 'translate(0, 0) scale(2.6) rotate(0deg)';
+    flyer.style.opacity = '0';
+
+    const img = document.createElement('img');
+    img.src = grapeSrc;
+    img.alt = 'Uva ígnea zoom';
+    flyer.appendChild(img);
+    dishTarget.appendChild(flyer);
+
+    // Forzar reflow del navegador para registrar posición inicial
+    void flyer.offsetWidth;
+
+    // Animación de viaje en perspectiva: se encoge hasta scale(1) y viaja a su lugar en el plato
+    const deltaX = endLeft - startLeft;
+    const deltaY = endTop - startTop;
+
+    flyer.style.opacity = '1';
+    flyer.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1)`;
+
+    setTimeout(() => {
+      flyer.remove();
+      if (onComplete) onComplete();
+    }, 500);
+  }
+
   function placeNextGrape(e) {
     if (e && e.target && e.target.closest('#sub-escena-10')) {
       return;
@@ -1858,25 +1905,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     currentGrapeCount++;
-    if (migasGrapeCountElem) migasGrapeCountElem.textContent = currentGrapeCount;
+    const nextGrapeIndex = currentGrapeCount;
+    if (migasGrapeCountElem) migasGrapeCountElem.textContent = nextGrapeIndex;
 
-    const slot = document.getElementById(`grape-item-${currentGrapeCount}`);
-    if (slot) {
-      slot.classList.add('is-placed');
-    }
+    const slot = document.getElementById(`grape-item-${nextGrapeIndex}`);
+    const grapeImg = slot ? slot.querySelector('img') : null;
+    const grapeSrc = grapeImg ? grapeImg.src : `assets/objetos/migas/uva_single_${nextGrapeIndex}.png`;
 
     SFXEngine.play('pop');
     SFXEngine.play('lava-bubble');
 
-    const stepData = grapeDialogueSteps[currentGrapeCount - 1];
-    if (stepData) {
-      if (stepData.isFinal) {
-        SFXEngine.play('tada');
-        SFXEngine.play('triumph-chime');
+    animateGrapeToPlate(slot, grapeSrc, () => {
+      if (myToken !== activeSequenceToken) return;
+
+      if (slot) {
+        slot.classList.add('is-placed');
       }
-      setSceneSubtitle('sub-escena-10', stepData.text, stepData.speaker);
-      VoiceEngine.speak(stepData.text, stepData.voiceChar);
-    }
+      SFXEngine.play('sparkle');
+
+      const stepData = grapeDialogueSteps[nextGrapeIndex - 1];
+      if (stepData) {
+        if (stepData.isFinal) {
+          SFXEngine.play('tada');
+          SFXEngine.play('triumph-chime');
+        }
+        setSceneSubtitle('sub-escena-10', stepData.text, stepData.speaker);
+        VoiceEngine.speak(stepData.text, stepData.voiceChar);
+      }
+    });
   }
 
   if (cardEscena10) cardEscena10.addEventListener('click', placeNextGrape);
