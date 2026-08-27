@@ -1609,17 +1609,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ========================================================
-  // ESCENA 09: LA CESTA DE CRUNCHY Y EL REGALO DE FUEGO
+  // ESCENA 09: LA BOLSA DE CRUNCHY Y EL REGALO DE FUEGO
   // ========================================================
   const cardEscena09 = document.getElementById('card-escena-09');
-  const cestaGiftBox = document.getElementById('cesta-gift-box');
-  const cestaCounterLabel = document.getElementById('cesta-counter-label');
-  const scene09PortalImg = document.getElementById('scene09-portal-img');
-  let isBasketOpen = false;
+  const bolsaGiftBox = document.getElementById('bolsa-gift-box');
+  const bolsaCounterLabel = document.getElementById('bolsa-counter-label');
+  let isBagOpen = false;
   let collectedGrapesCount = 0;
-  const maxCestaGrapes = 6;
+  const maxBolsaGrapes = 6;
 
-  const cestaGrapeDialogueSteps = [
+  const bolsaGrapeDialogueSteps = [
     {
       text: '«¡Esa está recién cosechada del cráter, bien dulce y calentita!»',
       speaker: 'sub-speaker-riolita',
@@ -1641,19 +1640,19 @@ document.addEventListener('DOMContentLoaded', () => {
       voiceChar: 'gato'
     },
     {
-      text: '«¡Ya casi las tenéis todas dentro de la cesta!»',
+      text: '«¡Ya casi las tenéis todas dentro de la bolsa!»',
       speaker: 'sub-speaker-riolita',
       voiceChar: 'riolita'
     },
     {
-      text: '«¡Cesta llena y asegurada! ¡Buen viaje de regreso a través del portal, amigos!»',
+      text: '«¡Bolsa llena y asegurada! ¡Buen viaje de regreso, amigos!»',
       speaker: 'sub-speaker-basalto',
       voiceChar: 'basalto',
       isFinal: true
     }
   ];
 
-  function handleCestaInteraction(e) {
+  function handleBolsaInteraction(e) {
     if (e && e.target && e.target.closest('#sub-escena-09')) {
       return;
     }
@@ -1661,90 +1660,84 @@ document.addEventListener('DOMContentLoaded', () => {
     const myToken = cancelAllSequences();
 
     // 1. Si ya se han guardado las 6 uvas y se vuelve a hacer clic -> Reiniciar secuencia
-    if (collectedGrapesCount >= maxCestaGrapes) {
-      isBasketOpen = false;
+    if (collectedGrapesCount >= maxBolsaGrapes) {
+      isBagOpen = false;
       collectedGrapesCount = 0;
       if (cardEscena09) {
-        cardEscena09.classList.remove('is-basket-open');
-        cardEscena09.classList.add('is-basket-closed');
+        cardEscena09.classList.remove('is-bag-open');
+        cardEscena09.classList.add('is-bag-closed');
       }
-      if (cestaGiftBox) {
-        cestaGiftBox.classList.remove('is-all-collected');
+      if (bolsaGiftBox) {
+        bolsaGiftBox.classList.remove('is-all-collected');
       }
-      if (scene09PortalImg) {
-        scene09PortalImg.style.filter = '';
+      if (bolsaCounterLabel) {
+        bolsaCounterLabel.innerHTML = 'Bolsa: <strong>CERRADA</strong>';
       }
-      if (cestaCounterLabel) {
-        cestaCounterLabel.innerHTML = 'Cesta: <strong>CERRADA</strong>';
-      }
-      const allFloatingSlots = document.querySelectorAll('.cesta-floating-grapes .cesta-grape-slot');
+      const allFloatingSlots = document.querySelectorAll('.bolsa-floating-grapes .bolsa-grape-slot');
       allFloatingSlots.forEach(slot => slot.classList.remove('is-collected'));
       const allInsideDots = document.querySelectorAll('.inside-grape-dot');
       allInsideDots.forEach(dot => dot.classList.remove('is-filled'));
 
       SFXEngine.play('pop');
-      setSceneSubtitle('sub-escena-09', '¡Toca la cesta de Crunchy para abrirla y guardar las uvas ígneas!', '');
+      setSceneSubtitle('sub-escena-09', '¡Toca la bolsa de Crunchy para abrirla y guardar las uvas ígneas!', '');
       return;
     }
 
-    // 2. Si la cesta está cerrada -> Abrirla
-    if (!isBasketOpen) {
-      isBasketOpen = true;
+    // 2. Si la bolsa está cerrada -> Abrirla
+    if (!isBagOpen) {
+      isBagOpen = true;
       if (cardEscena09) {
-        cardEscena09.classList.remove('is-basket-closed');
-        cardEscena09.classList.add('is-basket-open');
+        cardEscena09.classList.remove('is-bag-closed');
+        cardEscena09.classList.add('is-bag-open');
       }
-      if (cestaCounterLabel) {
-        cestaCounterLabel.innerHTML = 'Uvas guardadas: <strong>0</strong> / 6';
+      if (bolsaCounterLabel) {
+        bolsaCounterLabel.innerHTML = 'Uvas guardadas: <strong>0</strong> / 6';
       }
       SFXEngine.play('pop');
       SFXEngine.play('sparkle');
       
-      const openSpeech = '¡Abre bien la cesta, que vamos a guardar todas las uvas ígneas!';
-      setSceneSubtitle('sub-escena-09', '«¡Abre bien la cesta, que vamos a guardar todas las uvas ígneas!»', 'sub-speaker-crunchy');
+      const openSpeech = '¡Abre bien la bolsa, que vamos a guardar todas las uvas ígneas!';
+      setSceneSubtitle('sub-escena-09', '«¡Abre bien la bolsa, que vamos a guardar todas las uvas ígneas!»', 'sub-speaker-crunchy');
       VoiceEngine.speak(openSpeech, 'crunchy', () => {
         if (myToken !== activeSequenceToken) return;
         if (collectedGrapesCount === 0) {
-          setSceneSubtitle('sub-escena-09', '¡Cesta abierta! Toca las uvas flotantes para guardarlas dentro una a una.', 'destacat-orange');
+          setSceneSubtitle('sub-escena-09', '¡Bolsa abierta! Toca las uvas flotantes para guardarlas dentro una a una.', 'destacat-orange');
         }
       });
       return;
     }
 
-    // 3. Si la cesta está abierta -> Guardar la siguiente uva
-    const clickedSlot = e ? e.target.closest('.cesta-grape-slot') : null;
+    // 3. Si la bolsa está abierta -> Guardar la siguiente uva
+    const clickedSlot = e ? e.target.closest('.bolsa-grape-slot') : null;
     let targetSlot = clickedSlot;
     if (!targetSlot || targetSlot.classList.contains('is-collected')) {
-      targetSlot = document.querySelector('.cesta-floating-grapes .cesta-grape-slot:not(.is-collected)');
+      targetSlot = document.querySelector('.bolsa-floating-grapes .bolsa-grape-slot:not(.is-collected)');
     }
 
     if (!targetSlot) return;
 
     targetSlot.classList.add('is-collected');
     
-    // Activar la uva correspondiente dentro de la cesta
+    // Activar la uva correspondiente dentro de la bolsa
     collectedGrapesCount++;
     const insideDot = document.getElementById(`inside-grape-${collectedGrapesCount}`);
     if (insideDot) {
       insideDot.classList.add('is-filled');
     }
 
-    if (cestaCounterLabel) {
-      cestaCounterLabel.innerHTML = `Uvas guardadas: <strong>${collectedGrapesCount}</strong> / 6`;
+    if (bolsaCounterLabel) {
+      bolsaCounterLabel.innerHTML = `Uvas guardadas: <strong>${collectedGrapesCount}</strong> / 6`;
     }
 
-    const step = cestaGrapeDialogueSteps[collectedGrapesCount - 1];
+    const step = bolsaGrapeDialogueSteps[collectedGrapesCount - 1];
 
     if (step.isFinal) {
-      if (cestaGiftBox) {
-        cestaGiftBox.classList.add('is-all-collected');
+      if (bolsaGiftBox) {
+        bolsaGiftBox.classList.add('is-all-collected');
       }
       SFXEngine.play('portal-star');
       SFXEngine.play('triumph-chime');
       SFXEngine.play('tada');
-      if (scene09PortalImg) {
-        scene09PortalImg.style.filter = 'drop-shadow(0 0 50px rgba(56, 189, 248, 0.95)) brightness(1.3)';
-      }
     } else {
       SFXEngine.play('pop');
       SFXEngine.play('sparkle');
@@ -1754,12 +1747,12 @@ document.addEventListener('DOMContentLoaded', () => {
     VoiceEngine.speak(step.text.replace(/[«»¡!]/g, ''), step.voiceChar, () => {
       if (myToken !== activeSequenceToken) return;
       if (step.isFinal) {
-        setSceneSubtitle('sub-escena-09', '¡Todas las uvas aseguradas en la cesta! Gato y Crunchy cruzan el portal. Desplaza hacia abajo para el festín final...', 'destacat-orange');
+        setSceneSubtitle('sub-escena-09', '¡Todas las uvas aseguradas en la bolsa! Gato y Crunchy cruzan el portal. Desplaza hacia abajo para el festín final...', 'destacat-orange');
       }
     });
   }
 
-  if (cardEscena09) cardEscena09.addEventListener('click', handleCestaInteraction);
+  if (cardEscena09) cardEscena09.addEventListener('click', handleBolsaInteraction);
 
   // ========================================================
   // ESCENA 10: EL FESTÍN Y EL PLATO DE MIGAS CON 6 UVAS
