@@ -2119,13 +2119,13 @@ body {
   width: 44px;
   height: 44px;
   object-fit: contain;
-  filter: drop-shadow(0 4px 10px rgba(234, 88, 12, 0.6));
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.22));
   transition: transform 0.2s ease, filter 0.2s ease;
 }
 
 .bolsa-grape-slot:hover .bolsa-grape-img {
   transform: scale(1.25) translateY(-5px);
-  filter: drop-shadow(0 6px 16px rgba(253, 224, 71, 0.9));
+  filter: drop-shadow(0 6px 12px rgba(234, 88, 12, 0.5));
 }
 
 /* Posiciones flotantes en arco */
@@ -2149,7 +2149,7 @@ body {
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-/* Partícula voladora fluida que viaja desde el clic hasta el interior de la bolsa */
+/* Partícula voladora limpia y fluida (sin brillo artificial exagerado) */
 .grape-flying-projectile {
   position: absolute;
   z-index: 3;
@@ -2157,7 +2157,7 @@ body {
   width: 44px;
   height: 44px;
   object-fit: contain;
-  filter: drop-shadow(0 6px 16px rgba(253, 224, 71, 0.95)) drop-shadow(0 0 14px rgba(234, 88, 12, 0.85));
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.22));
   transition: transform 0.44s cubic-bezier(0.22, 1, 0.36, 1.12), opacity 0.44s ease;
   will-change: transform, opacity;
 }
@@ -2196,7 +2196,7 @@ body {
   z-index: 1;
 }
 
-/* Capa 3: Capa contenedora de vuelo */
+/* Capa 2: Capa contenedora de vuelo */
 .bag-flying-layer {
   position: absolute;
   inset: 0;
@@ -2239,49 +2239,23 @@ body {
   transform: scale(1);
 }
 
-/* Capa 2: Resplandor interior cálido y mágico que ilumina desde dentro de la bolsa */
-.bag-interior-glow {
-  position: absolute;
-  top: 50%;
-  left: 41%;
-  transform: translate(-50%, -50%);
-  width: 155px;
-  height: 85px;
-  background: radial-gradient(ellipse at center, rgba(251, 146, 60, 0.95) 0%, rgba(234, 88, 12, 0.5) 50%, transparent 75%);
-  border-radius: 50%;
-  opacity: 0;
-  transition: opacity 0.45s ease;
-  z-index: 2;
-  pointer-events: none;
-  filter: blur(5px);
-}
-
-.is-bag-open .bag-interior-glow {
-  opacity: 1;
-  animation: bag-glow-breathe 2.4s ease-in-out infinite alternate;
-}
-
-@keyframes bag-glow-breathe {
-  0% { transform: translate(-50%, -50%) scale(0.92); opacity: 0.75; }
-  100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
-}
-
-/* Capa 3: Uvas que reposan DENTRO de la cavidad (racimo centrado y proporcionado) */
+/* Capa 3: Uvas que reposan DENTRO de la cavidad alineadas con la perspectiva 3D inclinada */
 .bag-inside-grapes {
   position: absolute;
-  top: 41%;
+  top: 39%;
   left: 17%;
-  width: 54%;
-  height: 34%;
+  width: 53%;
+  height: 35%;
   z-index: 3;
   pointer-events: none;
   transition: opacity 0.45s ease, transform 0.45s ease;
+  transform: rotate(-13deg);
 }
 
 .inside-grape-dot {
   position: absolute;
-  width: 38px;
-  height: 38px;
+  width: 37px;
+  height: 37px;
   opacity: 0;
   transform: scale(0.2) translateY(10px);
   transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -2291,7 +2265,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 2px 6px rgba(234, 88, 12, 0.75));
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.25));
 }
 
 .inside-grape-dot.is-filled {
@@ -2299,13 +2273,13 @@ body {
   transform: scale(1) translateY(0);
 }
 
-/* Disposición natural y proporcionada del racimo en el bolsillo */
-.dot-pos-1 { left: 4%;  top: 36%; transform: rotate(-8deg) scale(0.92); }
-.dot-pos-2 { left: 19%; top: 12%; transform: rotate(8deg) scale(0.95); }
-.dot-pos-3 { left: 34%; top: 40%; transform: rotate(-3deg) scale(0.96); }
-.dot-pos-4 { left: 50%; top: 14%; transform: rotate(-6deg) scale(0.95); }
-.dot-pos-5 { left: 66%; top: 34%; transform: rotate(10deg) scale(0.92); }
-.dot-pos-6 { left: 35%; top: -6%; transform: rotate(0deg) scale(1.02); z-index: 6; }
+/* Disposición escalonada sobre el plano inclinado de la cavidad de la bolsa */
+.dot-pos-1 { left: 4%;  top: 36%; transform: rotate(-5deg) scale(0.92); }
+.dot-pos-2 { left: 19%; top: 10%; transform: rotate(10deg) scale(0.92); }
+.dot-pos-3 { left: 34%; top: 40%; transform: rotate(-2deg) scale(0.95); }
+.dot-pos-4 { left: 50%; top: 12%; transform: rotate(-4deg) scale(0.95); }
+.dot-pos-5 { left: 66%; top: 34%; transform: rotate(8deg) scale(0.94); }
+.dot-pos-6 { left: 35%; top: -8%; transform: rotate(0deg) scale(1.0); z-index: 6; }
 
 /* Rebote festivo cuando la bolsa está llena */
 .bolsa-gift-stage.is-all-collected .crunchy-bag-assembly {
