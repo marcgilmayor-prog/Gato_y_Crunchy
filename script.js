@@ -1688,12 +1688,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const deltaX = endX - startX;
     const deltaY = endY - startY;
 
-    flyingGrape.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.88) rotate(18deg)`;
+    flyingGrape.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.92) rotate(4deg)`;
 
     setTimeout(() => {
       flyingGrape.remove();
       if (onComplete) onComplete();
-    }, 440);
+    }, 380);
   }
 
   function handleBolsaInteraction(e) {
