@@ -633,22 +633,22 @@
           <span class="num-escena">09</span>
         </div>
         
-        <h2 class="titol-escena">La despedida y el regalo de fuego</h2>
+        <h2 class="titol-escena">La cesta de Crunchy y el regalo de fuego</h2>
         
         <p class="paragraf-cuento">
-          Frente al túnel de la cueva ya despejado, el portal interdimensional brillaba con fuerza, listo para llevar a los dos amigos de regreso a casa.
+          Frente al túnel ya despejado, el portal interdimensional palpitaba con suaves destellos azulados, marcando la hora de regresar.
         </p>
         <p class="paragraf-cuento">
-          Como agradecimiento por haber solucionado la disputa y devolverles la armonía, <strong class="destacat-riolita">Riolita</strong> y <strong class="destacat-basalto">Basalto</strong> sabían lo que buscaban y les habían recolectado una cesta llena de relucientes <strong>uvas ígneas</strong>, las más dulces y cálidas de todo el reino volcánico.
+          Como agradecimiento por haber devuelto la armonía al reino, <strong class="destacat-riolita">Riolita</strong> y <strong class="destacat-basalto">Basalto</strong> les obsequiaron con el tesoro más codiciado de las cavernas: un racimo de relucientes <strong>uvas ígneas</strong> recién cosechadas, dulces y cálidas como el caramelo de lava.
         </p>
         <p class="paragraf-cuento destacat-orange">
-          Tras recoger con alegría las uvas de la cesta y fundirse en un emotivo abrazo de despedida, <strong class="destacat-gato">Gato</strong> y <strong class="destacat-crunchy">Crunchy</strong> cruzaron el portal rumbo a su cocina.
+          <strong class="destacat-crunchy">Crunchy</strong> abrió su fiel cesta de viaje para guardar con cuidado cada uva antes de que perdieran su calor. Tras un entrañable abrazo de despedida, <strong class="destacat-gato">Gato</strong> y <strong class="destacat-crunchy">Crunchy</strong> cruzaron el portal rumbo a su cocina.
         </p>
       </div>
 
-      <!-- Columna Derecha: Regalo y Cesta de Uvas Ígneas -->
+      <!-- Columna Derecha: Cesta Interactiva de Crunchy y Uvas Ígneas -->
       <div class="cuento-col-visual">
-        <div class="escena-visual-card interactive-card cesta-interactive-card" id="card-escena-09" title="¡Haz clic en las uvas para recogerlas de la cesta!">
+        <div class="escena-visual-card interactive-card cesta-interactive-card is-basket-closed" id="card-escena-09" title="¡Haz clic en la cesta de Crunchy para abrirla!">
           <div class="cesta-gift-stage" id="cesta-gift-box">
             
             <!-- Fondo brillante del portal interdimensional -->
@@ -657,50 +657,86 @@
               <div class="portal-glow-aura"></div>
             </div>
 
-            <!-- Cesta y las 6 uvas ígneas reposando dentro -->
-            <div class="cesta-container-wrap" id="cesta-container">
-              <!-- Ilustración o contenedor de la cesta (preparado para el PNG de la cesta del usuario) -->
-              <div class="cesta-basket-base" id="cesta-basket-art">
-                <div class="cesta-basket-rim"></div>
+            <!-- Zona de Uvas Flotantes Esperando ser Guardadas en la Cesta -->
+            <div class="cesta-floating-grapes" id="cesta-floating-grapes">
+              <div class="cesta-grape-slot grape-float-1" data-index="1" title="¡Toca para guardar esta uva ígnea en la cesta!">
+                <img src="assets/objetos/migas/uva_1.png?v=2.0" alt="Uva ígnea 1" class="cesta-grape-img" />
               </div>
-
-              <!-- Las 6 Uvas Ígneas dentro de la cesta para recoger -->
-              <div class="cesta-grapes-cluster" id="cesta-grapes-cluster">
-                <div class="cesta-grape-slot grape-pos-1" data-index="1" title="Toca para recoger esta uva ígnea">
-                  <img src="assets/objetos/migas/uva_1.png?v=2.0" alt="Uva ígnea 1" class="cesta-grape-img" />
-                </div>
-                <div class="cesta-grape-slot grape-pos-2" data-index="2" title="Toca para recoger esta uva ígnea">
-                  <img src="assets/objetos/migas/uva_2.png?v=2.0" alt="Uva ígnea 2" class="cesta-grape-img" />
-                </div>
-                <div class="cesta-grape-slot grape-pos-3" data-index="3" title="Toca para recoger esta uva ígnea">
-                  <img src="assets/objetos/migas/uva_3.png?v=2.0" alt="Uva ígnea 3" class="cesta-grape-img" />
-                </div>
-                <div class="cesta-grape-slot grape-pos-4" data-index="4" title="Toca para recoger esta uva ígnea">
-                  <img src="assets/objetos/migas/uva_4.png?v=2.0" alt="Uva ígnea 4" class="cesta-grape-img" />
-                </div>
-                <div class="cesta-grape-slot grape-pos-5" data-index="5" title="Toca para recoger esta uva ígnea">
-                  <img src="assets/objetos/migas/uva_5.png?v=2.0" alt="Uva ígnea 5" class="cesta-grape-img" />
-                </div>
-                <div class="cesta-grape-slot grape-pos-6" data-index="6" title="Toca para recoger esta uva ígnea">
-                  <img src="assets/objetos/migas/uva_6.png?v=2.0" alt="Uva ígnea 6" class="cesta-grape-img" />
-                </div>
+              <div class="cesta-grape-slot grape-float-2" data-index="2" title="¡Toca para guardar esta uva ígnea en la cesta!">
+                <img src="assets/objetos/migas/uva_2.png?v=2.0" alt="Uva ígnea 2" class="cesta-grape-img" />
+              </div>
+              <div class="cesta-grape-slot grape-float-3" data-index="3" title="¡Toca para guardar esta uva ígnea en la cesta!">
+                <img src="assets/objetos/migas/uva_3.png?v=2.0" alt="Uva ígnea 3" class="cesta-grape-img" />
+              </div>
+              <div class="cesta-grape-slot grape-float-4" data-index="4" title="¡Toca para guardar esta uva ígnea en la cesta!">
+                <img src="assets/objetos/migas/uva_4.png?v=2.0" alt="Uva ígnea 4" class="cesta-grape-img" />
+              </div>
+              <div class="cesta-grape-slot grape-float-5" data-index="5" title="¡Toca para guardar esta uva ígnea en la cesta!">
+                <img src="assets/objetos/migas/uva_5.png?v=2.0" alt="Uva ígnea 5" class="cesta-grape-img" />
+              </div>
+              <div class="cesta-grape-slot grape-float-6" data-index="6" title="¡Toca para guardar esta uva ígnea en la cesta!">
+                <img src="assets/objetos/migas/uva_6.png?v=2.0" alt="Uva ígnea 6" class="cesta-grape-img" />
               </div>
             </div>
 
-            <!-- Contador de uvas recolectadas -->
+            <!-- Cesta de Crunchy con Tapa Abrible y Compartimento Interior -->
+            <div class="crunchy-basket-assembly" id="crunchy-basket-box" title="¡Cesta de Crunchy!">
+              <!-- Tapa abrible con bisagra cartoon y asa -->
+              <div class="basket-lid-wrap" id="basket-lid">
+                <div class="basket-lid-art">
+                  <div class="basket-lid-handle"></div>
+                  <div class="basket-lid-latch"></div>
+                </div>
+              </div>
+
+              <!-- Interior cálido iluminado (visible al abrirse) -->
+              <div class="basket-interior-glow"></div>
+
+              <!-- Uvas que ya han entrado dentro de la cesta -->
+              <div class="basket-inside-grapes" id="basket-inside-grapes">
+                <div class="inside-grape-dot dot-pos-1" id="inside-grape-1">
+                  <img src="assets/objetos/migas/uva_1.png" alt="Uva guardada 1" class="inside-grape-img" />
+                </div>
+                <div class="inside-grape-dot dot-pos-2" id="inside-grape-2">
+                  <img src="assets/objetos/migas/uva_2.png" alt="Uva guardada 2" class="inside-grape-img" />
+                </div>
+                <div class="inside-grape-dot dot-pos-3" id="inside-grape-3">
+                  <img src="assets/objetos/migas/uva_3.png" alt="Uva guardada 3" class="inside-grape-img" />
+                </div>
+                <div class="inside-grape-dot dot-pos-4" id="inside-grape-4">
+                  <img src="assets/objetos/migas/uva_4.png" alt="Uva guardada 4" class="inside-grape-img" />
+                </div>
+                <div class="inside-grape-dot dot-pos-5" id="inside-grape-5">
+                  <img src="assets/objetos/migas/uva_5.png" alt="Uva guardada 5" class="inside-grape-img" />
+                </div>
+                <div class="inside-grape-dot dot-pos-6" id="inside-grape-6">
+                  <img src="assets/objetos/migas/uva_6.png" alt="Uva guardada 6" class="inside-grape-img" />
+                </div>
+              </div>
+
+              <!-- Cuerpo frontal de la cesta con mimbre cartoon y parche de Crunchy -->
+              <div class="basket-body-art">
+                <div class="basket-weave-pattern"></div>
+                <div class="basket-strap-left"></div>
+                <div class="basket-strap-right"></div>
+                <div class="basket-tag-crunchy">CRUNCHY</div>
+              </div>
+            </div>
+
+            <!-- Contador de estado de la cesta y uvas guardadas -->
             <div class="cesta-counter-badge" id="cesta-counter-badge">
-              <span class="cesta-counter-text">Uvas recogidas: <strong id="cesta-grape-count">0</strong> / 6</span>
+              <span class="cesta-counter-text" id="cesta-counter-label">Cesta: <strong>CERRADA</strong></span>
             </div>
 
           </div>
           
           <!-- Subtítulo Dinámico en Directo -->
-          <div class="scene-live-subtitle-pill is-ready-cta" id="sub-escena-09" title="¡Haz clic en las uvas para recogerlas!">
+          <div class="scene-live-subtitle-pill is-ready-cta" id="sub-escena-09" title="¡Interactúa con la cesta de Crunchy!">
             <div class="bubble-avatar-slot">
               <img src="assets/ui/Guante.png" alt="Toca aquí" class="bubble-avatar-img bubble-glove-img" />
             </div>
             <div class="bubble-dialogue-content">
-              <span class="live-subtitle-text">¡Toca las uvas de la cesta para recogerlas antes de cruzar el portal!</span>
+              <span class="live-subtitle-text">¡Toca la cesta de Crunchy para abrirla y guardar las uvas ígneas!</span>
             </div>
           </div>
         </div>

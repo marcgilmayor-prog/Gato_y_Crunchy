@@ -2059,98 +2059,331 @@ body {
   100% { transform: scale(1.1); opacity: 0.9; }
 }
 
-/* Contenedor de la cesta en primer plano */
-.cesta-container-wrap {
+/* ========================================================
+   ESCENA 09: LA CESTA DE CRUNCHY Y EL REGALO DE FUEGO
+   ======================================================== */
+.cesta-interactive-card {
+  cursor: pointer;
+}
+
+.cesta-gift-stage {
   position: relative;
-  z-index: 5;
-  width: 260px;
-  height: 160px;
-  margin-top: 50px;
+  width: 100%;
+  max-width: 480px;
+  height: 330px;
+  margin: 0 auto;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 25px;
+}
+
+/* Portal de fondo giratorio */
+.portal-backdrop-wrap {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 240px;
+  height: 240px;
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: none;
+  z-index: 1;
 }
 
-/* Base de la cesta (diseñada para recibir el PNG de la cesta o mostrar contenedor cartoon) */
-.cesta-basket-base {
-  position: absolute;
-  bottom: 0;
-  width: 220px;
-  height: 105px;
-  background: linear-gradient(180deg, #c27d38 0%, #854d0e 100%);
-  border: 3.5px solid #27211e;
-  border-radius: 12px 12px 60px 60px;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3), inset 0 6px 12px rgba(254, 240, 138, 0.2);
-  z-index: 2;
+.portal-return-sprite {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.55));
+  animation: portal-spin-gentle 18s linear infinite;
+  transition: filter 0.5s ease;
 }
 
-.cesta-basket-rim {
+@keyframes portal-spin-gentle {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.portal-glow-aura {
   position: absolute;
-  top: -8px;
+  inset: -15px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.3) 10%, rgba(234, 88, 12, 0.25) 55%, transparent 75%);
+  animation: portal-aura-pulse 2.8s infinite alternate ease-in-out;
+}
+
+@keyframes portal-aura-pulse {
+  0% { transform: scale(0.92); opacity: 0.5; }
+  100% { transform: scale(1.1); opacity: 0.9; }
+}
+
+/* ========================================================
+   UVAS FLOTANTES (ESPERANDO SER INTRODUCIDAS EN LA CESTA)
+   ======================================================== */
+.cesta-floating-grapes {
+  position: absolute;
+  top: 22px;
   left: 50%;
   transform: translateX(-50%);
-  width: 236px;
-  height: 22px;
-  background: #d97706;
-  border: 3px solid #27211e;
-  border-radius: var(--radius-full);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 320px;
+  height: 110px;
+  z-index: 8;
+  transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Racimo de 6 Uvas Ígneas dentro de la cesta */
-.cesta-grapes-cluster {
-  position: absolute;
-  bottom: 30px;
-  width: 200px;
-  height: 110px;
-  z-index: 4;
+/* Cuando la cesta está cerrada, las uvas están ocultas */
+.is-basket-closed .cesta-floating-grapes {
+  opacity: 0;
+  transform: translateX(-50%) translateY(25px) scale(0.7);
+  pointer-events: none;
+}
+
+/* Cuando la cesta se abre, las uvas flotan en abanico */
+.is-basket-open .cesta-floating-grapes {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+  pointer-events: auto;
 }
 
 .cesta-grape-slot {
   position: absolute;
   cursor: pointer;
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease;
   user-select: none;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease;
 }
 
 .cesta-grape-img {
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
   object-fit: contain;
-  filter: drop-shadow(0 4px 10px rgba(234, 88, 12, 0.5));
-  transition: transform 0.2s ease;
+  filter: drop-shadow(0 4px 10px rgba(234, 88, 12, 0.6));
+  transition: transform 0.2s ease, filter 0.2s ease;
 }
 
 .cesta-grape-slot:hover .cesta-grape-img {
-  transform: scale(1.25) translateY(-6px);
-  filter: drop-shadow(0 6px 16px rgba(253, 224, 71, 0.8));
+  transform: scale(1.25) translateY(-5px);
+  filter: drop-shadow(0 6px 16px rgba(253, 224, 71, 0.9));
 }
 
-/* Posiciones naturales y escalonadas dentro de la cesta */
-.grape-pos-1 { bottom: 12px; left: 16px; transform: rotate(-12deg); z-index: 5; }
-.grape-pos-2 { bottom: 35px; left: 45px; transform: rotate(8deg); z-index: 4; }
-.grape-pos-3 { bottom: 16px; left: 78px; transform: rotate(-5deg); z-index: 6; }
-.grape-pos-4 { bottom: 38px; left: 108px; transform: rotate(14deg); z-index: 4; }
-.grape-pos-5 { bottom: 14px; left: 138px; transform: rotate(-10deg); z-index: 5; }
-.grape-pos-6 { bottom: 42px; left: 76px; transform: rotate(4deg); z-index: 7; }
+/* Posiciones flotantes en arco */
+.grape-float-1 { left: 10px;  top: 45px; animation: grape-hover 2.2s ease-in-out infinite alternate; }
+.grape-float-2 { left: 60px;  top: 15px; animation: grape-hover 2.6s ease-in-out infinite alternate 0.3s; }
+.grape-float-3 { left: 115px; top: 2px;  animation: grape-hover 2.4s ease-in-out infinite alternate 0.6s; }
+.grape-float-4 { left: 165px; top: 2px;  animation: grape-hover 2.5s ease-in-out infinite alternate 0.9s; }
+.grape-float-5 { left: 220px; top: 15px; animation: grape-hover 2.7s ease-in-out infinite alternate 0.4s; }
+.grape-float-6 { left: 268px; top: 45px; animation: grape-hover 2.3s ease-in-out infinite alternate 0.7s; }
 
-/* Animación cuando se recoge una uva: vuela hacia arriba y desaparece en la bolsa */
+@keyframes grape-hover {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-8px); }
+}
+
+/* Animación cuando la uva se introduce en la cesta */
 .cesta-grape-slot.is-collected {
-  transform: translateY(-65px) scale(1.4) !important;
+  transform: translateY(110px) scale(0.3) !important;
   opacity: 0 !important;
   pointer-events: none !important;
+}
+
+/* ========================================================
+   CESTA DE CRUNCHY (CON TAPA ABRIBLE Y CONTENEDOR)
+   ======================================================== */
+.crunchy-basket-assembly {
+  position: relative;
+  width: 230px;
+  height: 125px;
+  z-index: 6;
+  transition: transform 0.3s ease;
+}
+
+.cesta-interactive-card:hover .crunchy-basket-assembly {
+  transform: scale(1.03);
+}
+
+/* Tapa abrible con bisagra cartoon */
+.basket-lid-wrap {
+  position: absolute;
+  top: -14px;
+  left: -5px;
+  width: 240px;
+  height: 38px;
+  z-index: 10;
+  transform-origin: 8% 50%;
+  transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.basket-lid-art {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #f59e0b 0%, #b45309 100%);
+  border: 3.5px solid #27211e;
+  border-radius: 18px 18px 6px 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+.basket-lid-handle {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 58px;
+  height: 18px;
+  border: 3.5px solid #27211e;
+  border-bottom: none;
+  border-radius: 12px 12px 0 0;
+  background: #fbbf24;
+}
+
+.basket-lid-latch {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 12px;
+  background: #fef08a;
+  border: 2.5px solid #27211e;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Tapa abierta al interactuar */
+.is-basket-open .basket-lid-wrap {
+  transform: rotate(-105deg) translate(-10px, -15px);
+}
+
+/* Resplandor interior al abrirse */
+.basket-interior-glow {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 190px;
+  height: 35px;
+  background: radial-gradient(ellipse at center, rgba(251, 146, 60, 0.8) 0%, rgba(234, 88, 12, 0.25) 60%, transparent 100%);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.is-basket-open .basket-interior-glow {
+  opacity: 1;
+}
+
+/* Uvas que reposan dentro de la cesta */
+.basket-inside-grapes {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 190px;
+  height: 45px;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.inside-grape-dot {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  opacity: 0;
+  transform: scale(0.3) translateY(20px);
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.inside-grape-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(234, 88, 12, 0.6));
+}
+
+.inside-grape-dot.is-filled {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* Disposición de las 6 uvas dentro de la cesta */
+.dot-pos-1 { left: 8px;   top: 14px; transform: rotate(-10deg) scale(0.9); }
+.dot-pos-2 { left: 38px;  top: 2px;  transform: rotate(12deg) scale(0.95); }
+.dot-pos-3 { left: 74px;  top: 14px; transform: rotate(-6deg) scale(0.92); }
+.dot-pos-4 { left: 110px; top: 4px;  transform: rotate(8deg) scale(0.95); }
+.dot-pos-5 { left: 146px; top: 14px; transform: rotate(-12deg) scale(0.9); }
+.dot-pos-6 { left: 76px;  top: -8px; transform: rotate(0deg) scale(1.02); z-index: 6; }
+
+/* Cuerpo de la cesta */
+.basket-body-art {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 230px;
+  height: 95px;
+  background: linear-gradient(180deg, #d97706 0%, #92400e 100%);
+  border: 3.5px solid #27211e;
+  border-radius: 6px 6px 36px 36px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+  z-index: 5;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.basket-weave-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.18;
+  background-image: repeating-linear-gradient(45deg, #000 0, #000 2px, transparent 0, transparent 10px),
+                    repeating-linear-gradient(-45deg, #000 0, #000 2px, transparent 0, transparent 10px);
+}
+
+.basket-tag-crunchy {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #f43f5e;
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 900;
+  padding: 2px 12px;
+  border-radius: var(--radius-full);
+  border: 2px solid #27211e;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+  letter-spacing: 0.5px;
+}
+
+/* Rebote festivo cuando la cesta está llena */
+.cesta-gift-stage.is-all-collected .crunchy-basket-assembly {
+  animation: basket-cheer-bounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes basket-cheer-bounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.12) rotate(-3deg); }
+  75% { transform: scale(1.08) rotate(3deg); }
+  100% { transform: scale(1); }
 }
 
 /* Pastilla de contador de uvas recogidas */
 .cesta-counter-badge {
   position: absolute;
-  bottom: -4px;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   background: #ffffff;
   border: 2.5px solid #27211e;
   border-radius: var(--radius-full);
-  padding: 4px 14px;
+  padding: 4px 16px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
   z-index: 10;
   pointer-events: none;
