@@ -1846,7 +1846,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const dishRect = dishTarget.getBoundingClientRect();
 
-    // Posición inicial: en el centro y alto en perspectiva 3D (primer plano)
+    // Posición inicial: en el centro en primer plano (grande)
     const startLeft = (dishRect.width / 2) - 17;
     const startTop = (dishRect.height / 2) - 19 - 25;
 
@@ -1855,11 +1855,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const endTop = targetSlot.offsetTop;
 
     const flyer = document.createElement('div');
-    flyer.className = 'grape-zoom-projectile';
+    flyer.className = 'grape-zoom-projectile is-intro';
     flyer.style.left = `${startLeft}px`;
     flyer.style.top = `${startTop}px`;
-    // Estado inicial: GIGANTE (scale 2.6) simulando perspectiva en primer plano
-    flyer.style.transform = 'translate(0, 0) scale(2.6) rotate(0deg)';
+    flyer.style.transform = 'translate(0, -15px) scale(0.6) rotate(0deg)';
     flyer.style.opacity = '0';
 
     const img = document.createElement('img');
@@ -1868,20 +1867,27 @@ document.addEventListener('DOMContentLoaded', () => {
     flyer.appendChild(img);
     dishTarget.appendChild(flyer);
 
-    // Forzar reflow del navegador para registrar posición inicial
+    // Forzar reflow del navegador
     void flyer.offsetWidth;
 
-    // Animación de viaje en perspectiva: se encoge hasta scale(1) y viaja a su lugar en el plato
-    const deltaX = endLeft - startLeft;
-    const deltaY = endTop - startTop;
-
+    // Fase 1: Pop in en primer plano (aparece grande y flota medio segundo)
     flyer.style.opacity = '1';
-    flyer.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1)`;
+    flyer.style.transform = 'translate(0, 0) scale(2.8) rotate(0deg)';
 
+    // Fase 2: Tras ~480ms de exhibición, vuela fluidamente hacia el plato encogiéndose en perspectiva
     setTimeout(() => {
-      flyer.remove();
-      if (onComplete) onComplete();
-    }, 500);
+      const deltaX = endLeft - startLeft;
+      const deltaY = endTop - startTop;
+
+      flyer.className = 'grape-zoom-projectile is-flying';
+      flyer.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1) rotate(0deg)`;
+
+      // Al aterrizar en su posición del plato
+      setTimeout(() => {
+        flyer.remove();
+        if (onComplete) onComplete();
+      }, 530);
+    }, 480);
   }
 
   function placeNextGrape(e) {
