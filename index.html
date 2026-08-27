@@ -25,10 +25,13 @@
   <!-- Barra de progreso superior -->
   <div class="barra-progres" id="barra-progres" aria-hidden="true"></div>
 
-  <!-- Botón flotante único de sonido / SFX -->
+  <!-- Botón flotante único de sonido / SFX con ilustración cartoon -->
   <div class="audio-control-fixed">
-    <button id="btn-audio-toggle" class="btn-cartoon-sound" title="Activar o desactivar sonido y voces">
-      <span class="icon-audio">🔊</span>
+    <button id="btn-audio-toggle" class="btn-cartoon-sound is-audio-on" title="Activar o desactivar sonido y voces">
+      <div class="audio-icon-slot">
+        <img src="assets/ui/audio_on.png" alt="Sonido activado" class="icon-audio-img icon-audio-on" />
+        <img src="assets/ui/audio_mute.png" alt="Sonido silenciado" class="icon-audio-img icon-audio-off" />
+      </div>
       <span class="lbl-audio">SFX & VOCES: ON</span>
     </button>
   </div>

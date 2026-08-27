@@ -451,8 +451,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnAudioToggle) {
     btnAudioToggle.addEventListener('click', () => {
       audioEnabled = !audioEnabled;
-      btnAudioToggle.querySelector('.lbl-audio').textContent = audioEnabled ? 'SFX & VOCES: ON' : 'SFX & VOCES: OFF';
-      btnAudioToggle.querySelector('.icon-audio').textContent = audioEnabled ? '🔊' : '🔇';
+      btnAudioToggle.classList.toggle('is-audio-on', audioEnabled);
+      btnAudioToggle.classList.toggle('is-audio-off', !audioEnabled);
+      const label = btnAudioToggle.querySelector('.lbl-audio');
+      if (label) {
+        label.textContent = audioEnabled ? 'SFX & VOCES: ON' : 'SFX & VOCES: OFF';
+      }
       if (audioEnabled) {
         SFXEngine.play('triumph-chime');
       } else {
