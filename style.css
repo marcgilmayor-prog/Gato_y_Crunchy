@@ -133,13 +133,13 @@ body {
   letter-spacing: 0.5px;
   color: #373432;
   cursor: pointer;
-  box-shadow: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
   user-select: none;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease, box-shadow 0.2s ease;
 }
 
 .lbl-audio {
@@ -152,12 +152,12 @@ body {
 .btn-cartoon-sound:hover {
   background: #fffdf8;
   transform: none;
-  box-shadow: none;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
 .btn-cartoon-sound:active {
   transform: none;
-  box-shadow: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .audio-icon-slot {
