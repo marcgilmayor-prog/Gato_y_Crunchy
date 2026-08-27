@@ -1880,42 +1880,42 @@ body {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.38));
+  filter: none;
   transition: transform 0.3s ease;
   pointer-events: none;
 }
 
-/* Posiciones de inicio (Ligeramente fuera de la vista hacia su cuadrante) */
-.arm-riolita { transform: translate(-30%, -30%) scale(0.9); }
-.arm-basalto { transform: translate(30%, -30%) scale(0.9); }
-.arm-crunchy { transform: translate(30%, 30%) scale(0.9); }
-.arm-gato    { transform: translate(-30%, 30%) scale(0.9); }
+/* Posiciones de inicio (Fuera hacia sus respectivos cuadrantes) */
+.arm-riolita { transform: translate(-35%, -35%); }
+.arm-basalto { transform: translate(35%, -35%); }
+.arm-crunchy { transform: translate(35%, 35%); }
+.arm-gato    { transform: translate(-35%, 35%); }
 
-/* Capa 1: Riolita (Llega a la base de la pila) */
+/* Capa 1: Riolita (Llega al centro de la pila) */
 .arm-riolita.is-in-center {
   opacity: 1;
-  transform: translate(0, 0) scale(1);
+  transform: translate(7%, 7%);
   z-index: 10;
 }
 
-/* Capa 2: Basalto (Se solapa encima de Riolita) */
+/* Capa 2: Basalto (Se solapa y coloca su mano encima de Riolita) */
 .arm-basalto.is-in-center {
   opacity: 1;
-  transform: translate(0, 0) scale(1);
+  transform: translate(-7%, 7%);
   z-index: 11;
 }
 
 /* Capa 3: Crunchy (Se solapa encima de Basalto y Riolita) */
 .arm-crunchy.is-in-center {
   opacity: 1;
-  transform: translate(0, 0) scale(1);
+  transform: translate(-7%, -7%);
   z-index: 12;
 }
 
 /* Capa 4: Gato (Se solapa coronando la unión del equipo) */
 .arm-gato.is-in-center {
   opacity: 1;
-  transform: translate(0, 0) scale(1);
+  transform: translate(7%, -7%);
   z-index: 13;
 }
 
