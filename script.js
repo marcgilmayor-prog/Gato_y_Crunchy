@@ -1651,6 +1651,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ];
 
+  function animateGrapeToBag(fromElement, toElement, onComplete) {
+    if (!fromElement || !toElement) {
+      if (onComplete) onComplete();
+      return;
+    }
+
+    const fromRect = fromElement.getBoundingClientRect();
+    const toRect = toElement.getBoundingClientRect();
+
+    const flyingGrape = document.createElement('img');
+    const sourceImg = fromElement.querySelector('img');
+    flyingGrape.src = sourceImg ? sourceImg.src : 'assets/objetos/migas/uva_1.png';
+    flyingGrape.className = 'grape-flying-projectile';
+    flyingGrape.style.left = `${fromRect.left}px`;
+    flyingGrape.style.top = `${fromRect.top}px`;
+    flyingGrape.style.width = `${fromRect.width}px`;
+    flyingGrape.style.height = `${fromRect.height}px`;
+    flyingGrape.style.transform = 'translate(0, 0) scale(1) rotate(0deg)';
+    document.body.appendChild(flyingGrape);
+
+    fromElement.classList.add('is-collected');
+
+    // Force browser reflow to register initial transform
+    void flyingGrape.offsetWidth;
+
+    const deltaX = (toRect.left + toRect.width / 2) - (fromRect.left + fromRect.width / 2);
+    const deltaY = (toRect.top + toRect.height / 2) - (fromRect.top + fromRect.height / 2);
+
+    flyingGrape.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.88) rotate(18deg)`;
+
+    setTimeout(() => {
+      flyingGrape.remove();
+      if (onComplete) onComplete();
+    }, 420);
+  }
+
   function handleBolsaInteraction(e) {
     if (e && e.target && e.target.closest('#sub-escena-09')) {
       return;
@@ -1709,35 +1745,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!targetSlot) return;
 
-    targetSlot.classList.add('is-collected');
-    
-    // Activar la uva correspondiente dentro de la bolsa
     collectedGrapesCount++;
-    const insideDot = document.getElementById(`inside-grape-${collectedGrapesCount}`);
-    if (insideDot) {
-      insideDot.classList.add('is-filled');
-    }
+    const nextGrapeIndex = collectedGrapesCount;
+    const insideDot = document.getElementById(`inside-grape-${nextGrapeIndex}`);
 
-    const step = bolsaGrapeDialogueSteps[collectedGrapesCount - 1];
+    SFXEngine.play('sparkle');
 
-    if (step.isFinal) {
-      if (bolsaGiftBox) {
-        bolsaGiftBox.classList.add('is-all-collected');
-      }
-      SFXEngine.play('portal-star');
-      SFXEngine.play('triumph-chime');
-      SFXEngine.play('tada');
-    } else {
-      SFXEngine.play('pop');
-      SFXEngine.play('sparkle');
-    }
-
-    setSceneSubtitle('sub-escena-09', step.text, step.speaker);
-    VoiceEngine.speak(step.text.replace(/[«»¡!]/g, ''), step.voiceChar, () => {
+    animateGrapeToBag(targetSlot, insideDot, () => {
       if (myToken !== activeSequenceToken) return;
-      if (step.isFinal) {
-        setSceneSubtitle('sub-escena-09', '¡Todas las uvas aseguradas en la bolsa! Gato y Crunchy cruzan el portal. Desplaza hacia abajo para el festín final...', 'destacat-orange');
+
+      if (insideDot) {
+        insideDot.classList.add('is-filled');
       }
+
+      const step = bolsaGrapeDialogueSteps[nextGrapeIndex - 1];
+
+      if (step.isFinal) {
+        if (bolsaGiftBox) {
+          bolsaGiftBox.classList.add('is-all-collected');
+        }
+        SFXEngine.play('portal-star');
+        SFXEngine.play('triumph-chime');
+        SFXEngine.play('tada');
+      } else {
+        SFXEngine.play('pop');
+      }
+
+      setSceneSubtitle('sub-escena-09', step.text, step.speaker);
+      VoiceEngine.speak(step.text.replace(/[«»¡!]/g, ''), step.voiceChar, () => {
+        if (myToken !== activeSequenceToken) return;
+        if (step.isFinal) {
+          setSceneSubtitle('sub-escena-09', '¡Todas las uvas aseguradas en la bolsa! Gato y Crunchy cruzan el portal. Desplaza hacia abajo para el festín final...', 'destacat-orange');
+        }
+      });
     });
   }
 
