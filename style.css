@@ -2143,7 +2143,7 @@ body {
 
 /* Animación cuando la uva se introduce en la bolsa */
 .bolsa-grape-slot.is-collected {
-  transform: translateY(120px) scale(0.25) !important;
+  transform: translateY(165px) scale(0.2) !important;
   opacity: 0 !important;
   pointer-events: none !important;
 }
@@ -2220,18 +2220,18 @@ body {
 /* Capa 2: Resplandor interior cálido y mágico que ilumina desde dentro de la bolsa */
 .bag-interior-glow {
   position: absolute;
-  top: 44%;
-  left: 40%;
+  top: 56%;
+  left: 42%;
   transform: translate(-50%, -50%);
-  width: 140px;
-  height: 75px;
-  background: radial-gradient(ellipse at center, rgba(251, 146, 60, 0.95) 0%, rgba(234, 88, 12, 0.45) 55%, transparent 75%);
+  width: 155px;
+  height: 85px;
+  background: radial-gradient(ellipse at center, rgba(251, 146, 60, 0.95) 0%, rgba(234, 88, 12, 0.5) 50%, transparent 75%);
   border-radius: 50%;
   opacity: 0;
   transition: opacity 0.45s ease;
   z-index: 2;
   pointer-events: none;
-  filter: blur(4px);
+  filter: blur(5px);
 }
 
 .is-bag-open .bag-interior-glow {
@@ -2244,13 +2244,13 @@ body {
   100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
 }
 
-/* Capa 3: Uvas que reposan DENTRO de la cavidad (por detrás de la pared frontal) */
+/* Capa 3: Uvas que reposan DENTRO de la cavidad (sumergidas en el bolsillo tras la pared frontal) */
 .bag-inside-grapes {
   position: absolute;
-  top: 38%;
-  left: 16%;
-  width: 56%;
-  height: 28%;
+  top: 48%;
+  left: 15%;
+  width: 58%;
+  height: 32%;
   z-index: 3;
   pointer-events: none;
   transition: opacity 0.45s ease, transform 0.45s ease;
@@ -2277,13 +2277,13 @@ body {
   transform: scale(1) translateY(0);
 }
 
-/* Disposición natural y escalonada de las 6 uvas dentro de la bolsa */
-.dot-pos-1 { left: 4%;  top: 42%; transform: rotate(-8deg) scale(0.92); }
-.dot-pos-2 { left: 20%; top: 16%; transform: rotate(10deg) scale(0.95); }
-.dot-pos-3 { left: 36%; top: 38%; transform: rotate(-6deg) scale(0.92); }
-.dot-pos-4 { left: 54%; top: 18%; transform: rotate(8deg) scale(0.95); }
-.dot-pos-5 { left: 70%; top: 40%; transform: rotate(-10deg) scale(0.92); }
-.dot-pos-6 { left: 36%; top: -2%; transform: rotate(0deg) scale(1.02); z-index: 6; }
+/* Disposición escalonada de las 6 uvas dentro de la bolsa (la fila inferior queda cubierta por el borde) */
+.dot-pos-1 { left: 8%;  top: 50%; transform: rotate(-8deg) scale(0.92); }
+.dot-pos-2 { left: 20%; top: 22%; transform: rotate(10deg) scale(0.95); }
+.dot-pos-3 { left: 36%; top: 58%; transform: rotate(-4deg) scale(0.95); }
+.dot-pos-4 { left: 52%; top: 20%; transform: rotate(-6deg) scale(0.95); }
+.dot-pos-5 { left: 66%; top: 48%; transform: rotate(8deg) scale(0.92); }
+.dot-pos-6 { left: 36%; top: 0%;  transform: rotate(0deg) scale(1.02); z-index: 6; }
 
 /* Rebote festivo cuando la bolsa está llena */
 .bolsa-gift-stage.is-all-collected .crunchy-bag-assembly {
