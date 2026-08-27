@@ -1761,14 +1761,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextGrapeIndex = collectedGrapesCount;
     const insideDot = document.getElementById(`inside-grape-${nextGrapeIndex}`);
 
+    // Asegurar que todas las uvas anteriores ya estén guardadas en la bolsa aunque se pulse rápido
+    for (let i = 1; i < nextGrapeIndex; i++) {
+      const prevDot = document.getElementById(`inside-grape-${i}`);
+      if (prevDot) prevDot.classList.add('is-filled');
+    }
+
     SFXEngine.play('sparkle');
 
     animateGrapeToBag(targetSlot, insideDot, () => {
-      if (myToken !== activeSequenceToken) return;
-
+      // La uva SIEMPRE se queda guardada en la bolsa
       if (insideDot) {
         insideDot.classList.add('is-filled');
       }
+
+      if (myToken !== activeSequenceToken) return;
 
       const step = bolsaGrapeDialogueSteps[nextGrapeIndex - 1];
 
@@ -1914,6 +1921,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const slot = document.getElementById(`grape-item-${i}`);
         if (slot) slot.classList.remove('is-placed');
       }
+      const allFlyers = document.querySelectorAll('.grape-zoom-projectile');
+      allFlyers.forEach(f => f.remove());
       if (migasGrapeCountElem) migasGrapeCountElem.textContent = '0';
       SFXEngine.play('pop');
       setSceneSubtitle('sub-escena-10', '¡Toca el plato para añadir las uvas ígneas a las migas!', '');
@@ -1924,6 +1933,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextGrapeIndex = currentGrapeCount;
     if (migasGrapeCountElem) migasGrapeCountElem.textContent = nextGrapeIndex;
 
+    // Asegurar que TODAS las uvas anteriores (1..nextGrapeIndex-1) queden colocadas aunque se pulse súper rápido
+    for (let i = 1; i < nextGrapeIndex; i++) {
+      const prevSlot = document.getElementById(`grape-item-${i}`);
+      if (prevSlot) prevSlot.classList.add('is-placed');
+    }
+    // Eliminar proyectiles flotantes anteriores para evitar uvas huérfanas
+    const oldFlyers = document.querySelectorAll('.grape-zoom-projectile');
+    oldFlyers.forEach(f => f.remove());
+
     const slot = document.getElementById(`grape-item-${nextGrapeIndex}`);
     const grapeImg = slot ? slot.querySelector('img') : null;
     const grapeSrc = grapeImg ? grapeImg.src : `assets/objetos/migas/uva_single_${nextGrapeIndex}.png`;
@@ -1932,11 +1950,13 @@ document.addEventListener('DOMContentLoaded', () => {
     SFXEngine.play('lava-bubble');
 
     animateGrapeToPlate(slot, grapeSrc, nextGrapeIndex, () => {
-      if (myToken !== activeSequenceToken) return;
-
+      // La uva SIEMPRE queda colocada en el plato
       if (slot) {
         slot.classList.add('is-placed');
       }
+
+      if (myToken !== activeSequenceToken) return;
+
       SFXEngine.play('sparkle');
 
       const stepData = grapeDialogueSteps[nextGrapeIndex - 1];
