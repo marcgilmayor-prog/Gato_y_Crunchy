@@ -47,13 +47,13 @@
       <!-- Personajes Ilustrados en la Portada: Crunchy a la izquierda, Gato a la derecha -->
       <div class="portada-bg-characters">
         <!-- Crunchy en la Izquierda (Interacción hover: aparece con las uvas) -->
-        <div class="portada-char-art char-crunchy-bg" id="portada-crunchy-interactive" title="¡Pasa el ratón para ver a Crunchy con las uvas!">
+        <div class="portada-char-art char-crunchy-bg" id="portada-crunchy-interactive" title="¡Pasa el ratón para ver a Crunchy con las uvas!" aria-label="Crunchy con uvas">
           <img src="assets/personajes/crunchy/crunchy.png" alt="Crunchy" class="portada-img-fluid char-img-normal" />
-          <img src="assets/personajes/crunchy/crunchy_uvas.png" alt="Crunchy con Uvas" class="portada-img-fluid char-img-hover" />
+          <img src="assets/personajes/crunchy/crunchy_uvas.png" alt="Crunchy con uvas dulces" class="portada-img-fluid char-img-hover" />
         </div>
         
         <!-- Gato en la Derecha (Interacción hover: aparece con la pistola interdimensional) -->
-        <div class="portada-char-art char-gato-bg" id="portada-gato-interactive" title="¡Pasa el ratón para ver a Gato con la pistola interdimensional!">
+        <div class="portada-char-art char-gato-bg" id="portada-gato-interactive" title="¡Pasa el ratón para ver a Gato con la pistola interdimensional!" aria-label="Gato con pistola interdimensional">
           <img src="assets/personajes/gato/gato.png" alt="Gato" class="portada-img-fluid char-img-normal" />
           <img src="assets/personajes/gato/gato_pistola.png" alt="Gato con Pistola Interdimensional" class="portada-img-fluid char-img-hover" />
         </div>
@@ -61,7 +61,7 @@
 
       <div class="bloc-central-cartoon">
         <!-- Logotipo Oficial GATO Y CRUNCHY -->
-        <div class="logo-official-container">
+        <div class="logo-official-container" title="Gato y Crunchy">
           <img src="assets/ui/logo_gato_y_crunchy.png" alt="Gato y Crunchy" class="logo-official-img" />
         </div>
 
@@ -86,16 +86,16 @@
         <h2 class="titol-escena">Érase una vez...</h2>
         
         <p class="paragraf-cuento">
-          En un cuento muy especial, una página que parecía completamente vacía. Durante unos segundos no había nada en ella, como si la historia aún no hubiese comenzado...
+          ¡Bienvenidos al comienzo de una gran aventura! Toda historia emocionante empieza con una invitación a descubrir nuevos mundos, grandes lecciones y divertidas sorpresas.
         </p>
         <p class="paragraf-cuento destacat-cyan">
-          ¡Pero de pronto, un resplandor azul parpadeó en el centro! Un mágico portal interdimensional empezó a crecer, haciendo crujir el propio papel del libro como si algo intentase abrirse paso desde el interior.
+          Ponte cómodo y abre bien los ojos: ¡un misterioso portal interdimensional acaba de activarse frente a ti! Toca el portal para averiguar quién está al otro lado...
         </p>
       </div>
 
       <!-- Columna Derecha: Portal Flotante Interactivo con Subtítulos Dinámicos -->
       <div class="cuento-col-visual">
-        <div class="portal-floating-stage" id="portal-interactive-stage" title="¡Haz clic en el portal para abrirlo!">
+        <div class="portal-floating-stage" id="portal-interactive-stage" title="¡Haz clic en el portal para abrirlo!" aria-label="Portal dimensional interactivo">
           
           <div class="portal-star-wrapper" id="portal-star-disc">
             <!-- Capa de membrana pulsante del portal (efecto altavoz cuando habla Crunchy) -->
@@ -109,18 +109,18 @@
             <!-- Personaje interactivo Gato dentro del portal -->
             <div class="portal-actors-stage" id="portal-actors-layer">
               <div class="actor-gato-portal-wrap" id="actor-gato-portal">
-                <img src="assets/personajes/gato/portal/Gato_Portal-1.png" alt="Gato en el portal" id="actor-gato-portal-img" class="actor-gato-portal-art" />
+                <img src="assets/personajes/gato/portal/Gato_Portal-1.png" alt="Gato asomándose en el portal" id="actor-gato-portal-img" class="actor-gato-portal-art" />
               </div>
             </div>
           </div>
 
           <!-- Indicador de Subtítulo Dinámico en Directo -->
-          <div class="scene-live-subtitle-pill is-ready-cta" id="sub-escena-01" title="¡Haz clic para escuchar a Gato!">
+          <div class="scene-live-subtitle-pill is-ready-cta" id="sub-escena-01" title="¡Haz clic en el portal para descubrir qué hay al otro lado!">
             <div class="bubble-avatar-slot">
               <img src="assets/ui/Guante.png" alt="Toca aquí" class="bubble-avatar-img bubble-glove-img" />
             </div>
             <div class="bubble-dialogue-content">
-              <span class="live-subtitle-text">¡Toca para escuchar a Gato!</span>
+              <span class="live-subtitle-text">¡Haz clic en el portal para descubrir quién está al otro lado!</span>
             </div>
           </div>
 
@@ -131,7 +131,7 @@
 
 
     <!-- ========================================================
-         ESCENA 02: EL HOGAR EN EL GRAN ÁRBOL
+         ESCENA 02: LA CASA DEL GRAN ÁRBOL
          ======================================================== -->
     <section class="seccio-pagina-cuento" id="escena-02">
       
@@ -141,10 +141,13 @@
           <span class="num-escena">02</span>
         </div>
         
-        <h2 class="titol-escena">El hogar en el gran árbol</h2>
+        <h2 class="titol-escena">La casa del gran árbol</h2>
         
         <p class="paragraf-cuento">
-          En lo alto del bosque se alzaba la acogedora casa del gran árbol donde vivían los tres inseparables amigos: un hogar lleno de vida, mapas antiguos y recuerdos de grandes aventuras.
+          En lo alto de las ramas del bosque se alzaba la acogedora casa del gran árbol. Allí vivían <strong class="destacat-gato">Gato</strong> y <strong class="destacat-crunchy">Crunchy</strong>, dos pequeños mellizos inseparables, bajo el atento y amoroso cuidado de <strong class="destacat-oti">Oti Reboti</strong>, su bondadoso oso protector y figura paterna.
+        </p>
+        <p class="paragraf-cuento">
+          Un rincón lleno de risas, juguetes, aroma a ricas comidas caseras y recuerdos inolvidables de una familia siempre unida.
         </p>
       </div>
 
@@ -163,7 +166,7 @@
               
               <!-- Capa 2: Grupo de Personajes (Profundidad media) -->
               <div class="cuadro-layer layer-grupo" id="cuadro-layer-grupo">
-                <img src="assets/objetos/cuadro/Grupo.png" alt="Gato, Crunchy y Oti" class="cuadro-img" />
+                <img src="assets/objetos/cuadro/Grupo.png" alt="Foto familiar de Oti, Gato y Crunchy" class="cuadro-img" />
               </div>
               
               <!-- Capa 3: Marco de la Foto (Profundidad frontal) -->
@@ -178,12 +181,12 @@
           </div>
           
           <!-- Subtítulo Dinámico en Directo -->
-          <div class="scene-live-subtitle-pill is-ready-cta" id="sub-escena-02" title="¡Haz clic en el cuadro para escuchar a los tres amigos!">
+          <div class="scene-live-subtitle-pill is-ready-cta" id="sub-escena-02" title="¡Haz clic en el cuadro para escuchar a la familia!">
             <div class="bubble-avatar-slot">
               <img src="assets/ui/Guante.png" alt="Toca aquí" class="bubble-avatar-img bubble-glove-img" />
             </div>
             <div class="bubble-dialogue-content">
-              <span class="live-subtitle-text">¡Mueve el ratón para explorar el cuadro 3D o toca para escuchar!</span>
+              <span class="live-subtitle-text">Mueve el ratón para explorar el cuadro familiar o haz clic para escuchar.</span>
             </div>
           </div>
         </div>
@@ -193,7 +196,7 @@
 
 
     <!-- ========================================================
-         ESCENA 03: LA COCINA Y LAS MIGAS DE OTI
+         ESCENA 03: LAS MIGAS DE OTI
          ======================================================== -->
     <section class="seccio-pagina-cuento" id="escena-03">
       
@@ -203,13 +206,13 @@
           <span class="num-escena">03</span>
         </div>
         
-        <h2 class="titol-escena">La cocina y las migas de Oti</h2>
+        <h2 class="titol-escena">Las migas de Oti</h2>
         
         <p class="paragraf-cuento">
-          En la cocina, <strong class="destacat-oti">Oti Reboti</strong>, el oso bonachón y gran cocinero, removía tranquilamente una gran sartén de migas aragonesas mientras tarareaba una alegre melodía.
+          En la cocina, <strong class="destacat-oti">Oti</strong> removía con esmero una deliciosa sartén de migas caseras mientras tarareaba una alegre canción. Era su plato estrella para consentir a los pequeños.
         </p>
         <p class="paragraf-cuento destacat-orange">
-          ¡Pero para que el festín estuviese completo faltaban unas ricas uvas dulces, así que decidieron subir a buscarlas al desván!
+          Sin embargo, faltaba el ingrediente que coronaba la receta: ¡unas ricas uvas dulces! Dispuestos a ayudar a Oti, <strong class="destacat-gato">Gato</strong> y <strong class="destacat-crunchy">Crunchy</strong> se ofrecieron a subir al desván a buscarlas.
         </p>
       </div>
 
@@ -220,7 +223,7 @@
             
             <!-- Sartén Cenital con Ilustración Oficial -->
             <div class="frying-pan-topview" id="frying-pan-element">
-              <img src="assets/objetos/sarten/sarten.png" alt="Sartén de migas" class="pan-art-img" />
+              <img src="assets/objetos/sarten/sarten.png" alt="Sartén de migas de Oti" class="pan-art-img" />
               
               <!-- Superficie circular interior para las físicas de migas -->
               <div class="pan-circle-inner" id="pan-circle-arena">
@@ -237,7 +240,7 @@
               <img src="assets/ui/Guante.png" alt="Toca aquí" class="bubble-avatar-img bubble-glove-img" />
             </div>
             <div class="bubble-dialogue-content">
-              <span class="live-subtitle-text">¡Toca para saltear las migas y escuchar a Oti!</span>
+              <span class="live-subtitle-text">Haz clic en la sartén para saltear las migas y escuchar a Oti.</span>
             </div>
           </div>
         </div>
@@ -247,7 +250,7 @@
 
 
     <!-- ========================================================
-         ESCENA 04: EL DESVÁN Y LA DISCUSIÓN
+         ESCENA 04: LÍO EN EL DESVÁN
          ======================================================== -->
     <section class="seccio-pagina-cuento" id="escena-04">
       
@@ -257,16 +260,16 @@
           <span class="num-escena">04</span>
         </div>
         
-        <h2 class="titol-escena">El desván y la discusión</h2>
+        <h2 class="titol-escena">Lío en el desván</h2>
         
         <p class="paragraf-cuento">
-          <strong class="destacat-gato">Gato</strong> y <strong class="destacat-crunchy">Crunchy</strong> subieron a buscar las uvas al desván, un rincón tranquilo lleno de cajas apiladas y recuerdos olvidados.
+          <strong class="destacat-gato">Gato</strong> y <strong class="destacat-crunchy">Crunchy</strong> subieron al desván, un rincón repleto de baúles polvorientos y recuerdos guardados durante generaciones.
         </p>
         <p class="paragraf-cuento">
-          <strong class="destacat-gato">Gato</strong> apartó con curiosidad las cajas y descubrió un extraño artefacto. Al cogerlo, <strong class="destacat-crunchy">Crunchy</strong> se molestó de inmediato y le reprochó que dejase de tocar cosas que no eran suyas. La discusión empezó al instante: <strong class="destacat-gato">Gato</strong> estaba cansado de que <strong class="destacat-crunchy">Crunchy</strong> siempre le dijese lo que tenía que hacer.
+          Rebuscando entre las cajas, <strong class="destacat-gato">Gato</strong> encontró un extraño artefacto luminoso. <strong class="destacat-crunchy">Crunchy</strong> le dijo enseguida que lo dejase en su sitio y se centrase en buscar las uvas, pero <strong class="destacat-gato">Gato</strong>, llevado por la curiosidad, no quiso hacerle caso y la discusión empezó al instante.
         </p>
         <p class="paragraf-cuento destacat-cyan">
-          Al sentir la energía de su enfado, la misteriosa <strong>pistola interdimensional</strong> comenzó a sobrecargarse de energía azul, respondiendo al conflicto de ambos...
+          Al alimentarse de la tensión y los gritos, la misteriosa <strong>pistola interdimensional</strong> comenzó a sobrecargarse de energía azul, respondiendo incontrolablemente al enfado de ambos...
         </p>
       </div>
 
@@ -325,7 +328,7 @@
               <img src="assets/ui/Guante.png" alt="Toca aquí" class="bubble-avatar-img bubble-glove-img" />
             </div>
             <div class="bubble-dialogue-content">
-              <span class="live-subtitle-text">¡Busquemos por el desván! Haz clic para apartar las cajas y ver qué hay...</span>
+              <span class="live-subtitle-text">Explora el desván: haz clic en las cajas para descubrir el artefacto.</span>
             </div>
           </div>
         </div>
@@ -335,7 +338,7 @@
 
 
     <!-- ========================================================
-         ESCENA 05: EL SALTO DIMENSIONAL
+         ESCENA 05: ¡SALTO DIMENSIONAL!
          ======================================================== -->
     <section class="seccio-pagina-cuento" id="escena-05">
       
@@ -345,13 +348,13 @@
           <span class="num-escena">05</span>
         </div>
         
-        <h2 class="titol-escena">El salto dimensional</h2>
+        <h2 class="titol-escena">¡Salto dimensional!</h2>
         
         <p class="paragraf-cuento">
-          El potente rayo de plasma impactó contra el suelo del desván, abriendo una enorme brecha resplandeciente bajo sus pies.
+          Incapaz de contener tanta energía, el artefacto disparó un potente rayo de plasma que impactó contra el suelo, abriendo un vórtice dimensional bajo sus pies.
         </p>
         <p class="paragraf-cuento">
-          Antes de que pudieran hacer nada, el portal los absorbió por completo y fueron transportados sin control hacia una dimensión desconocida.
+          Antes de que pudiesen reaccionar, una fuerza arrolladora absorbió a <strong class="destacat-gato">Gato</strong> y a <strong class="destacat-crunchy">Crunchy</strong>, lanzándolos a través del espacio hacia un mundo completamente desconocido.
         </p>
       </div>
 
@@ -386,7 +389,7 @@
               <img src="assets/ui/Guante.png" alt="Pasa el ratón" class="bubble-avatar-img bubble-glove-img" />
             </div>
             <div class="bubble-dialogue-content">
-              <span class="live-subtitle-text">¡Acerca el ratón para descubrir el mundo al otro lado del portal!</span>
+              <span class="live-subtitle-text">Acerca el ratón para descubrir el mundo al otro lado del portal.</span>
             </div>
           </div>
         </div>
@@ -396,7 +399,7 @@
 
 
     <!-- ========================================================
-         ESCENA 06: EL MUNDO DE ROCA Y LAVA
+         ESCENA 06: EL MUNDO DE LAVA
          ======================================================== -->
     <section class="seccio-pagina-cuento" id="escena-06">
       
@@ -406,13 +409,13 @@
           <span class="num-escena">06</span>
         </div>
         
-        <h2 class="titol-escena">El mundo de roca y lava</h2>
+        <h2 class="titol-escena">El mundo de lava</h2>
         
         <p class="paragraf-cuento">
-          Al cruzar el portal y salir al exterior de la cueva, <strong class="destacat-gato">Gato</strong> y <strong class="destacat-crunchy">Crunchy</strong> contemplaron asombrados aquel nuevo mundo volcánico. A lo lejos, divisaron a dos habitantes del lugar llamados <strong class="destacat-riolita">Riolita</strong> y <strong class="destacat-basalto">Basalto</strong>, quienes se disputaban acaloradamente una gran roca redonda.
+          Al salir de la cueva donde aterrizaron, quedaron boquiabiertos ante un imponente paisaje de volcanes y ríos de magma. A lo lejos, dos habitantes locales, <strong class="destacat-riolita">Riolita</strong> y <strong class="destacat-basalto">Basalto</strong>, se disputaban a gritos la posesión de una gran roca de lava.
         </p>
         <p class="paragraf-cuento">
-          De tanto enfadarse y discutir sin escucharse, la roca se les escapó de las manos y cayó rodando montaña abajo hasta encajarse con un tremendo estruendo en la entrada de la cueva.
+          Cegados por la terquedad y el enfado, forcejearon tan bruscamente que la roca se les escapó de las manos y rodó montaña abajo hasta encajarse con un tremendo estruendo en la boca de la cueva.
         </p>
       </div>
 
@@ -498,7 +501,7 @@
               <img src="assets/ui/Guante.png" alt="Toca aquí" class="bubble-avatar-img bubble-glove-img" />
             </div>
             <div class="bubble-dialogue-content">
-              <span class="live-subtitle-text">¡Toca los prismáticos para observar la discusión de Riolita y Basalto!</span>
+              <span class="live-subtitle-text">Haz clic en los prismáticos para observar la discusión entre Riolita y Basalto.</span>
             </div>
           </div>
         </div>
@@ -508,7 +511,7 @@
 
 
     <!-- ========================================================
-         ESCENA 07: EL PELIGRO INMINENTE Y LA UNIÓN DE LOS CUATRO
+         ESCENA 07: ¡ATRAPADOS EN LA CUEVA!
          ======================================================== -->
     <section class="seccio-pagina-cuento" id="escena-07">
       
@@ -518,16 +521,16 @@
           <span class="num-escena">07</span>
         </div>
         
-        <h2 class="titol-escena">El peligro inminente</h2>
+        <h2 class="titol-escena">¡Atrapados en la cueva!</h2>
         
         <p class="paragraf-cuento">
-          El único camino de regreso al portal interdimensional había quedado completamente bloqueado por el gigantesco peñasco.
+          El gigantesco peñasco había sellado la cueva por completo, bloqueando la única salida hacia el portal que les permitiría volver a casa.
         </p>
         <p class="paragraf-cuento">
-          Al ver el desastre, <strong class="destacat-riolita">Riolita</strong> y <strong class="destacat-basalto">Basalto</strong> se dieron cuenta de las graves consecuencias de su terquedad, mientras que <strong class="destacat-gato">Gato</strong> y <strong class="destacat-crunchy">Crunchy</strong> se acercaron para calmar los ánimos.
+          Al ver el desastre causado por su disputa, <strong class="destacat-riolita">Riolita</strong> y <strong class="destacat-basalto">Basalto</strong> sintieron remordimiento. <strong class="destacat-gato">Gato</strong> y <strong class="destacat-crunchy">Crunchy</strong>, reconociendo en ellos su propio error del desván, se acercaron para calmar los ánimos.
         </p>
         <p class="paragraf-cuento destacat-lava">
-          Los cuatro comprendieron que los reproches no servirían de nada: la única solución para despejar el túnel y salvar la situación era dejar a un lado el orgullo, escucharse y ayudarse como un verdadero equipo.
+          Los cuatro comprendieron que echarse la culpa no resolvería nada: la única manera de apartar la roca y salvarse era dejar a un lado el orgullo, comunicarse y trabajar como un verdadero equipo.
         </p>
       </div>
 
@@ -564,7 +567,7 @@
               <img src="assets/ui/Guante.png" alt="Toca aquí" class="bubble-avatar-img bubble-glove-img" />
             </div>
             <div class="bubble-dialogue-content">
-              <span class="live-subtitle-text">¡Toca para que los cuatro amigos unan sus manos una a una!</span>
+              <span class="live-subtitle-text">Haz clic para que los cuatro amigos unan sus manos una a una.</span>
             </div>
           </div>
         </div>
@@ -574,7 +577,7 @@
 
 
     <!-- ========================================================
-         ESCENA 08: COOPERACIÓN Y TRABAJO EN EQUIPO
+         ESCENA 08: ¡FUERZA DE EQUIPO!
          ======================================================== -->
     <section class="seccio-pagina-cuento" id="escena-08">
       
@@ -584,13 +587,13 @@
           <span class="num-escena">08</span>
         </div>
         
-        <h2 class="titol-escena">Cooperación y trabajo en equipo</h2>
+        <h2 class="titol-escena">¡Fuerza de equipo!</h2>
         
         <p class="paragraf-cuento">
-          Al ver el problema, <strong class="destacat-riolita">Riolita</strong> y <strong class="destacat-basalto">Basalto</strong> se dieron cuenta de que la roca no era tan importante y decidieron romperla juntos para hacer las paces y ayudar a sus nuevos amigos.
+          Con un propósito común y las paces hechas, <strong class="destacat-riolita">Riolita</strong> y <strong class="destacat-basalto">Basalto</strong> unieron su formidable fuerza mineral a la agilidad de <strong class="destacat-gato">Gato</strong> y el entusiasmo de <strong class="destacat-crunchy">Crunchy</strong>.
         </p>
         <p class="paragraf-cuento">
-          Uniendo sus fuerzas con <strong class="destacat-gato">Gato</strong> y <strong class="destacat-crunchy">Crunchy</strong>, los cuatro golpearon con todas sus fuerzas hasta romper la roca en pedazos, dejando el túnel de la cueva libre para volver a casa y resolviendo ambos conflictos gracias a la cooperación.
+          Coordinando sus golpes al mismo compás, lograron fracturar el peñasco hasta reducirlo a escombros, liberando el camino y descubriendo que la verdadera fuerza nace de la empatía y la colaboración.
         </p>
       </div>
 
@@ -616,7 +619,7 @@
               <img src="assets/ui/Guante.png" alt="Toca aquí" class="bubble-avatar-img bubble-glove-img" />
             </div>
             <div class="bubble-dialogue-content">
-              <span class="live-subtitle-text">¡Toca la roca para golpear todos juntos en equipo!</span>
+              <span class="live-subtitle-text">Haz clic en la roca para golpear todos juntos en equipo.</span>
             </div>
           </div>
         </div>
@@ -626,7 +629,7 @@
 
 
     <!-- ========================================================
-         ESCENA 09: LA BOLSA DE CRUNCHY Y EL REGALO DE FUEGO
+         ESCENA 09: UN REGALO ESPECIAL
          ======================================================== -->
     <section class="seccio-pagina-cuento" id="escena-09">
       
@@ -636,16 +639,16 @@
           <span class="num-escena">09</span>
         </div>
         
-        <h2 class="titol-escena">La bolsa de Crunchy y el regalo de fuego</h2>
+        <h2 class="titol-escena">Un regalo especial</h2>
         
         <p class="paragraf-cuento">
-          Frente al túnel ya despejado, la aventura en las cavernas llegaba a su fin, marcando la hora de regresar a casa.
+          Con el túnel despejado y la armonía recuperada, llegó el momento de despedirse y regresar al hogar.
         </p>
         <p class="paragraf-cuento">
-          Como agradecimiento por haber devuelto la armonía al reino, <strong class="destacat-riolita">Riolita</strong> y <strong class="destacat-basalto">Basalto</strong> les obsequiaron con el tesoro más codiciado de las cavernas: un racimo de relucientes <strong>uvas ígneas</strong> recién cosechadas, dulces y cálidas como el caramelo de lava.
+          En señal de gratitud por su ayuda y como símbolo de su nueva amistad, <strong class="destacat-riolita">Riolita</strong> y <strong class="destacat-basalto">Basalto</strong> les obsequiaron con un tesoro único: un racimo de <strong>uvas ígneas</strong> recién brotadas del cráter, dulces, luminosas y cálidas como caramelo de lava.
         </p>
         <p class="paragraf-cuento destacat-orange">
-          <strong class="destacat-crunchy">Crunchy</strong> abrió su fiel bolsa de viaje para guardar con cuidado cada uva antes de que perdieran su calor. Tras un entrañable abrazo de despedida, <strong class="destacat-gato">Gato</strong> y <strong class="destacat-crunchy">Crunchy</strong> cruzaron el portal rumbo a su cocina.
+          <strong class="destacat-crunchy">Crunchy</strong> abrió su bolsa de viaje para protegerlas con cariño. Tras un emotivo abrazo de despedida, ambos cruzaron el portal rumbo a su cocina.
         </p>
       </div>
 
@@ -716,7 +719,7 @@
               <img src="assets/ui/Guante.png" alt="Toca aquí" class="bubble-avatar-img bubble-glove-img" />
             </div>
             <div class="bubble-dialogue-content">
-              <span class="live-subtitle-text">¡Toca la bolsa de Crunchy para abrirla y guardar las uvas ígneas!</span>
+              <span class="live-subtitle-text">Haz clic en la bolsa de Crunchy para abrirla y guardar las uvas ígneas.</span>
             </div>
           </div>
         </div>
@@ -726,7 +729,7 @@
 
 
     <!-- ========================================================
-         ESCENA 10: EL REGRESO Y EL GRAN FESTÍN
+         ESCENA 10: EL GRAN FESTÍN
          ======================================================== -->
     <section class="seccio-pagina-cuento" id="escena-10">
       
@@ -736,16 +739,16 @@
           <span class="num-escena">10</span>
         </div>
         
-        <h2 class="titol-escena">El regreso y el gran festín</h2>
+        <h2 class="titol-escena">El gran festín</h2>
         
         <p class="paragraf-cuento">
-          De vuelta en la acogedora cocina del gran árbol, <strong class="destacat-oti">Oti</strong> los recibió con la sartén humeante de migas recién hechas.
+          De vuelta en la acogedora cocina del gran árbol, <strong class="destacat-oti">Oti</strong> los esperaba con los brazos abiertos, una sonrisa de alivio y la sartén humeante sobre la mesa.
         </p>
         <p class="paragraf-cuento">
-          Añadieron las uvas ígneas al plato, dándole un toque mágico, dulce y crujiente. Sentados alrededor de la mesa, <strong class="destacat-gato">Gato</strong> y <strong class="destacat-crunchy">Crunchy</strong> sonrieron sabiendo que, gracias a aprender a escucharse, habían salvado su amistad y conseguido el ingrediente perfecto.
+          Al incorporar las uvas ígneas a las migas, el plato se transformó en un manjar mágico y reconfortante. Sentados en familia, <strong class="destacat-gato">Gato</strong> y <strong class="destacat-crunchy">Crunchy</strong> compartieron una mirada de complicidad: habían salvado la merienda y aprendido que escuchar al otro es el ingrediente más valioso de la convivencia.
         </p>
         <p class="paragraf-cuento destacat-cyan">
-          Mirando al lector con complicidad, <strong class="destacat-gato">Gato</strong> concluyó feliz: «—Al final no encontramos las uvas en el desván... ¡pero las que trajimos son de otra dimensión!»
+          Mirando al lector con una pícara sonrisa, <strong class="destacat-gato">Gato</strong> concluyó feliz: «—No encontramos las uvas en el desván... ¡pero las que trajimos son de otra dimensión!»
         </p>
       </div>
 
@@ -789,7 +792,7 @@
               <img src="assets/ui/Guante.png" alt="Toca aquí" class="bubble-avatar-img bubble-glove-img" />
             </div>
             <div class="bubble-dialogue-content">
-              <span class="live-subtitle-text">¡Toca el plato para añadir las uvas ígneas a las migas!</span>
+              <span class="live-subtitle-text">Haz clic en el plato para añadir las uvas ígneas a las migas de Oti.</span>
             </div>
           </div>
         </div>

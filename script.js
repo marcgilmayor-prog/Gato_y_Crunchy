@@ -634,10 +634,10 @@ document.addEventListener('DOMContentLoaded', () => {
     playFreesoundPortal();
 
     if (actorGatoPortal) actorGatoPortal.classList.add('is-visible');
-    setSceneSubtitle('sub-escena-01', '«¡Hola! Soy Gato. Bueno... ¡el gato soy yo y me llamo Gato! ¿Te cuento nuestra primera aventura?»', 'sub-speaker-gato');
+    setSceneSubtitle('sub-escena-01', '«¡Hola! Soy Gato. Sí, soy un gato y me llamo Gato, ¡no se rompieron la cabeza con el nombre! ¿Listo para una gran aventura?»', 'sub-speaker-gato');
 
     VoiceEngine.speak(
-      '¡Hola! Soy Gato. Bueno... ¡el gato soy yo y me llamo Gato! ¿Te cuento nuestra primera aventura?',
+      '¡Hola! Soy Gato. Sí, soy un gato y me llamo Gato, ¡no se rompieron la cabeza con el nombre! ¿Listo para una gran aventura?',
       'gato',
       () => {
         if (myToken !== activeSequenceToken) return;
@@ -645,27 +645,27 @@ document.addEventListener('DOMContentLoaded', () => {
           
           // Crunchy habla desde el otro lado del portal (vibración acústica tipo membrana de altavoz)
           if (portalMembranePulse) portalMembranePulse.classList.add('is-crunchy-vibrating');
-          setSceneSubtitle('sub-escena-01', '«¡Gato! ¿Dónde te has metido? ¡Oti nos está llamando!»', 'sub-speaker-crunchy');
+          setSceneSubtitle('sub-escena-01', '«¡Gatooo! ¿Dónde te has metido? ¡Oti nos está llamando y como se enfríen las migas te las comes tú!»', 'sub-speaker-crunchy');
           SFXEngine.play('whoop');
 
-          VoiceEngine.speak('¡Gato! ¿Dónde te has metido? ¡Oti nos está llamando!', 'crunchy', () => {
+          VoiceEngine.speak('¡Gatooo! ¿Dónde te has metido? ¡Oti nos está llamando y como se enfríen las migas te las comes tú!', 'crunchy', () => {
             if (myToken !== activeSequenceToken) return;
             if (portalMembranePulse) portalMembranePulse.classList.remove('is-crunchy-vibrating');
             
-            setSceneSubtitle('sub-escena-01', '«¡Eh! ¡Un momento, Crunchy! ¡Que le estoy presentando nuestra historia!»', 'sub-speaker-gato');
-            VoiceEngine.speak('¡Eh! ¡Un momento, Crunchy! ¡Que le estoy presentando nuestra historia!', 'gato', () => {
+            setSceneSubtitle('sub-escena-01', '«¡Un momento, Crunchy! ¡Que estoy hablando con el lector y hay que ser educado!»', 'sub-speaker-gato');
+            VoiceEngine.speak('¡Un momento, Crunchy! ¡Que estoy hablando con el lector y hay que ser educado!', 'gato', () => {
               if (myToken !== activeSequenceToken) return;
               stopGatoPortalSpeaking();
               
               // Crunchy responde de nuevo desde el otro lado con bombeo de membrana
               if (portalMembranePulse) portalMembranePulse.classList.add('is-crunchy-vibrating');
-              setSceneSubtitle('sub-escena-01', '«¡Pues date prisa, y no juegues con la pistola!»', 'sub-speaker-crunchy');
-              VoiceEngine.speak('¡Pues date prisa, y no juegues con la pistola!', 'crunchy', () => {
+              setSceneSubtitle('sub-escena-01', '«¡Pues date prisa, que ya sabes cómo se pone Oti cuando no venimos a comer!»', 'sub-speaker-crunchy');
+              VoiceEngine.speak('¡Pues date prisa, que ya sabes cómo se pone Oti cuando no venimos a comer!', 'crunchy', () => {
                 if (myToken !== activeSequenceToken) return;
                 if (portalMembranePulse) portalMembranePulse.classList.remove('is-crunchy-vibrating');
                 
-                setSceneSubtitle('sub-escena-01', '«¡Vale, vale! ¡Ya voy! ¡Ponte cómodo, que la aventura empieza ahora mismo!»', 'sub-speaker-gato');
-                VoiceEngine.speak('¡Vale, vale! ¡Ya voy! ¡Ponte cómodo, que la aventura empieza ahora mismo!', 'gato', () => {
+                setSceneSubtitle('sub-escena-01', '«¡Vale, ya voy! ¡Ponte cómodo, que esto se va a poner interesante!»', 'sub-speaker-gato');
+                VoiceEngine.speak('¡Vale, ya voy! ¡Ponte cómodo, que esto se va a poner interesante!', 'gato', () => {
                   if (myToken !== activeSequenceToken) return;
                   stopGatoPortalSpeaking();
                   SFXEngine.play('whoop');
@@ -780,17 +780,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const myToken = cancelAllSequences();
 
     SFXEngine.play('triumph-chime');
-    setSceneSubtitle('sub-escena-02', '«¡Mirad! Nuestra foto favorita: Oti, Crunchy y yo juntos en la casa del árbol.»', 'sub-speaker-gato');
+    setSceneSubtitle('sub-escena-02', '«¡Mirad qué fotaza familiar! Los dos mellizos con Oti en el gran árbol... ¡aunque salgo un poco bizco!»', 'sub-speaker-gato');
 
-    VoiceEngine.speak('¡Mirad! Nuestra foto favorita: Oti, Crunchy y yo juntos en la casa del árbol.', 'gato', () => {
+    VoiceEngine.speak('¡Mirad qué fotaza familiar! Los dos mellizos con Oti en el gran árbol... ¡aunque salgo un poco bizco!', 'gato', () => {
       if (myToken !== activeSequenceToken) return;
       SFXEngine.play('whoop');
-      setSceneSubtitle('sub-escena-02', '«¡Salimos genial! Aunque Gato ya estaba tramando alguna travesura...»', 'sub-speaker-crunchy');
-      VoiceEngine.speak('¡Salimos genial! Aunque Gato ya estaba tramando alguna travesura...', 'crunchy', () => {
+      setSceneSubtitle('sub-escena-02', '«¡Ja, ja, ja! ¡Pero si tú siempre sales bizco en todas las fotos, Gato!»', 'sub-speaker-crunchy');
+      VoiceEngine.speak('¡Ja, ja, ja! ¡Pero si tú siempre sales bizco en todas las fotos, Gato!', 'crunchy', () => {
         if (myToken !== activeSequenceToken) return;
         SFXEngine.play('banjo-sarten');
-        setSceneSubtitle('sub-escena-02', '«¡Ja, ja! La familia siempre unida. ¡Ese es el verdadero tesoro de nuestro hogar!»', 'sub-speaker-oti');
-        VoiceEngine.speak('¡Ja, ja! La familia siempre unida. ¡Ese es el verdadero tesoro de nuestro hogar!', 'oti', () => {
+        setSceneSubtitle('sub-escena-02', '«¡Ja, ja, ja! La familia siempre unida. ¡Incluso con tus caras raras!»', 'sub-speaker-oti');
+        VoiceEngine.speak('¡Ja, ja, ja! La familia siempre unida. ¡Incluso con tus caras raras!', 'oti', () => {
           if (myToken !== activeSequenceToken) return;
           setTimeout(() => {
             if (myToken !== activeSequenceToken) return;
@@ -980,11 +980,11 @@ document.addEventListener('DOMContentLoaded', () => {
     activePanArea.addEventListener('mousemove', (e) => {
       if (!fryingPanEl) return;
       const rect = fryingPanEl.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
+      const cX = rect.left + rect.width / 2;
+      const cY = rect.top + rect.height / 2;
 
-      const offsetX = e.clientX - centerX;
-      const offsetY = e.clientY - centerY;
+      const offsetX = e.clientX - cX;
+      const offsetY = e.clientY - cY;
 
       mouseSpeedX = e.clientX - mouseLastX;
       mouseSpeedY = e.clientY - mouseLastY;
@@ -998,7 +998,6 @@ document.addEventListener('DOMContentLoaded', () => {
       targetShiftX = Math.max(Math.min(mouseSpeedX * 0.25, 10), -10);
       targetShiftY = Math.max(Math.min(mouseSpeedY * 0.25, 10), -10);
 
-      // Movimiento suave conjunto al mover la sartén
       migasArray.forEach((m) => {
         m.vx += mouseSpeedX * 0.08;
         m.vy += mouseSpeedY * 0.08;
@@ -1014,11 +1013,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     activePanArea.addEventListener('click', (e) => {
       e.stopPropagation();
-      // Salto sutil y suave de salteado de comida
       migasArray.forEach((m) => {
         m.vy += -5 - Math.random() * 4;
-        m.vx += (Math.random() - 0.5) * 3;
-        m.vrot += (Math.random() - 0.5) * 15;
+        m.vx += (Math.random() - 0.5) * 4;
+        m.vrot += (Math.random() - 0.5) * 20;
       });
       runScene03Sequence();
     });
@@ -1028,21 +1026,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const myToken = cancelAllSequences();
 
     SFXEngine.play('banjo-sarten');
-    setSceneSubtitle('sub-escena-03', '«¡Mmm! ¡Estas migas van a quedar deliciosas! Pero vaya... ¡nos faltan las uvas!»', 'sub-speaker-oti');
+    setSceneSubtitle('sub-escena-03', '«¡Mmm! ¡Estas migas huelen de maravilla! Pero qué cabeza la mía... ¡se me han olvidado las uvas dulces!»', 'sub-speaker-oti');
 
-    VoiceEngine.speak('¡Mmm! ¡Estas migas van a quedar deliciosas! Pero vaya... ¡nos faltan las uvas!', 'oti', () => {
+    VoiceEngine.speak('¡Mmm! ¡Estas migas huelen de maravilla! Pero qué cabeza la mía... ¡se me han olvidado las uvas dulces!', 'oti', () => {
       if (myToken !== activeSequenceToken) return;
-      SFXEngine.play('banjo-sarten');
-      setSceneSubtitle('sub-escena-03', '«¡Vamos a buscarlas arriba al desván antes de que se enfríen las migas!»', 'sub-speaker-crunchy');
-      VoiceEngine.speak('¡Vamos a buscarlas arriba al desván antes de que se enfríen las migas!', 'crunchy', () => {
+      SFXEngine.play('whoop');
+      setSceneSubtitle('sub-escena-03', '«¡Voy yo, voy yo! ¡A que llego al desván antes que tú, Crunchy!»', 'sub-speaker-gato');
+      VoiceEngine.speak('¡Voy yo, voy yo! ¡A que llego al desván antes que tú, Crunchy!', 'gato', () => {
         if (myToken !== activeSequenceToken) return;
-        SFXEngine.play('whoop');
-        setSceneSubtitle('sub-escena-03', '«¡Tranquilos! ¡Yo subo a por ellas en un abrir y cerrar de ojos!»', 'sub-speaker-gato');
-        VoiceEngine.speak('¡Tranquilos! ¡Yo subo a por ellas en un abrir y cerrar de ojos!', 'gato', () => {
+        SFXEngine.play('banjo-sarten');
+        setSceneSubtitle('sub-escena-03', '«¡Eso lo veremos! ¡El último en subir recoge la mesa!»', 'sub-speaker-crunchy');
+        VoiceEngine.speak('¡Eso lo veremos! ¡El último en subir recoge la mesa!', 'crunchy', () => {
           if (myToken !== activeSequenceToken) return;
           SFXEngine.play('banjo-sarten');
-          setSceneSubtitle('sub-escena-03', '«¡Ten cuidado con los trastos, Gato!»', 'sub-speaker-oti');
-          VoiceEngine.speak('¡Ten cuidado con los trastos, Gato!', 'oti', () => {
+          setSceneSubtitle('sub-escena-03', '«¡Ja, ja, ja! ¡No corráis tanto por las escaleras, cabras locas!»', 'sub-speaker-oti');
+          VoiceEngine.speak('¡Ja, ja, ja! ¡No corráis tanto por las escaleras, cabras locas!', 'oti', () => {
             if (myToken !== activeSequenceToken) return;
             setTimeout(() => {
               if (myToken !== activeSequenceToken) return;
@@ -1069,10 +1067,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Diálogos narrativos al apartar cada caja
   const boxNarrativeSteps = {
-    3: '«¡Uf, cuántos trastos viejos acumulados por aquí!»',
-    2: '«¡Por aquí tampoco están las uvas! Sigamos buscando...»',
-    1: '«¡Cuidado con levantar polvo! Ya casi llegamos al fondo...»',
-    0: '«¡Espera! ¿Y este artefacto tan raro?»'
+    3: '«¡Aaaatchís! ¡Cuántos trastos viejos tiene Oti aquí guardados!»',
+    2: '«¡Por aquí no hay nada! Solo juguetes viejos y cachivaches...»',
+    1: '«¡Ya casi llego al fondo! ¿Dónde habrá metido las uvas?»',
+    0: '«¡Halaaa! ¡Mira qué pasada de cacharro con luces!»'
   };
 
   function getRemainingBoxes() {
@@ -1089,7 +1087,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const remaining = getRemainingBoxes();
     if (remaining.length > 0) {
-      const nextBox = remaining[0]; // Orden de capas: Caja 1 (frente) -> Caja 2 -> Caja 3 -> Caja 4 (fondo)
+      const nextBox = remaining[0];
       const tossDir = (nextBox.id === 'item-caja-1' || nextBox.id === 'item-caja-4') ? 'is-tossed-left' : 'is-tossed-right';
       nextBox.classList.add(tossDir);
       SFXEngine.play('whoop');
@@ -1098,7 +1096,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const stepText = boxNarrativeSteps[afterCount] || '¡Apartando trastos del desván!';
       
       if (afterCount === 0) {
-        allBoxesTossedAt = Date.now(); // Marca el momento exacto en que se apartó la última caja
+        allBoxesTossedAt = Date.now();
         setSceneSubtitle('sub-escena-04', stepText, 'sub-speaker-gato');
       } else {
         setSceneSubtitle('sub-escena-04', stepText, 'sub-speaker-gato');
@@ -1122,14 +1120,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function runScene04Dialogue() {
-    // Si aún quedan cajas visibles, NO activar la pistola, sino apartar estrictamente 1 caja
     const remaining = getRemainingBoxes();
     if (remaining.length > 0) {
       tossNextBox();
       return;
     }
 
-    // Exigir un tiempo prudencial tras apartar la 4ª caja para evitar activaciones accidentales en el mismo clic
     const now = Date.now();
     if (allBoxesTossedAt > 0 && now - allBoxesTossedAt < 500) {
       return;
@@ -1137,15 +1133,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const myToken = cancelAllSequences();
 
-    // Paso 1: Gato coge la pistola por curiosidad y el núcleo comienza a iluminarse
     if (layerPistola) {
       layerPistola.classList.remove('is-shooting', 'is-vibrating');
       layerPistola.classList.add('is-charging');
     }
     SFXEngine.play('portal-star');
-    setSceneSubtitle('sub-escena-04', 'Gato cogió la extraña pistola con curiosidad... ¡y empezó a brillar con una intensa luz azul!', 'destacat-cyan');
+    setSceneSubtitle('sub-escena-04', 'Gato cogió el misterioso artefacto y comenzó a brillar con una intensa luz azul...', 'destacat-cyan');
 
-    // Paso 1.5 (a los 900ms): Comienza a vibrar acumulando energía antes del disparo
     setTimeout(() => {
       if (myToken !== activeSequenceToken) return;
       if (layerPistola) {
@@ -1154,7 +1148,6 @@ document.addEventListener('DOMContentLoaded', () => {
       SFXEngine.play('whoop');
     }, 900);
 
-    // Paso 2 (a los 1800ms): Disparo accidental por la energía del conflicto con "pistola_dispara"
     setTimeout(() => {
       if (myToken !== activeSequenceToken) return;
 
@@ -1164,21 +1157,20 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       playFreesoundPortal();
 
-      setSceneSubtitle('sub-escena-04', '«¡DEJA DE TOCAR COSAS QUE NO SON TUYAS! ¡SIEMPRE HACES LO QUE QUIERES!»', 'sub-speaker-crunchy shout-rage');
+      setSceneSubtitle('sub-escena-04', '«¡Gato, no toques eso! ¡Que nos conocemos y siempre la lías!»', 'sub-speaker-crunchy shout-rage');
 
-      VoiceEngine.speak('¡Deja de tocar cosas que no son tuyas! ¡Siempre haces lo que quieres!', 'crunchy', () => {
+      VoiceEngine.speak('¡Gato, no toques eso! ¡Que nos conocemos y siempre la lías!', 'crunchy', () => {
         if (myToken !== activeSequenceToken) return;
-        setSceneSubtitle('sub-escena-04', '«¡SOLO TENÍA CURIOSIDAD! ¡DEJA DE DECIRME SIEMPRE LO QUE TENGO QUE HACER!»', 'sub-speaker-gato shout-rage');
-        VoiceEngine.speak('¡Solo tenía curiosidad! ¡Deja de decirme siempre lo que tengo que hacer!', 'gato', () => {
+        setSceneSubtitle('sub-escena-04', '«¡Que no lo iba a romper, aguafiestas! ¡No me mandes!»', 'sub-speaker-gato shout-rage');
+        VoiceEngine.speak('¡Que no lo iba a romper, aguafiestas! ¡No me mandes!', 'gato', () => {
           if (myToken !== activeSequenceToken) return;
           playFreesoundPortal();
-          setSceneSubtitle('sub-escena-04', '¡La energía de la discusión sobrecargó la pistola abriendo una brecha dimensional! Desplaza para continuar...', 'destacat-cyan');
+          setSceneSubtitle('sub-escena-04', '¡Con tanto grito la pistola se encendió y abrió un portal! Desplaza hacia abajo...', 'destacat-cyan');
         });
       });
     }, 1800);
   }
 
-  // Interacción al hacer clic directamente en una caja o en la pistola
   chestLayers.forEach((layer) => {
     layer.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1196,7 +1188,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (now - lastTossTimestamp < 280) return;
         lastTossTimestamp = now;
 
-        // Apartar la caja pulsada directamente
         const boxId = layer.id;
         const tossDir = (boxId === 'item-caja-1' || boxId === 'item-caja-4') ? 'is-tossed-left' : 'is-tossed-right';
         layer.classList.add(tossDir);
@@ -1206,15 +1197,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const stepText = boxNarrativeSteps[remaining.length] || '¡Apartando trastos del desván!';
         if (remaining.length === 0) {
           allBoxesTossedAt = Date.now();
-          setSceneSubtitle('sub-escena-04', stepText, 'destacat-cyan');
+          setSceneSubtitle('sub-escena-04', stepText, 'sub-speaker-gato');
         } else {
-          setSceneSubtitle('sub-escena-04', stepText, '');
+          setSceneSubtitle('sub-escena-04', stepText, 'sub-speaker-gato');
         }
       }
     });
   });
 
-  // Clic directo en la burbuja de subtítulo inferior
   if (pillEscena04) {
     pillEscena04.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1222,21 +1212,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (remaining.length > 0) {
         tossNextBox();
       } else {
-        const now = Date.now();
-        if (allBoxesTossedAt > 0 && now - allBoxesTossedAt < 500) {
-          return;
-        }
-
-        if (layerPistola && !layerPistola.classList.contains('is-shooting')) {
-          runScene04Dialogue();
-        } else {
-          resetScene04Boxes();
-        }
+        runScene04Dialogue();
       }
     });
   }
 
-  // Clic en la tarjeta de la escena (solo si no fue en un hijo que ya gestionó el evento)
   if (cardEscena04) {
     cardEscena04.addEventListener('click', (e) => {
       if (e.target.closest('.chest-item-layer') || e.target.closest('#sub-escena-04')) {
@@ -1246,47 +1226,29 @@ document.addEventListener('DOMContentLoaded', () => {
       if (remaining.length > 0) {
         tossNextBox();
       } else {
-        const now = Date.now();
-        if (allBoxesTossedAt > 0 && now - allBoxesTossedAt < 500) {
-          return;
-        }
-
-        if (layerPistola && !layerPistola.classList.contains('is-shooting')) {
-          runScene04Dialogue();
-        } else {
-          resetScene04Boxes();
-        }
+        runScene04Dialogue();
       }
     });
   }
 
   // ========================================================
-  // ESCENA 05: EL SALTO DIMENSIONAL (PORTAL GIRATORIO Y VISTA VOLCÁNICA)
+  // ESCENA 05: EL SALTO DIMENSIONAL (VÓRTICE Y MUNDO VOLCÁNICO)
   // ========================================================
   const cardEscena05 = document.getElementById('card-escena-05');
   const portalStage = document.getElementById('portal-stage');
-  const portalAperture = document.getElementById('portal-aperture');
   const portalWorldImg = document.getElementById('portal-world-img');
 
-  let isPortalHovered = false;
-
-  // Efecto Parallax 3D sobre el círculo del portal
-  if (portalAperture && portalWorldImg) {
-    portalAperture.addEventListener('mousemove', (e) => {
-      const rect = portalAperture.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      const moveX = ((e.clientX - centerX) / (rect.width / 2)) * 12;
-      const moveY = ((e.clientY - centerY) / (rect.height / 2)) * 12;
-      
-      portalWorldImg.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.08)`;
+  if (portalStage) {
+    portalStage.addEventListener('mousemove', (e) => {
+      const rect = portalStage.getBoundingClientRect();
+      const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+      const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+      if (portalWorldImg) {
+        portalWorldImg.style.transform = `translate(${nx * 14}px, ${ny * 14}px) scale(1.08)`;
+      }
     });
 
-    portalAperture.addEventListener('mouseenter', () => {
-      SFXEngine.play('portal-star');
-    });
-
-    portalAperture.addEventListener('mouseleave', () => {
+    portalStage.addEventListener('mouseleave', () => {
       if (portalWorldImg) {
         portalWorldImg.style.transform = 'translate(0px, 0px) scale(1)';
       }
@@ -1302,16 +1264,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     playFreesoundPortal();
     SFXEngine.play('whoop');
-    setSceneSubtitle('sub-escena-05', '«¡Aaaaah! ¡Gato, nos absorbe el portal!»', 'sub-speaker-crunchy shout-rage');
+    setSceneSubtitle('sub-escena-05', '«¡Gatoooo! ¡Nos absorbe el portal! ¡¿Ves lo que pasa por tocar?!»', 'sub-speaker-crunchy shout-rage');
 
-    VoiceEngine.speak('¡Aaaaah! ¡Gato, nos absorbe el portal!', 'crunchy', () => {
+    VoiceEngine.speak('¡Gato! ¡Nos absorbe el portal! ¡¿Ves lo que pasa por tocar?!', 'crunchy', () => {
       if (myToken !== activeSequenceToken) return;
       SFXEngine.play('whoop');
-      setSceneSubtitle('sub-escena-05', '«¡Uf! ¡¿Pero por qué hace tanto calor?! ¡¿Hemos caído dentro de un horno?!»', 'sub-speaker-gato shout-rage');
-      VoiceEngine.speak('¡Uf! ¡¿Pero por qué hace tanto calor?! ¡¿Hemos caído dentro de un horno?!', 'gato', () => {
+      setSceneSubtitle('sub-escena-05', '«¡¡Agarra mi mano y no me sueltes!! ¡¡Aaaaah!!»', 'sub-speaker-gato shout-rage');
+      VoiceEngine.speak('¡Agarra mi mano y no me sueltes! ¡Aaaaah!', 'gato', () => {
         if (myToken !== activeSequenceToken) return;
         playFreesoundPortal();
-        setSceneSubtitle('sub-escena-05', '¡Han caído en mitad del Mundo Volcánico! Desplaza hacia abajo para continuar...', 'destacat-orange');
+        setSceneSubtitle('sub-escena-05', '¡Aterrizaje forzoso en un mundo de lava! Desplaza hacia abajo...', 'destacat-orange');
         
         setTimeout(() => {
           if (cardEscena05) cardEscena05.classList.remove('is-transporting');
@@ -1323,7 +1285,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (cardEscena05) {
     cardEscena05.addEventListener('click', (e) => {
       if (e.target.closest('#sub-escena-05')) {
-        return; // No activar animación del portal al pulsar la burbuja de texto
+        return;
       }
       runScene05Sequence();
     });
@@ -1350,7 +1312,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (speakerRiolitaCard) speakerRiolitaCard.classList.remove('is-speaking');
       if (speakerBasaltoCard) speakerBasaltoCard.classList.remove('is-speaking');
       
-      // Restaurar fotos enfadadas al cerrar
       if (imgRiolitaDispute) imgRiolitaDispute.src = 'assets/personajes/riolita/Riolita-3.png';
       if (imgBasaltoDispute) imgBasaltoDispute.src = 'assets/personajes/basalto/Basalto-1.png';
 
@@ -1361,12 +1322,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function runScene06Sequence(e) {
     if (e && e.target && e.target.closest('#sub-escena-06')) {
-      return; // No reiniciar si solo se hace clic en la pastilla
+      return;
     }
 
     const isCurrentlyOpened = binocularsStage && binocularsStage.classList.contains('is-opened');
 
-    // Si ya está abierto y se hace clic FUERA del visor de los prismáticos -> Cerrar sin reiniciar diálogo
     if (isCurrentlyOpened) {
       const clickedInsideVisor = e && e.target && e.target.closest('#binoculars-visor-elem');
       if (!clickedInsideVisor) {
@@ -1377,41 +1337,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const myToken = cancelAllSequences();
 
-    // Abrir el visor de los prismáticos
     if (binocularsStage && !binocularsStage.classList.contains('is-opened')) {
       binocularsStage.classList.add('is-opened');
       SFXEngine.play('whoop');
     }
 
-    // Resetear posición de la roca si ya había rodado y poner caras enfadadas
     if (disputeRoundRock) {
       disputeRoundRock.classList.remove('is-rolling-away');
-      void disputeRoundRock.offsetWidth; // trigger reflow
+      void disputeRoundRock.offsetWidth;
     }
     if (imgRiolitaDispute) imgRiolitaDispute.src = 'assets/personajes/riolita/Riolita-3.png';
     if (imgBasaltoDispute) imgBasaltoDispute.src = 'assets/personajes/basalto/Basalto-1.png';
 
-    // 1. Habla Riolita (Enfadada)
     if (speakerRiolitaCard) speakerRiolitaCard.classList.add('is-speaking');
     if (speakerBasaltoCard) speakerBasaltoCard.classList.remove('is-speaking');
 
     SFXEngine.play('lava-bubble');
-    setSceneSubtitle('sub-escena-06', '«¡Esta roca ígnea la vi yo primero para mi colección! ¡No la toques, Basalto!»', 'sub-speaker-riolita angry');
+    setSceneSubtitle('sub-escena-06', '«¡Esta roca la vi yo primero! ¡Suéltala, Basalto, que es mía!»', 'sub-speaker-riolita angry');
     
-    VoiceEngine.speak('¡Esta roca ígnea la vi yo primero para mi colección! ¡No la toques, Basalto!', 'riolita', () => {
+    VoiceEngine.speak('¡Esta roca la vi yo primero! ¡Suéltala, Basalto, que es mía!', 'riolita', () => {
       if (myToken !== activeSequenceToken) return;
 
-      // 2. Habla Basalto (Enfadado)
       if (speakerRiolitaCard) speakerRiolitaCard.classList.remove('is-speaking');
       if (speakerBasaltoCard) speakerBasaltoCard.classList.add('is-speaking');
 
       SFXEngine.play('lava-bubble');
-      setSceneSubtitle('sub-escena-06', '«¡La desenterré yo picando con mi pico! ¡No pienso dártela!»', 'sub-speaker-basalto angry');
+      setSceneSubtitle('sub-escena-06', '«¡De eso nada, que la he picado yo! ¡Búscate otra!»', 'sub-speaker-basalto angry');
 
-      VoiceEngine.speak('¡La desenterré yo picando con mi pico! ¡No pienso dártela!', 'basalto', () => {
+      VoiceEngine.speak('¡De eso nada, que la he picado yo! ¡Búscate otra!', 'basalto', () => {
         if (myToken !== activeSequenceToken) return;
 
-        // 3. Forcejeo final: la roca cae rodando y cambian a caras de sorprendidos
         if (speakerRiolitaCard) speakerRiolitaCard.classList.add('is-speaking');
         if (speakerBasaltoCard) speakerBasaltoCard.classList.add('is-speaking');
 
@@ -1419,20 +1374,19 @@ document.addEventListener('DOMContentLoaded', () => {
           disputeRoundRock.classList.add('is-rolling-away');
         }
 
-        // Cambiar a las imágenes de sorprendidos
         if (imgRiolitaDispute) imgRiolitaDispute.src = 'assets/personajes/riolita/Riolita-2.png';
         if (imgBasaltoDispute) imgBasaltoDispute.src = 'assets/personajes/basalto/Basalto-2.png';
 
         SFXEngine.play('whoop');
         SFXEngine.play('rock-rumble');
-        setSceneSubtitle('sub-escena-06', '«¡Cuidado, Basalto, que se cae!»', 'sub-speaker-riolita surprised');
+        setSceneSubtitle('sub-escena-06', '«¡Cuidado, bruto, que se nos resbala cuesta abajo!»', 'sub-speaker-riolita surprised');
 
-        VoiceEngine.speak('¡Cuidado, Basalto, que se cae!', 'riolita', () => {
+        VoiceEngine.speak('¡Cuidado, bruto, que se nos resbala cuesta abajo!', 'riolita', () => {
           if (myToken !== activeSequenceToken) return;
           if (speakerRiolitaCard) speakerRiolitaCard.classList.remove('is-speaking');
           if (speakerBasaltoCard) speakerBasaltoCard.classList.remove('is-speaking');
           SFXEngine.play('explosion');
-          setSceneSubtitle('sub-escena-06', '¡La gran roca se les escapó de las manos y cayó rodando montaña abajo directo a la cueva! Desplaza para continuar...', 'destacat-orange');
+          setSceneSubtitle('sub-escena-06', '«¡La roca rodó y taponó la entrada de la cueva! Desplaza hacia abajo...', 'destacat-orange');
         });
       });
     });
@@ -1440,7 +1394,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (cardEscena06) cardEscena06.addEventListener('click', runScene06Sequence);
 
-  // Cerrar prismáticos si se hace clic fuera de la tarjeta de la escena 06
   document.addEventListener('click', (e) => {
     if (binocularsStage && binocularsStage.classList.contains('is-opened')) {
       if (!e.target.closest('#card-escena-06')) {
@@ -1460,28 +1413,28 @@ document.addEventListener('DOMContentLoaded', () => {
   const handStepData = [
     {
       handId: 'arm-hand-1',
-      text: '«¡Venga, pongamos todos de nuestra parte para arreglarlo!»',
+      text: '«Vaya... por pelearnos hemos tapado la cueva entera...»',
       speaker: 'sub-speaker-riolita',
       voiceChar: 'riolita',
       sfx: 'lava-bubble'
     },
     {
       handId: 'arm-hand-2',
-      text: '«¡Eso es, que si colaboramos no hay nada que nos pare!»',
+      text: '«La verdad es que nos hemos pasado de cabezotas...»',
       speaker: 'sub-speaker-basalto',
       voiceChar: 'basalto',
       sfx: 'rock-rumble'
     },
     {
       handId: 'arm-hand-3',
-      text: '«¡Seguro que entre los cuatro podemos despejar la cueva!»',
+      text: '«¡Pues si empujamos los cuatro a la vez, seguro que la quitamos!»',
       speaker: 'sub-speaker-crunchy',
       voiceChar: 'crunchy',
       sfx: 'pop'
     },
     {
       handId: 'arm-hand-4',
-      text: '«¡Claro que sí! ¡A la de tres: uno, dos y... ¡¡EQUIPO!!»',
+      text: '«¡Venga, manos al centro! ¡A la de tres todos a una!»',
       speaker: 'sub-speaker-gato',
       voiceChar: 'gato',
       isFinal: true
@@ -1496,7 +1449,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const myToken = cancelAllSequences();
 
     if (currentHandsCount >= maxHands) {
-      // Reiniciar para volver a jugar la secuencia
       currentHandsCount = 0;
       for (let i = 1; i <= maxHands; i++) {
         const hand = document.getElementById(`arm-hand-${i}`);
@@ -1530,7 +1482,7 @@ document.addEventListener('DOMContentLoaded', () => {
     VoiceEngine.speak(step.text.replace(/[«»¡!]/g, ''), step.voiceChar, () => {
       if (myToken !== activeSequenceToken) return;
       if (step.isFinal) {
-        setSceneSubtitle('sub-escena-07', '¡Pacto sellado! Los cuatro amigos han unido sus fuerzas para resolver el problema juntos.', 'destacat-orange');
+        setSceneSubtitle('sub-escena-07', '¡Pacto de equipo sellado! Los cuatro amigos unen sus fuerzas para solucionar el problema.', 'destacat-orange');
       }
     });
   }
@@ -1548,12 +1500,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function handleRockSmashClick(e) {
     if (e && e.target && e.target.closest('#sub-escena-08')) {
-      return; // No avanzar golpes si solo se hace clic en la burbuja de texto
+      return;
     }
 
     const myToken = cancelAllSequences();
 
-    // Si ya se destruyó, permitir reiniciar
     if (rockSmashStep >= 4) {
       rockSmashStep = 0;
       if (volcanicRockArt) volcanicRockArt.src = 'assets/objetos/roca/Roca-5.png';
@@ -1564,46 +1515,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     rockSmashStep++;
 
-    // Animación de impacto y temblor físico en la roca
     if (volcanicBoulder) {
       volcanicBoulder.classList.remove('is-punch-struck');
-      void volcanicBoulder.offsetWidth; // trigger reflow
+      void volcanicBoulder.offsetWidth;
       volcanicBoulder.classList.add('is-punch-struck');
     }
 
     if (rockSmashStep === 1) {
-      // 1er Clic: Riolita pide disculpas y golpea -> Fase 1 de grietas (Roca-4)
       if (volcanicRockArt) volcanicRockArt.src = 'assets/objetos/roca/Roca-4.png';
       SFXEngine.play('rock-rumble');
-      setSceneSubtitle('sub-escena-08', '«¡Siento haberme enfadado, Basalto! ¡Hagamos las paces!»', 'sub-speaker-riolita');
-      VoiceEngine.speak('¡Siento haberme enfadado, Basalto! ¡Hagamos las paces!', 'riolita');
+      setSceneSubtitle('sub-escena-08', '«¡Perdona por los gritos de antes, Basalto! ¡Toma fuerza!»', 'sub-speaker-riolita');
+      VoiceEngine.speak('¡Perdona por los gritos de antes, Basalto! ¡Toma fuerza!', 'riolita');
 
     } else if (rockSmashStep === 2) {
-      // 2º Clic: Basalto le responde y suma sus fuerzas -> Fase 2 de grietas (Roca-3)
       if (volcanicRockArt) volcanicRockArt.src = 'assets/objetos/roca/Roca-3.png';
       SFXEngine.play('explosion');
-      setSceneSubtitle('sub-escena-08', '«¡Yo también lo siento, Riolita! ¡Juntos somos más fuertes!»', 'sub-speaker-basalto');
-      VoiceEngine.speak('¡Yo también lo siento, Riolita! ¡Juntos somos más fuertes!', 'basalto');
+      setSceneSubtitle('sub-escena-08', '«¡Y yo por ponerme tan terco! ¡Empuja con ganas!»', 'sub-speaker-basalto');
+      VoiceEngine.speak('¡Y yo por ponerme tan terco! ¡Empuja con ganas!', 'basalto');
 
     } else if (rockSmashStep === 3) {
-      // 3er Clic: Crunchy anima al grupo -> Fase 3 de grietas profundas (Roca-2)
       if (volcanicRockArt) volcanicRockArt.src = 'assets/objetos/roca/Roca-2.png';
       SFXEngine.play('whoop');
-      setSceneSubtitle('sub-escena-08', '«¡Eso es! ¡Gato, remata tú con todas tus fuerzas!»', 'sub-speaker-crunchy');
-      VoiceEngine.speak('¡Eso es! ¡Gato, remata tú con todas tus fuerzas!', 'crunchy');
+      setSceneSubtitle('sub-escena-08', '«¡Ya se está rompiendo! ¡Gato, dale tú con todo!»', 'sub-speaker-crunchy');
+      VoiceEngine.speak('¡Ya se está rompiendo! ¡Gato, dale tú con todo!', 'crunchy');
 
     } else if (rockSmashStep === 4) {
-      // 4º Clic: Golpe conjunto con Gato y Destrucción Total -> Montón de escombros (Roca-1)
       if (volcanicRockArt) volcanicRockArt.src = 'assets/objetos/roca/Roca-1.png';
       if (volcanicBoulder) volcanicBoulder.classList.add('is-shattered');
 
       SFXEngine.play('explosion');
       SFXEngine.play('triumph-chime');
-      setSceneSubtitle('sub-escena-08', '«¡¡Por fin la hemos roto!! ¡El túnel está despejado!»', 'sub-speaker-gato');
+      setSceneSubtitle('sub-escena-08', '«¡¡TOMA YA!! ¡¡Roca rota!! ¡Camino libre!»', 'sub-speaker-gato');
       
-      VoiceEngine.speak('¡Por fin la hemos roto! ¡El túnel está despejado!', 'gato', () => {
+      VoiceEngine.speak('¡Toma ya! ¡Roca rota! ¡Camino libre!', 'gato', () => {
         if (myToken !== activeSequenceToken) return;
-        setSceneSubtitle('sub-escena-08', '¡Roca destruida en equipo! ¡El camino hacia el portal ha quedado libre!', 'destacat-cyan');
+        setSceneSubtitle('sub-escena-08', '¡Roca rota en equipo! El camino hacia el portal vuelve a estar despejado.', 'destacat-cyan');
       });
     }
   }
@@ -1623,32 +1569,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const bolsaGrapeDialogueSteps = [
     {
-      text: '«¡Esa está recién cosechada del cráter, bien dulce y calentita!»',
+      text: '«¡Aquí tenéis una bien calentita y dulce!»',
       speaker: 'sub-speaker-riolita',
       voiceChar: 'riolita'
     },
     {
-      text: '«¡Cuidado, que guardan todo el calor del reino de magma!»',
+      text: '«¡Cuidado que queman un poco, métela rápido!»',
       speaker: 'sub-speaker-basalto',
       voiceChar: 'basalto'
     },
     {
-      text: '«¡Mmm! ¡Qué aroma tan rico desprenden, me encantan!»',
+      text: '«¡Madre mía qué ricas van a quedar con las migas!»',
       speaker: 'sub-speaker-crunchy',
       voiceChar: 'crunchy'
     },
     {
-      text: '«¡Oti va a preparar un festín legendario con estas uvas!»',
+      text: '«¡Nos van a saber a gloria después del susto que nos hemos llevado!»',
       speaker: 'sub-speaker-gato',
       voiceChar: 'gato'
     },
     {
-      text: '«¡Ya casi las tenéis todas dentro de la bolsa!»',
+      text: '«¡Ya casi las tenéis todas dentro!»',
       speaker: 'sub-speaker-riolita',
       voiceChar: 'riolita'
     },
     {
-      text: '«¡Bolsa llena y asegurada! ¡Buen viaje de regreso, amigos!»',
+      text: '«¡Listo! ¡Buen viaje de vuelta a casa, amigos!»',
       speaker: 'sub-speaker-basalto',
       voiceChar: 'basalto',
       isFinal: true
@@ -1667,7 +1613,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const fromRect = fromElement.getBoundingClientRect();
     const toRect = toElement.getBoundingClientRect();
 
-    // Posición inicial y final relativas a la capa interna z-index: 3 de la bolsa
     const startX = fromRect.left - layerRect.left;
     const startY = fromRect.top - layerRect.top;
     const endX = (toRect.left + toRect.width / 2) - layerRect.left - (fromRect.width / 2);
@@ -1686,7 +1631,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fromElement.classList.add('is-collected');
 
-    // Force browser reflow to register initial transform
     void flyingGrape.offsetWidth;
 
     const deltaX = endX - startX;
@@ -1706,7 +1650,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const myToken = cancelAllSequences();
 
-    // 1. Si ya se han guardado las 6 uvas y se vuelve a hacer clic -> Reiniciar secuencia
     if (collectedGrapesCount >= maxBolsaGrapes) {
       isBagOpen = false;
       collectedGrapesCount = 0;
@@ -1727,7 +1670,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // 2. Si la bolsa está cerrada -> Abrirla
     if (!isBagOpen) {
       isBagOpen = true;
       if (cardEscena09) {
@@ -1737,8 +1679,8 @@ document.addEventListener('DOMContentLoaded', () => {
       SFXEngine.play('pop');
       SFXEngine.play('sparkle');
       
-      const openSpeech = '¡Abre bien la bolsa, que vamos a guardar todas las uvas ígneas!';
-      setSceneSubtitle('sub-escena-09', '«¡Abre bien la bolsa, que vamos a guardar todas las uvas ígneas!»', 'sub-speaker-crunchy');
+      const openSpeech = '¡Abre la bolsa, a ver esas uvas de lava!';
+      setSceneSubtitle('sub-escena-09', '«¡Abre la bolsa, a ver esas uvas de lava!»', 'sub-speaker-crunchy');
       VoiceEngine.speak(openSpeech, 'crunchy', () => {
         if (myToken !== activeSequenceToken) return;
         if (collectedGrapesCount === 0) {
@@ -1748,7 +1690,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // 3. Si la bolsa está abierta -> Guardar la siguiente uva
     const clickedSlot = e ? e.target.closest('.bolsa-grape-slot') : null;
     let targetSlot = clickedSlot;
     if (!targetSlot || targetSlot.classList.contains('is-collected')) {
@@ -1761,7 +1702,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextGrapeIndex = collectedGrapesCount;
     const insideDot = document.getElementById(`inside-grape-${nextGrapeIndex}`);
 
-    // Asegurar que todas las uvas anteriores ya estén guardadas en la bolsa aunque se pulse rápido
     for (let i = 1; i < nextGrapeIndex; i++) {
       const prevDot = document.getElementById(`inside-grape-${i}`);
       if (prevDot) prevDot.classList.add('is-filled');
@@ -1770,7 +1710,6 @@ document.addEventListener('DOMContentLoaded', () => {
     SFXEngine.play('sparkle');
 
     animateGrapeToBag(targetSlot, insideDot, () => {
-      // La uva SIEMPRE se queda guardada en la bolsa
       if (insideDot) {
         insideDot.classList.add('is-filled');
       }
@@ -1794,7 +1733,7 @@ document.addEventListener('DOMContentLoaded', () => {
       VoiceEngine.speak(step.text.replace(/[«»¡!]/g, ''), step.voiceChar, () => {
         if (myToken !== activeSequenceToken) return;
         if (step.isFinal) {
-          setSceneSubtitle('sub-escena-09', '¡Todas las uvas aseguradas en la bolsa! Gato y Crunchy cruzan el portal. Desplaza hacia abajo para el festín final...', 'destacat-orange');
+          setSceneSubtitle('sub-escena-09', '¡Todas las uvas están guardadas! Cruza el portal para volver a casa...', 'destacat-orange');
         }
       });
     });
@@ -1812,32 +1751,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const grapeDialogueSteps = [
     {
-      text: '«¡Oti, ya estamos aquí! ¡Y traemos las mejores uvas ígneas del universo!»',
+      text: '«¡Oti, ya estamos aquí! ¡Mira qué uvas más raras y ricas hemos traído!»',
       speaker: 'sub-speaker-gato',
       voiceChar: 'gato'
     },
     {
-      text: '«¡Huelen delicioso! ¡Y pensar que fuisteis hasta un mundo volcánico a por ellas!»',
+      text: '«¡Menudo susto me habéis dado! Pero qué bien huelen, pillines...»',
       speaker: 'sub-speaker-oti',
       voiceChar: 'oti'
     },
     {
-      text: '«¡Y aprendimos a resolver los problemas hablando y trabajando en equipo!»',
+      text: '«¡Al final hemos hecho un montón de amigos y todo!»',
       speaker: 'sub-speaker-crunchy',
       voiceChar: 'crunchy'
     },
     {
-      text: '«¡Qué orgullo de amigos! Añadamos estas últimas uvas para coronar la gran receta...»',
+      text: '«¡Así me gusta, aprendiendo a colaborar! Echemos las uvas al plato...»',
       speaker: 'sub-speaker-oti',
       voiceChar: 'oti'
     },
     {
-      text: '«Y a ti que nos lees... ¡muchas gracias por vivir esta gran aventura con nosotros!»',
+      text: '«¡Y gracias por leernos la historia y ayudarnos a volver!»',
       speaker: 'sub-speaker-gato',
       voiceChar: 'gato'
     },
     {
-      text: '«¡Gato, no te enrolles hablando al lector que se enfrían las migas! ¡A comer todos juntos!»',
+      text: '«¡Venga, Gato, que se enfría! ¡A comer!»',
       speaker: 'sub-speaker-crunchy',
       voiceChar: 'crunchy',
       isFinal: true
@@ -1991,8 +1930,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (pill04) pill04.addEventListener('click', (e) => { e.stopPropagation(); runScene04Dialogue(); });
   if (pill05) pill05.addEventListener('click', (e) => { e.stopPropagation(); runScene05Sequence(); });
   if (pill06) pill06.addEventListener('click', (e) => { e.stopPropagation(); runScene06Sequence(); });
-  if (pill07) pill07.addEventListener('click', (e) => { e.stopPropagation(); runScene07Sequence(); });
+  if (pill07) pill07.addEventListener('click', (e) => { e.stopPropagation(); placeNextTeamHand(); });
   if (pill08) pill08.addEventListener('click', (e) => { e.stopPropagation(); handleRockSmashClick(); });
-  if (pill09) pill09.addEventListener('click', (e) => { e.stopPropagation(); runScene09Sequence(); });
+  if (pill09) pill09.addEventListener('click', (e) => { e.stopPropagation(); handleBolsaInteraction(); });
   if (pill10) pill10.addEventListener('click', (e) => { e.stopPropagation(); placeNextGrape(); });
 });

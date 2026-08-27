@@ -7,9 +7,9 @@ Un viaje dimensional a través de la gestión emocional, la amistad y la convive
 
 ## 📖 Sinopsis
 
-Gato, un felino cascarrabias, metódico e hipersensible a los estímulos, vive una rutina ordenada en su apartamento. Todo cambia drásticamente cuando **Crunchy**, una criatura hiperactiva, caótica y adicta a las uvas, irrumpe a través de un portal interdimensional.
+En lo alto de las ramas del bosque, en la acogedora casa del gran árbol, **Gato** y **Crunchy** son dos pequeños mellizos inseparables que viven bajo el cariñoso cuidado de **Oti Reboti**, su bondadoso oso protector y figura paterna. 
 
-Juntos deberán aprender a gestionar sus diferencias emocionales mientras resuelven anomalías interdimensionales cotidianas y descubren el valor de la empatía.
+Buscando uvas en el desván para las deliciosas migas de Oti, un desacuerdo entre ambos desata la energía de una misteriosa pistola interdimensional, transportándolos a un mundo volcánico. Juntos deberán aprender a gestionar sus emociones, comunicarse y colaborar en equipo para regresar a casa.
 
 ---
 
