@@ -124,11 +124,11 @@ body {
   background: #fffdf8;
   border: 4px solid #fbc42a;
   border-radius: 46px;
-  width: 234px;
-  height: 52px;
-  padding: 0 16px 0 46px;
+  width: 256px;
+  height: 58px;
+  padding: 0 20px 0 56px;
   font-family: var(--font-heading);
-  font-size: 0.92rem;
+  font-size: 0.96rem;
   font-weight: 900;
   letter-spacing: 0.5px;
   color: #373432;
@@ -162,11 +162,11 @@ body {
 
 .audio-icon-slot {
   position: absolute;
-  left: -32px;
+  left: -46px;
   top: 50%;
   transform: translateY(-50%);
-  width: 70px;
-  height: 70px;
+  width: 96px;
+  height: 96px;
   display: flex;
   align-items: center;
   justify-content: center;
