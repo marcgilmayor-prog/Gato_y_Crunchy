@@ -1931,7 +1931,7 @@ body {
   height: 100%;
   opacity: 0.9;
   pointer-events: none;
-  transition: transform 0.52s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.38s ease;
+  transition: transform 0.48s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.35s ease;
   will-change: transform, opacity;
 }
 
@@ -1942,84 +1942,55 @@ body {
   height: 100%;
   object-fit: contain;
   filter: none;
-  transition: transform 0.4s ease;
   pointer-events: none;
 }
 
-/* Posiciones de inicio (Brazos juntos y cercanos al centro en posición de espera) */
+/* Posiciones de inicio (Brazos visibles en sus cuadrantes listos para lanzarse al centro) */
 .arm-riolita {
-  transform: translate(-8%, -8%);
-  animation: arm-hover-corner-1 2.8s ease-in-out infinite alternate;
+  transform: translate(-18%, -18%) rotate(-3deg) scale(0.94);
   z-index: 1;
 }
 
 .arm-basalto {
-  transform: translate(8%, -8%);
-  animation: arm-hover-corner-2 3.1s ease-in-out infinite alternate 0.4s;
+  transform: translate(18%, -18%) rotate(3deg) scale(0.94);
   z-index: 2;
 }
 
 .arm-crunchy {
-  transform: translate(8%, 8%);
-  animation: arm-hover-corner-3 2.9s ease-in-out infinite alternate 0.8s;
+  transform: translate(18%, 18%) rotate(-2deg) scale(0.94);
   z-index: 3;
 }
 
 .arm-gato {
-  transform: translate(-8%, 8%);
-  animation: arm-hover-corner-4 3.2s ease-in-out infinite alternate 1.2s;
+  transform: translate(-18%, 18%) rotate(2deg) scale(0.94);
   z-index: 4;
 }
 
-@keyframes arm-hover-corner-1 {
-  0% { transform: translate(-8%, -8%); }
-  100% { transform: translate(-6%, -6%); }
-}
-
-@keyframes arm-hover-corner-2 {
-  0% { transform: translate(8%, -8%); }
-  100% { transform: translate(6%, -6%); }
-}
-
-@keyframes arm-hover-corner-3 {
-  0% { transform: translate(8%, 8%); }
-  100% { transform: translate(6%, 6%); }
-}
-
-@keyframes arm-hover-corner-4 {
-  0% { transform: translate(-8%, 8%); }
-  100% { transform: translate(-6%, 6%); }
-}
-
-/* Capa 1: Riolita (Llega al centro de la pila de forma fluida) */
+/* Capa 1: Riolita (Viaja fluidamente al centro de la pila) */
 .arm-riolita.is-in-center {
   opacity: 1;
-  transform: translate(3.8%, 3.8%);
-  animation: none;
+  transform: translate(3.8%, 3.8%) rotate(0deg) scale(1);
   z-index: 10;
 }
 
-/* Capa 2: Basalto (Se solapa y coloca su mano encima de Riolita de forma fluida) */
+/* Capa 2: Basalto (Viaja fluidamente y coloca su mano encima de Riolita) */
 .arm-basalto.is-in-center {
   opacity: 1;
-  transform: translate(-3.8%, 3.8%);
-  animation: none;
+  transform: translate(-3.8%, 3.8%) rotate(0deg) scale(1);
   z-index: 11;
 }
 
-/* Capa 3: Crunchy (Se solapa encima de Basalto y Riolita de forma fluida) */
+/* Capa 3: Crunchy (Viaja fluidamente encima de Basalto y Riolita) */
 .arm-crunchy.is-in-center {
   opacity: 1;
-  transform: translate(-3.8%, -3.8%);
-  animation: none;
+  transform: translate(-3.8%, -3.8%) rotate(0deg) scale(1);
   z-index: 12;
 }
 
-/* Capa 4: Gato (Se solapa coronando la unión del equipo de forma fluida) */
+/* Capa 4: Gato (Viaja fluidamente coronando la unión del equipo) */
 .arm-gato.is-in-center {
   opacity: 1;
-  transform: translate(3.8%, -3.8%);
-  animation: none;
+  transform: translate(3.8%, -3.8%) rotate(0deg) scale(1);
   z-index: 13;
 }
 
