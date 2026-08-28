@@ -490,24 +490,94 @@ let voiceEnabled = false; // disable character voice playback
   const libroPanel = document.getElementById('libro-panel');
   const btnLibroClose = document.getElementById('btn-libro-close');
 
-  if (btnLibroToggle && libroPanel) {
-    btnLibroToggle.addEventListener('click', () => {
-      libroPanel.style.display = 'flex';
-    });
+  const personajeData = {
+    gato: {
+      nombre: 'Gato',
+      img: 'assets/personajes/gato/Gato_CuerpoEntero.png',
+      desc: 'Gato es el protagonista principal y mellizo de Crunchy. Es un gato naranja, delgado, curioso, impulsivo e ingenuo. Actúa sin pensar, provocando el caos sin mala intención. Es bondadoso, confía en los demás y siempre busca ayudar. Le encanta explorar, hacer amigos, comer y coleccionar objetos extraños. Cada aventura le ayuda a comprender mejor sus emociones y las de Crunchy.'
+    },
+    crunchy: {
+      nombre: 'Crunchy',
+      img: 'assets/personajes/crunchy/Crunchy_CuerpoEntero.png',
+      desc: 'Crunchy es una pequeña cerdita rosa, racional, organizada y observadora. Melliza de Gato, suele intentar mantener el control y pensar antes de actuar, aunque se frustra cuando las cosas no salen como planea. Admira profundamente a su hermano y, pese a sus diferencias, siempre lo acompaña en sus aventuras. Es responsable, sensible y protectora, y su objetivo es ayudar a los demás y proteger a quienes quiere.'
+    },
+    oti: {
+      nombre: 'Oti Reboti',
+      img: 'assets/personajes/oti/Oti_CuerpoEntero.png',
+      desc: 'Oti es un enorme oso marrón de aspecto bonachón, tranquilo, paciente y protector. Tiene una personalidad serena y siempre intenta mantener la calma ante los conflictos. Es quien cuida y guía a Gato y Crunchy, ayudándolos a afrontar sus problemas sin darles las respuestas directamente. Confía en que aprendan de sus propias experiencias y descubran sus emociones por sí mismos.'
+    },
+    riolita: {
+      nombre: 'Riolita',
+      img: 'assets/personajes/riolita/Riolita_CuerpoEntero.png',
+      desc: 'Riolita es una exploradora intrépida de pelaje rosa con manchas, cuya apariencia y colores están inspirados en la piedra volcánica riolita. Curiosa y aventurera, siempre está preparada para descubrir nuevos lugares y enfrentarse a cualquier desafío. Lleva su equipo de exploración siempre listo, convirtiéndola en una compañera preparada para cualquier aventura.'
+    },
+    basalto: {
+      nombre: 'Basalto',
+      img: 'assets/personajes/basalto/Basalto_CuerpoEntero.png',
+      desc: 'Basalto es un oso trabajador, resistente y de gran fortaleza, inspirado en la roca que lleva su nombre. Aunque puede parecer serio y rudo, esconde un corazón noble y siempre está dispuesto a ayudar. Conoce todos los secretos subterráneos y destaca por su experiencia y conocimiento de las profundidades.'
+    }
+  };
 
-    if (btnLibroClose) {
-      btnLibroClose.addEventListener('click', () => {
-        libroPanel.style.display = 'none';
-      });
+  if (btnLibroToggle && libroPanel) {
+    function openLibro() {
+      libroPanel.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      // Si no hay ninguno activo, seleccionar Gato por defecto
+      const activo = libroPanel.querySelector('.marcador.activo');
+      if (!activo) {
+        const primerMarcador = libroPanel.querySelector('.marcador[data-char="gato"]');
+        if (primerMarcador) primerMarcador.click();
+      }
     }
 
-    // Cerrar al hacer clic en el fondo oscuro
+    function closeLibro() {
+      libroPanel.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    btnLibroToggle.addEventListener('click', openLibro);
+
+    if (btnLibroClose) {
+      btnLibroClose.addEventListener('click', closeLibro);
+    }
+
     libroPanel.addEventListener('click', (e) => {
       if (e.target === libroPanel) {
-        libroPanel.style.display = 'none';
+        closeLibro();
       }
     });
+
+    // Lógica de marcadores
+    const marcadores = libroPanel.querySelectorAll('.marcador');
+    const nombreEl = document.getElementById('libro-nombre');
+    const descEl   = document.getElementById('libro-desc');
+    const charImg  = document.getElementById('libro-char-img');
+
+    marcadores.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.char;
+        const data = personajeData[key];
+        if (!data) return;
+
+        // Marcar activo
+        marcadores.forEach(b => b.classList.remove('activo'));
+        btn.classList.add('activo');
+
+        // Actualizar contenido en las páginas del libro
+        if (nombreEl) nombreEl.textContent = data.nombre;
+        if (descEl)   descEl.textContent   = data.desc;
+        if (charImg) {
+          charImg.src  = data.img;
+          charImg.alt  = data.nombre;
+          charImg.style.display = 'block';
+        }
+      });
+    });
+
+    // Ocultar imagen hasta que se seleccione
+    if (charImg) charImg.style.display = 'none';
   }
+
 
   // ========================================================
   // FUNCIÓN AUXILIAR PARA ACTUALIZAR BURBUJAS DE DIÁLOGO OFICIALES

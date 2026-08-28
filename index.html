@@ -41,29 +41,34 @@
 
   <!-- Panel overlay del libro de personajes -->
   <div id="libro-panel" class="libro-panel-overlay" style="display:none;">
-    <div class="libro-panel-content">
-      <button id="btn-libro-close" class="libro-close-btn" title="Cerrar">&times;</button>
-      <h2 class="libro-title">📖 Personajes</h2>
-      <div class="libro-grid">
-        <div class="libro-card">
-          <img src="assets/personajes/gato/Gato_CuerpoEntero.png" alt="Gato" />
-          <span class="libro-card-name">Gato</span>
+    <div class="libro-stage">
+      <!-- Libro abierto con contenido superpuesto -->
+      <div class="libro-wrapper">
+        <button id="btn-libro-close" class="libro-close-btn" title="Cerrar">
+          <img src="assets/ui/X.png" alt="Cerrar" class="icon-close-img" />
+        </button>
+        <!-- Marcadores detrás de la página izquierda (3 personajes) -->
+        <div class="marcadores-grupo marcadores-izq">
+          <button class="marcador" data-char="gato"><img src="assets/ui/Marca_1.png" alt="Gato" /></button>
+          <button class="marcador" data-char="crunchy"><img src="assets/ui/Marca_5.png" alt="Crunchy" /></button>
+          <button class="marcador" data-char="oti"><img src="assets/ui/Marca_4.png" alt="Oti Reboti" /></button>
         </div>
-        <div class="libro-card">
-          <img src="assets/personajes/crunchy/Crunchy_CuerpoEntero.png" alt="Crunchy" />
-          <span class="libro-card-name">Crunchy</span>
+        <!-- Marcadores detrás de la página derecha (2 personajes) -->
+        <div class="marcadores-grupo marcadores-der">
+          <button class="marcador" data-char="riolita"><img src="assets/ui/Marca_2.png" alt="Riolita" /></button>
+          <button class="marcador" data-char="basalto"><img src="assets/ui/Marca_3.png" alt="Basalto" /></button>
         </div>
-        <div class="libro-card">
-          <img src="assets/personajes/oti/Oti_CuerpoEntero.png" alt="Oti Reboti" />
-          <span class="libro-card-name">Oti Reboti</span>
-        </div>
-        <div class="libro-card">
-          <img src="assets/personajes/riolita/Riolita_CuerpoEntero.png" alt="Riolita" />
-          <span class="libro-card-name">Riolita</span>
-        </div>
-        <div class="libro-card">
-          <img src="assets/personajes/basalto/Basalto_CuerpoEntero.png" alt="Basalto" />
-          <span class="libro-card-name">Basalto</span>
+        <img src="assets/ui/Libro.png" alt="Libro" class="libro-bg-img" />
+        <div class="libro-pages-overlay">
+          <!-- Página izquierda: texto -->
+          <div class="libro-pagina libro-pagina-izq">
+            <p class="desc-name" id="libro-nombre"></p>
+            <p class="desc-text" id="libro-desc">Selecciona un marcador para conocer al personaje.</p>
+          </div>
+          <!-- Página derecha: personaje -->
+          <div class="libro-pagina libro-pagina-der">
+            <img src="" alt="" class="libro-char-img" id="libro-char-img" />
+          </div>
         </div>
       </div>
     </div>
