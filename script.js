@@ -6,6 +6,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Estado global
   let audioEnabled = true;
+let voiceEnabled = false; // disable character voice playback
   let audioCtx = null;
   const portalAudioEl = document.getElementById('portal-audio-element');
 
@@ -112,15 +113,19 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      // Unlock audio globally (if needed)
       unlockGlobalAudio();
 
-      // Balbuceo procedural cartoon inmediato según el personaje
-      SFXEngine.play(`voice-${character}`);
+      // Skip character voice playback if voiceEnabled is false
+      if (voiceEnabled) {
+        // Procedural cartoon babble for the character
+        SFXEngine.play(`voice-${character}`);
+      }
 
-      // Limpiar texto de signos ortográficos para pronunciación natural
+      // Clean text for natural pronunciation (used for speech synthesis if enabled)
       const cleanText = text.replace(/<[^>]*>?/gm, '').replace(/[—«»"']/g, '').trim();
 
-      if (!('speechSynthesis' in window)) {
+      if (!voiceEnabled || !('speechSynthesis' in window)) {
         if (onStartCallback) onStartCallback();
         const estTime = Math.max(cleanText.split(' ').length * 350, 2000);
         if (onEndCallback) setTimeout(onEndCallback, estTime);
@@ -133,35 +138,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       } catch (e) {}
 
-      const utterance = new SpeechSynthesisUtterance(cleanText);
-      utterance.lang = 'es-ES';
-
-      if (character === 'gato') {
-        utterance.pitch = 1.25;
-        utterance.rate = 0.95;
-      } else if (character === 'crunchy') {
-        utterance.pitch = 1.45;
-        utterance.rate = 0.98;
-      } else if (character === 'riolita' || character === 'carbon') {
-        utterance.pitch = 1.32;
-        utterance.rate = 1.02;
-      } else if (character === 'oti') {
-        utterance.pitch = 0.8;
-        utterance.rate = 0.95;
-      } else if (character === 'basalto') {
-        utterance.pitch = 0.76;
-        utterance.rate = 0.95;
-      }
-
-      const voices = window.speechSynthesis.getVoices();
-      if (voices && voices.length > 0) {
-        const spanishVoice = voices.find(v => v.lang && (v.lang.toLowerCase().startsWith('es') || v.lang.toLowerCase().includes('spa')));
-        if (spanishVoice) {
-          utterance.voice = spanishVoice;
+      // Only create speech synthesis utterance if voiceEnabled is true
+      let utterance = null;
+      if (voiceEnabled) {
+        utterance = new SpeechSynthesisUtterance(cleanText);
+        utterance.lang = 'es-ES';
+        if (character === 'gato') {
+          utterance.pitch = 1.25;
+          utterance.rate = 0.95;
+        } else if (character === 'crunchy') {
+          utterance.pitch = 1.45;
+          utterance.rate = 0.98;
+        } else if (character === 'riolita' || character === 'carbon') {
+          utterance.pitch = 1.32;
+          utterance.rate = 1.02;
+        } else if (character === 'oti') {
+          utterance.pitch = 0.8;
+          utterance.rate = 0.95;
+        } else if (character === 'basalto') {
+          utterance.pitch = 0.76;
+          utterance.rate = 0.95;
         }
+        const voices = window.speechSynthesis.getVoices();
+        if (voices && voices.length > 0) {
+          const spanishVoice = voices.find(v => v.lang && (v.lang.toLowerCase().startsWith('es') || v.lang.toLowerCase().includes('spa')));
+          if (spanishVoice) {
+            utterance.voice = spanishVoice;
+          }
+        }
+        // Store globally to prevent GC
+        window._activeSpeechUtterance = utterance;
       }
 
-      // Almacenar en variable global para que el recolector de basura de Chrome no lo destruya
+      // Store globally to prevent GC
       window._activeSpeechUtterance = utterance;
 
       let finished = false;
@@ -173,45 +182,54 @@ document.addEventListener('DOMContentLoaded', () => {
           activeSpeechTimeout = null;
         }
         window._activeSpeechUtterance = null;
-        
+
         // Pausa natural y cómoda de 600ms antes de que hable el siguiente personaje
         if (onEndCallback) {
           setTimeout(onEndCallback, 600);
         }
       };
 
-      utterance.onstart = () => {
+      if (voiceEnabled && utterance) {
+        utterance.onstart = () => {
+          if (onStartCallback) onStartCallback();
+        };
+
+        utterance.onend = () => {
+          finish();
+        };
+
+        utterance.onerror = (e) => {
+          console.warn('SpeechSynthesis event error:', e);
+          finish();
+        };
+
+        // Safety timeout
+        const wordCount = cleanText.split(' ').length;
+        const maxSafetyDuration = Math.max(wordCount * 900, 7000);
+        activeSpeechTimeout = setTimeout(() => {
+          if (!window.speechSynthesis.speaking) {
+            finish();
+          }
+        }, maxSafetyDuration);
+
+        // Small delay before speaking
+        setTimeout(() => {
+          try {
+            if (window.speechSynthesis.paused) window.speechSynthesis.resume();
+            window.speechSynthesis.speak(utterance);
+          } catch (err) {
+            console.warn('Speech speak exception:', err);
+            finish();
+          }
+        }, 50);
+      } else {
+        // If voice disabled, just call callbacks after estimated time
         if (onStartCallback) onStartCallback();
-      };
-
-      utterance.onend = () => {
-        finish();
-      };
-
-      utterance.onerror = (e) => {
-        console.warn('SpeechSynthesis event error:', e);
-        finish();
-      };
-
-      // Temporizador de seguridad muy holgado (solo por si el navegador crashea o silencia)
-      const wordCount = cleanText.split(' ').length;
-      const maxSafetyDuration = Math.max(wordCount * 900, 7000);
-      activeSpeechTimeout = setTimeout(() => {
-        if (!window.speechSynthesis.speaking) {
-          finish();
-        }
-      }, maxSafetyDuration);
-
-      // Pequeño retardo de 50ms para que el motor de voz esté listo
-      setTimeout(() => {
-        try {
-          if (window.speechSynthesis.paused) window.speechSynthesis.resume();
-          window.speechSynthesis.speak(utterance);
-        } catch (err) {
-          console.warn('Speech speak exception:', err);
-          finish();
-        }
-      }, 50);
+        const estTime = Math.max(cleanText.split(' ').length * 320, 1800);
+        setTimeout(() => {
+          if (onEndCallback) onEndCallback();
+        }, estTime);
+      }
     }
   };
 
@@ -461,6 +479,32 @@ document.addEventListener('DOMContentLoaded', () => {
         SFXEngine.play('triumph-chime');
       } else {
         cancelAllSequences();
+      }
+    });
+  }
+
+  // ========================================================
+  // CONTROL DEL LIBRO DE PERSONAJES
+  // ========================================================
+  const btnLibroToggle = document.getElementById('btn-libro-toggle');
+  const libroPanel = document.getElementById('libro-panel');
+  const btnLibroClose = document.getElementById('btn-libro-close');
+
+  if (btnLibroToggle && libroPanel) {
+    btnLibroToggle.addEventListener('click', () => {
+      libroPanel.style.display = 'flex';
+    });
+
+    if (btnLibroClose) {
+      btnLibroClose.addEventListener('click', () => {
+        libroPanel.style.display = 'none';
+      });
+    }
+
+    // Cerrar al hacer clic en el fondo oscuro
+    libroPanel.addEventListener('click', (e) => {
+      if (e.target === libroPanel) {
+        libroPanel.style.display = 'none';
       }
     });
   }

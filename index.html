@@ -25,8 +25,11 @@
   <!-- Barra de progreso superior -->
   <div class="barra-progres" id="barra-progres" aria-hidden="true"></div>
 
-  <!-- Botón flotante único de sonido / SFX con ilustración cartoon -->
+  <!-- Botones flotantes: Libro + Sonido -->
   <div class="audio-control-fixed">
+    <button id="btn-libro-toggle" class="btn-floating-icon" title="Abrir el libro de personajes">
+      <img src="assets/ui/Libro_.png" alt="Libro" class="icon-floating-img" />
+    </button>
     <button id="btn-audio-toggle" class="btn-cartoon-sound is-audio-on" title="Activar o desactivar sonido y voces">
       <div class="audio-icon-slot">
         <img src="assets/ui/audio_on.png" alt="Sonido activado" class="icon-audio-img icon-audio-on" />
@@ -34,6 +37,36 @@
       </div>
       <span class="lbl-audio">SFX & VOCES: ON</span>
     </button>
+  </div>
+
+  <!-- Panel overlay del libro de personajes -->
+  <div id="libro-panel" class="libro-panel-overlay" style="display:none;">
+    <div class="libro-panel-content">
+      <button id="btn-libro-close" class="libro-close-btn" title="Cerrar">&times;</button>
+      <h2 class="libro-title">📖 Personajes</h2>
+      <div class="libro-grid">
+        <div class="libro-card">
+          <img src="assets/personajes/gato/Gato_CuerpoEntero.png" alt="Gato" />
+          <span class="libro-card-name">Gato</span>
+        </div>
+        <div class="libro-card">
+          <img src="assets/personajes/crunchy/Crunchy_CuerpoEntero.png" alt="Crunchy" />
+          <span class="libro-card-name">Crunchy</span>
+        </div>
+        <div class="libro-card">
+          <img src="assets/personajes/oti/Oti_CuerpoEntero.png" alt="Oti Reboti" />
+          <span class="libro-card-name">Oti Reboti</span>
+        </div>
+        <div class="libro-card">
+          <img src="assets/personajes/riolita/Riolita_CuerpoEntero.png" alt="Riolita" />
+          <span class="libro-card-name">Riolita</span>
+        </div>
+        <div class="libro-card">
+          <img src="assets/personajes/basalto/Basalto_CuerpoEntero.png" alt="Basalto" />
+          <span class="libro-card-name">Basalto</span>
+        </div>
+      </div>
+    </div>
   </div>
 
   <main id="contenidor-principal">
