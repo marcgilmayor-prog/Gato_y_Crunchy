@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let audioCtx = null;
   const portalAudioEl = document.getElementById('portal-audio-element');
   const fotoAudioEl = document.getElementById('foto-audio-element');
+  const sartenAudioEl = document.getElementById('sarten-audio-element');
 
   // Inicialización de Web Audio API con desbloqueo robusto
   function getAudioContext() {
@@ -35,6 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (fotoAudioEl && fotoAudioEl.readyState === 0) {
         fotoAudioEl.load();
+      }
+      if (sartenAudioEl && sartenAudioEl.readyState === 0) {
+        sartenAudioEl.load();
       }
     } catch (e) {
       console.warn('Audio unlock warning:', e);
@@ -147,6 +151,96 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) {
       console.warn('Error en playFotoAudio:', e);
     }
+  }
+
+  // ========================================================
+  // CONTROL DE AUDIO DE LA SARTÉN CON FADE-IN Y FADE-OUT SUAVE (ESCENA 03)
+  // ========================================================
+  let sartenFadeTimer = null;
+  const SARTEN_TARGET_VOL = 0.7;
+
+  function fadeInSartenAudio(duration = 1000) {
+    if (!audioEnabled || !sartenAudioEl) return;
+    unlockGlobalAudio();
+
+    if (sartenFadeTimer) {
+      clearInterval(sartenFadeTimer);
+      sartenFadeTimer = null;
+    }
+
+    if (!sartenAudioEl.paused && sartenAudioEl.currentTime > 0) {
+      sartenAudioEl.volume = SARTEN_TARGET_VOL;
+      return;
+    }
+
+    try {
+      sartenAudioEl.currentTime = 0;
+      sartenAudioEl.volume = 0.05;
+      const playPromise = sartenAudioEl.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((e) => console.warn('Sarten audio play exception:', e));
+      }
+      const steps = 20;
+      const stepTime = duration / steps;
+      let curStep = 0;
+      sartenFadeTimer = setInterval(() => {
+        curStep++;
+        const factor = Math.min(1, curStep / steps);
+        if (sartenAudioEl) {
+          sartenAudioEl.volume = SARTEN_TARGET_VOL * factor;
+        }
+        if (curStep >= steps) {
+          clearInterval(sartenFadeTimer);
+          sartenFadeTimer = null;
+        }
+      }, stepTime);
+    } catch (e) {
+      console.warn('Error en fadeInSartenAudio:', e);
+    }
+  }
+
+  function fadeOutSartenAudio(duration = 1400) {
+    if (!sartenAudioEl || sartenAudioEl.paused) return;
+    if (sartenFadeTimer) {
+      clearInterval(sartenFadeTimer);
+      sartenFadeTimer = null;
+    }
+    const steps = 28;
+    const stepTime = Math.max(16, Math.floor(duration / steps));
+    let curStep = 0;
+    const startVol = sartenAudioEl.volume;
+    sartenFadeTimer = setInterval(() => {
+      curStep++;
+      const factor = Math.max(0, 1 - (curStep / steps));
+      if (sartenAudioEl) {
+        sartenAudioEl.volume = Math.max(0, Math.min(1, startVol * factor));
+      }
+      if (curStep >= steps) {
+        clearInterval(sartenFadeTimer);
+        sartenFadeTimer = null;
+        if (sartenAudioEl) {
+          sartenAudioEl.pause();
+          sartenAudioEl.currentTime = 0;
+          sartenAudioEl.volume = SARTEN_TARGET_VOL;
+        }
+      }
+    }, stepTime);
+  }
+
+  function stopSartenAudioImmediate() {
+    if (sartenFadeTimer) {
+      clearInterval(sartenFadeTimer);
+      sartenFadeTimer = null;
+    }
+    if (sartenAudioEl) {
+      sartenAudioEl.pause();
+      sartenAudioEl.currentTime = 0;
+      sartenAudioEl.volume = SARTEN_TARGET_VOL;
+    }
+  }
+
+  function stopSartenAudio() {
+    stopSartenAudioImmediate();
   }
 
   // Interacción Dinámica con el Logotipo Oficial de Portada
@@ -756,13 +850,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // ========================================================
   let activeSequenceToken = 0;
 
-  function cancelAllSequences(keepPortalAudio = false) {
+  function cancelAllSequences(keepPortalAudio = false, keepSartenAudio = false) {
     activeSequenceToken++;
     VoiceEngine.stop();
     stopGatoPortalSpeaking();
     if (portalMembranePulse) portalMembranePulse.classList.remove('is-crunchy-vibrating');
     if (!keepPortalAudio) {
       stopPortalAudioImmediate();
+    }
+    if (!keepSartenAudio) {
+      stopSartenAudio();
     }
     const pistolaEl = document.getElementById('item-pistola');
     if (pistolaEl) {
@@ -1087,7 +1184,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function advanceScene02() {
+  let lastScene02ClickTime = 0;
+  function advanceScene02(e) {
+    if (e && e.target && e.target.closest('#btn-libro-toggle')) return;
+    const now = Date.now();
+    if (now - lastScene02ClickTime < 300) return;
+    lastScene02ClickTime = now;
+
     if (!scene02Active || scene02CurrentStep === -1) {
       runScene02Step(0);
     } else {
@@ -1097,13 +1200,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const pillEscena02 = document.getElementById('sub-escena-02');
   if (cardEscena02) cardEscena02.addEventListener('click', advanceScene02);
-  if (cuadroStageEl) cuadroStageEl.addEventListener('click', (e) => {
-    e.stopPropagation();
-    advanceScene02();
-  });
   if (pillEscena02) pillEscena02.addEventListener('click', (e) => {
     e.stopPropagation();
-    advanceScene02();
+    advanceScene02(e);
   });
 
   // ========================================================
@@ -1260,6 +1359,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   requestAnimationFrame(updateMigasPhysics);
 
+  // ========================================================
+  // ESCENA 03: COCINA DE OTI — DIÁLOGOS PASO A PASO (SÓLO CLIC)
+  // ========================================================
+  let scene03CurrentStep = -1;
+  let scene03Active = false;
+
   const panStageEl = document.getElementById('kitchen-pan-stage');
   const activePanArea = panStageEl || fryingPanEl;
 
@@ -1304,60 +1409,52 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       const now = Date.now();
-      if (speed > 14 && now - lastSoundTime > 380) {
+      // Solo reproducir sonido al mover si la conversación está activa
+      if (scene03Active && speed > 14 && now - lastSoundTime > 350) {
         lastSoundTime = now;
-        SFXEngine.play('banjo-sarten');
+        fadeInSartenAudio(800);
       }
     });
   }
-
-  // ========================================================
-  // ESCENA 03: COCINA DE OTI — DIÁLOGOS PASO A PASO (SÓLO CLIC)
-  // ========================================================
-    let scene03CurrentStep = -1;
-    let scene03Active = false;
 
     const scene03Steps = [
       {
         speaker: 'oti',
         subSpeaker: 'sub-speaker-oti',
         text: '¡Mmm! ¡Estas migas huelen de maravilla! Pero qué cabeza la mía... ¡se me han olvidado las uvas dulces!',
-        action: () => {
-          SFXEngine.play('banjo-sarten');
-        }
+        action: () => {}
       },
       {
         speaker: 'gato',
         subSpeaker: 'sub-speaker-gato',
         text: '¡Voy yo, voy yo! ¡A que llego al desván antes que tú, Crunchy!',
-        action: () => {
-          SFXEngine.play('whoop');
-        }
+        action: () => {}
       },
       {
         speaker: 'crunchy',
         subSpeaker: 'sub-speaker-crunchy',
         text: '¡Eso lo veremos! ¡El último en subir recoge la mesa!',
-        action: () => {
-          SFXEngine.play('banjo-sarten');
-        }
+        action: () => {}
       },
       {
         speaker: 'oti',
         subSpeaker: 'sub-speaker-oti',
         text: '¡Ja, ja, ja! ¡No corráis tanto por las escaleras, cabras locas!',
-        action: () => {
-          SFXEngine.play('banjo-sarten');
-        }
+        action: () => {}
       }
     ];
 
     function runScene03Step(step) {
-      const myToken = cancelAllSequences();
+      const myToken = cancelAllSequences(false, true);
+
+      // Iniciar el sonido de fritura de las migas con fade-in suave si no está sonando
+      fadeInSartenAudio(1000);
 
       if (step >= scene03Steps.length) {
+        // Cuando se acaban todos los diálogos de la conversación, hacer fade-out suave del audio
         scene03CurrentStep = -1;
         scene03Active = false;
+        fadeOutSartenAudio(1500);
         setTimeout(() => {
           if (myToken !== activeSequenceToken) return;
           setSceneSubtitle('sub-escena-03', '¡Toca la sartén para saltear las migas y volver a escuchar!', '');
@@ -1373,6 +1470,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       VoiceEngine.speak(stepData.text, stepData.speaker, () => {
         if (myToken !== activeSequenceToken) return;
+        if (step === scene03Steps.length - 1) {
+          // Al terminar de hablar el último diálogo de la conversación, desvanecer audio suavemente
+          fadeOutSartenAudio(1600);
+        }
       });
     }
 
@@ -2388,27 +2489,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (cardEscena10) cardEscena10.addEventListener('click', placeNextGrape);
-
-    // ========================================================
-    // VINCULACIÓN DIRECTA DE TODAS LAS PASTILLAS DE SUBTÍTULOS (CLIC)
-    // ========================================================
-    const pill02 = document.getElementById('sub-escena-02');
-    const pill03 = document.getElementById('sub-escena-03');
-    const pill04 = document.getElementById('sub-escena-04');
-    const pill05 = document.getElementById('sub-escena-05');
-    const pill06 = document.getElementById('sub-escena-06');
-    const pill07 = document.getElementById('sub-escena-07');
-    const pill08 = document.getElementById('sub-escena-08');
-    const pill09 = document.getElementById('sub-escena-09');
-    const pill10 = document.getElementById('sub-escena-10');
-
-    if (pill02) pill02.addEventListener('click', (e) => { e.stopPropagation(); advanceScene02(); });
-    if (pill03) pill03.addEventListener('click', (e) => { e.stopPropagation(); advanceScene03(); });
-    if (pill04) pill04.addEventListener('click', (e) => { e.stopPropagation(); advanceScene04Dialogue(); });
-    if (pill05) pill05.addEventListener('click', (e) => { e.stopPropagation(); advanceScene05(); });
-    if (pill06) pill06.addEventListener('click', (e) => { e.stopPropagation(); advanceScene06(); });
-    if (pill07) pill07.addEventListener('click', (e) => { e.stopPropagation(); placeNextTeamHand(); });
-    if (pill08) pill08.addEventListener('click', (e) => { e.stopPropagation(); handleRockSmashClick(); });
-    if (pill09) pill09.addEventListener('click', (e) => { e.stopPropagation(); handleBolsaInteraction(); });
-    if (pill10) pill10.addEventListener('click', (e) => { e.stopPropagation(); placeNextGrape(); });
   });
