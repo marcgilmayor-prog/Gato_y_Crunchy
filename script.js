@@ -11,6 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const portalAudioEl = document.getElementById('portal-audio-element');
   const fotoAudioEl = document.getElementById('foto-audio-element');
   const sartenAudioEl = document.getElementById('sarten-audio-element');
+  const fuegoAudioEl = document.getElementById('fuego-audio-element');
+  const rocaRodandoAudioEl = document.getElementById('roca-rodando-audio-element');
+  const rocaHit1AudioEl = document.getElementById('roca-hit1-audio-element');
+  const rocaHit2AudioEl = document.getElementById('roca-hit2-audio-element');
+  const rocaHit3AudioEl = document.getElementById('roca-hit3-audio-element');
+  const libroAudioEl = document.getElementById('libro-audio-element');
+  const libroTabClickAudioEl = document.getElementById('libro-tab-click-audio-element');
 
   // Inicialización de Web Audio API con desbloqueo robusto
   function getAudioContext() {
@@ -39,6 +46,27 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (sartenAudioEl && sartenAudioEl.readyState === 0) {
         sartenAudioEl.load();
+      }
+      if (fuegoAudioEl && fuegoAudioEl.readyState === 0) {
+        fuegoAudioEl.load();
+      }
+      if (rocaRodandoAudioEl && rocaRodandoAudioEl.readyState === 0) {
+        rocaRodandoAudioEl.load();
+      }
+      if (rocaHit1AudioEl && rocaHit1AudioEl.readyState === 0) {
+        rocaHit1AudioEl.load();
+      }
+      if (rocaHit2AudioEl && rocaHit2AudioEl.readyState === 0) {
+        rocaHit2AudioEl.load();
+      }
+      if (rocaHit3AudioEl && rocaHit3AudioEl.readyState === 0) {
+        rocaHit3AudioEl.load();
+      }
+      if (libroAudioEl && libroAudioEl.readyState === 0) {
+        libroAudioEl.load();
+      }
+      if (libroTabClickAudioEl && libroTabClickAudioEl.readyState === 0) {
+        libroTabClickAudioEl.load();
       }
     } catch (e) {
       console.warn('Audio unlock warning:', e);
@@ -241,6 +269,223 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function stopSartenAudio() {
     stopSartenAudioImmediate();
+  }
+
+  // ========================================================
+  // CONTROL DE AUDIO DE FUEGO / MUNDO VOLCÁNICO (ESCENA 05) CON FADE SUAVE
+  // ========================================================
+  let fuegoFadeTimer = null;
+  const FUEGO_TARGET_VOL = 0.65;
+
+  function fadeInFuegoAudio(duration = 900) {
+    if (!audioEnabled || !fuegoAudioEl) return;
+    unlockGlobalAudio();
+
+    if (fuegoFadeTimer) {
+      clearInterval(fuegoFadeTimer);
+      fuegoFadeTimer = null;
+    }
+
+    try {
+      if (fuegoAudioEl.paused) {
+        fuegoAudioEl.currentTime = 0;
+        fuegoAudioEl.volume = 0.05;
+        const playPromise = fuegoAudioEl.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((e) => console.warn('Fuego audio play exception:', e));
+        }
+      }
+      const steps = 20;
+      const stepTime = duration / steps;
+      let curStep = 0;
+      fuegoFadeTimer = setInterval(() => {
+        curStep++;
+        const factor = Math.min(1, curStep / steps);
+        if (fuegoAudioEl) {
+          fuegoAudioEl.volume = Math.max(0, Math.min(1, FUEGO_TARGET_VOL * factor));
+        }
+        if (curStep >= steps) {
+          clearInterval(fuegoFadeTimer);
+          fuegoFadeTimer = null;
+        }
+      }, stepTime);
+    } catch (e) {
+      console.warn('Error en fadeInFuegoAudio:', e);
+    }
+  }
+
+  function fadeOutFuegoAudio(duration = 1000) {
+    if (!fuegoAudioEl || fuegoAudioEl.paused) return;
+    if (fuegoFadeTimer) {
+      clearInterval(fuegoFadeTimer);
+      fuegoFadeTimer = null;
+    }
+    const steps = 25;
+    const stepTime = Math.max(16, Math.floor(duration / steps));
+    let curStep = 0;
+    const startVol = fuegoAudioEl.volume;
+    fuegoFadeTimer = setInterval(() => {
+      curStep++;
+      const factor = Math.max(0, 1 - (curStep / steps));
+      if (fuegoAudioEl) {
+        fuegoAudioEl.volume = Math.max(0, Math.min(1, startVol * factor));
+      }
+      if (curStep >= steps) {
+        clearInterval(fuegoFadeTimer);
+        fuegoFadeTimer = null;
+        if (fuegoAudioEl) {
+          fuegoAudioEl.pause();
+          fuegoAudioEl.currentTime = 0;
+          fuegoAudioEl.volume = FUEGO_TARGET_VOL;
+        }
+      }
+    }, stepTime);
+  }
+
+  function stopFuegoAudioImmediate() {
+    if (fuegoFadeTimer) {
+      clearInterval(fuegoFadeTimer);
+      fuegoFadeTimer = null;
+    }
+    if (fuegoAudioEl) {
+      fuegoAudioEl.pause();
+      fuegoAudioEl.currentTime = 0;
+      fuegoAudioEl.volume = FUEGO_TARGET_VOL;
+    }
+  }
+
+  // ========================================================
+  // CONTROL DE AUDIO DE ROCA RODANDO (ESCENA 06)
+  // ========================================================
+  let rocaRollFadeTimer = null;
+  let rocaRollTimeout = null;
+
+  function playRocaRodandoAudio(durationMs = 2800) {
+    if (!audioEnabled || !rocaRodandoAudioEl) return;
+    unlockGlobalAudio();
+    stopRocaRodandoAudio();
+
+    try {
+      rocaRodandoAudioEl.currentTime = 0;
+      rocaRodandoAudioEl.volume = 0.85;
+      const playPromise = rocaRodandoAudioEl.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((e) => console.warn('Roca rodando audio play exception:', e));
+      }
+
+      // El sonido se desvanece y termina justo cuando la roca desaparece (a los 2.8s)
+      const fadeStartTime = Math.max(0, durationMs - 700);
+      rocaRollTimeout = setTimeout(() => {
+        fadeOutRocaRodandoAudio(700);
+      }, fadeStartTime);
+    } catch (e) {
+      console.warn('Error en playRocaRodandoAudio:', e);
+    }
+  }
+
+  function fadeOutRocaRodandoAudio(duration = 700) {
+    if (!rocaRodandoAudioEl || rocaRodandoAudioEl.paused) return;
+    if (rocaRollFadeTimer) {
+      clearInterval(rocaRollFadeTimer);
+      rocaRollFadeTimer = null;
+    }
+    const steps = 18;
+    const stepTime = Math.max(16, Math.floor(duration / steps));
+    let curStep = 0;
+    const startVol = rocaRodandoAudioEl.volume;
+    rocaRollFadeTimer = setInterval(() => {
+      curStep++;
+      const factor = Math.max(0, 1 - (curStep / steps));
+      if (rocaRodandoAudioEl) {
+        rocaRodandoAudioEl.volume = Math.max(0, Math.min(1, startVol * factor));
+      }
+      if (curStep >= steps) {
+        clearInterval(rocaRollFadeTimer);
+        rocaRollFadeTimer = null;
+        if (rocaRodandoAudioEl) {
+          rocaRodandoAudioEl.pause();
+          rocaRodandoAudioEl.currentTime = 0;
+          rocaRodandoAudioEl.volume = 0.85;
+        }
+      }
+    }, stepTime);
+  }
+
+  function stopRocaRodandoAudio() {
+    if (rocaRollTimeout) {
+      clearTimeout(rocaRollTimeout);
+      rocaRollTimeout = null;
+    }
+    if (rocaRollFadeTimer) {
+      clearInterval(rocaRollFadeTimer);
+      rocaRollFadeTimer = null;
+    }
+    if (rocaRodandoAudioEl) {
+      rocaRodandoAudioEl.pause();
+      rocaRodandoAudioEl.currentTime = 0;
+      rocaRodandoAudioEl.volume = 0.85;
+    }
+  }
+
+  // ========================================================
+  // CONTROL DE AUDIO DE IMPACTOS EN LA ROCA (ESCENA 08)
+  // ========================================================
+  function playRocaHitAudio(hitNumber) {
+    if (!audioEnabled) return;
+    unlockGlobalAudio();
+    let targetEl = null;
+    if (hitNumber === 1) targetEl = rocaHit1AudioEl;
+    else if (hitNumber === 2) targetEl = rocaHit2AudioEl;
+    else if (hitNumber === 3) targetEl = rocaHit3AudioEl;
+
+    if (targetEl) {
+      try {
+        targetEl.currentTime = 0;
+        targetEl.volume = 0.95;
+        const playPromise = targetEl.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((e) => console.warn(`Roca hit ${hitNumber} play exception:`, e));
+        }
+      } catch (e) {
+        console.warn(`Error en playRocaHitAudio ${hitNumber}:`, e);
+      }
+    }
+  }
+
+  // ========================================================
+  // REPRODUCCIÓN DEL SONIDO DE ABRIR EL LIBRO DE PERSONAJES
+  // ========================================================
+  function playLibroAudio() {
+    if (!audioEnabled || !libroAudioEl) return;
+    unlockGlobalAudio();
+    try {
+      libroAudioEl.currentTime = 0;
+      libroAudioEl.volume = 0.9;
+      const playPromise = libroAudioEl.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((e) => console.warn('Libro audio play exception:', e));
+      }
+    } catch (e) {
+      console.warn('Error en playLibroAudio:', e);
+    }
+  }
+
+  // ========================================================
+  // REPRODUCCIÓN DEL SONIDO AL CAMBIAR DE FICHA EN EL LIBRO (PORTAPÁGINAS)
+  // ========================================================
+  function playLibroTabClickAudio() {
+    if (!audioEnabled || !libroTabClickAudioEl) return;
+    unlockGlobalAudio();
+    try {
+      libroTabClickAudioEl.currentTime = 0;
+      libroTabClickAudioEl.volume = 0.85;
+      const playPromise = libroTabClickAudioEl.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((e) => console.warn('Libro tab click audio exception:', e));
+      }
+    } catch (e) {
+      console.warn('Error en playLibroTabClickAudio:', e);
+    }
   }
 
   // Interacción Dinámica con el Logotipo Oficial de Portada
@@ -704,6 +949,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (btnLibroToggle && libroPanel) {
     function openLibro() {
+      playLibroAudio();
       libroPanel.style.display = 'flex';
       document.body.style.overflow = 'hidden';
       // Si no hay ninguno activo, seleccionar Gato por defecto
@@ -739,6 +985,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     marcadores.forEach(btn => {
       btn.addEventListener('click', () => {
+        playLibroTabClickAudio();
         const key = btn.dataset.char;
         const data = personajeData[key];
         if (!data) return;
@@ -861,6 +1108,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!keepSartenAudio) {
       stopSartenAudio();
     }
+    stopFuegoAudioImmediate();
+    stopRocaRodandoAudio();
     const pistolaEl = document.getElementById('item-pistola');
     if (pistolaEl) {
       pistolaEl.classList.remove('is-charging', 'is-shooting', 'is-vibrating');
@@ -1694,11 +1943,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // ========================================================
     const cardEscena05 = document.getElementById('card-escena-05');
     const portalStage = document.getElementById('portal-stage');
+    const portalAperture = document.getElementById('portal-aperture');
     const portalWorldImg = document.getElementById('portal-world-img');
 
-    if (portalStage) {
-      portalStage.addEventListener('mousemove', (e) => {
-        const rect = portalStage.getBoundingClientRect();
+    const targetFireHover = portalAperture || portalStage;
+
+    if (targetFireHover) {
+      targetFireHover.addEventListener('mouseenter', () => {
+        fadeInFuegoAudio(800);
+      });
+
+      targetFireHover.addEventListener('mouseleave', () => {
+        fadeOutFuegoAudio(900);
+        if (portalWorldImg) {
+          portalWorldImg.style.transform = 'translate(0px, 0px) scale(1)';
+        }
+      });
+
+      targetFireHover.addEventListener('mousemove', (e) => {
+        const rect = targetFireHover.getBoundingClientRect();
         const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
         const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
         if (portalWorldImg) {
@@ -1706,11 +1969,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
 
-      portalStage.addEventListener('mouseleave', () => {
+      // Dispositivos táctiles móviles
+      targetFireHover.addEventListener('touchstart', () => {
+        fadeInFuegoAudio(800);
+      }, { passive: true });
+
+      targetFireHover.addEventListener('touchend', () => {
+        fadeOutFuegoAudio(900);
         if (portalWorldImg) {
           portalWorldImg.style.transform = 'translate(0px, 0px) scale(1)';
         }
-      });
+      }, { passive: true });
     }
 
     let scene05CurrentStep = -1;
@@ -1801,6 +2070,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeScene06Binoculars() {
       if (binocularsStage && binocularsStage.classList.contains('is-opened')) {
         cancelAllSequences();
+        stopRocaRodandoAudio();
         binocularsStage.classList.remove('is-opened');
         if (disputeRoundRock) {
           disputeRoundRock.classList.remove('is-rolling-away');
@@ -1825,6 +2095,11 @@ document.addEventListener('DOMContentLoaded', () => {
         subSpeaker: 'sub-speaker-riolita angry',
         text: '¡Esta roca la vi yo primero! ¡Suéltala, Basalto, que es mía!',
         action: () => {
+          if (disputeRoundRock) {
+            disputeRoundRock.classList.remove('is-rolling-away');
+          }
+          if (imgRiolitaDispute) imgRiolitaDispute.src = 'assets/personajes/riolita/Riolita-3.png';
+          if (imgBasaltoDispute) imgBasaltoDispute.src = 'assets/personajes/basalto/Basalto-1.png';
           if (speakerRiolitaCard) speakerRiolitaCard.classList.add('is-speaking');
           if (speakerBasaltoCard) speakerBasaltoCard.classList.remove('is-speaking');
           SFXEngine.play('lava-bubble');
@@ -1849,11 +2124,10 @@ document.addEventListener('DOMContentLoaded', () => {
           if (speakerBasaltoCard) speakerBasaltoCard.classList.add('is-speaking');
           if (disputeRoundRock) {
             disputeRoundRock.classList.add('is-rolling-away');
+            playRocaRodandoAudio(2800);
           }
           if (imgRiolitaDispute) imgRiolitaDispute.src = 'assets/personajes/riolita/Riolita-2.png';
           if (imgBasaltoDispute) imgBasaltoDispute.src = 'assets/personajes/basalto/Basalto-2.png';
-          SFXEngine.play('whoop');
-          SFXEngine.play('rock-rumble');
         }
       }
     ];
@@ -2066,19 +2340,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (rockSmashStep === 1) {
         if (volcanicRockArt) volcanicRockArt.src = 'assets/objetos/roca/Roca-4.png';
-        SFXEngine.play('rock-rumble');
+        playRocaHitAudio(1);
         setSceneSubtitle('sub-escena-08', '«¡Buen primer golpe entre todos! ¡Seguid dándole juntos!»', 'sub-speaker-riolita');
         VoiceEngine.speak('¡Buen primer golpe entre todos! ¡Seguid dándole juntos!', 'riolita');
 
       } else if (rockSmashStep === 2) {
         if (volcanicRockArt) volcanicRockArt.src = 'assets/objetos/roca/Roca-3.png';
-        SFXEngine.play('explosion');
+        playRocaHitAudio(2);
         setSceneSubtitle('sub-escena-08', '«¡Eso es! ¡Otro golpe juntos con todas nuestras fuerzas!»', 'sub-speaker-basalto');
         VoiceEngine.speak('¡Eso es! ¡Otro golpe juntos con todas nuestras fuerzas!', 'basalto');
 
       } else if (rockSmashStep === 3) {
         if (volcanicRockArt) volcanicRockArt.src = 'assets/objetos/roca/Roca-2.png';
-        SFXEngine.play('whoop');
+        playRocaHitAudio(3);
         setSceneSubtitle('sub-escena-08', '«¡Ya se está agrietando! ¡El último esfuerzo entre todos!»', 'sub-speaker-crunchy');
         VoiceEngine.speak('¡Ya se está agrietando! ¡El último esfuerzo entre todos!', 'crunchy');
 
