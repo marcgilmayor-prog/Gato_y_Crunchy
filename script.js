@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const rocaHit3AudioEl = document.getElementById('roca-hit3-audio-element');
   const libroAudioEl = document.getElementById('libro-audio-element');
   const libroTabClickAudioEl = document.getElementById('libro-tab-click-audio-element');
+  const uiBtnClickAudioEl = document.getElementById('ui-btn-click-audio-element');
 
   // Inicialización de Web Audio API con desbloqueo robusto
   function getAudioContext() {
@@ -67,6 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (libroTabClickAudioEl && libroTabClickAudioEl.readyState === 0) {
         libroTabClickAudioEl.load();
+      }
+      if (uiBtnClickAudioEl && uiBtnClickAudioEl.readyState === 0) {
+        uiBtnClickAudioEl.load();
       }
     } catch (e) {
       console.warn('Audio unlock warning:', e);
@@ -161,6 +165,14 @@ document.addEventListener('DOMContentLoaded', () => {
       portalAudioEl.currentTime = 0;
       portalAudioEl.volume = PORTAL_TARGET_VOL;
     }
+  }
+
+  function playPortalAudio(duration = 800) {
+    fadeInPortalAudio(duration);
+  }
+
+  function playFreesoundPortal(duration = 800) {
+    fadeInPortalAudio(duration);
   }
 
   // ========================================================
@@ -485,6 +497,25 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (e) {
       console.warn('Error en playLibroTabClickAudio:', e);
+    }
+  }
+
+  // ========================================================
+  // REPRODUCCIÓN DEL SONIDO DE CLIC DE BOTONES (CRUZ Y SONIDO)
+  // ========================================================
+  function playUiBtnClickAudio(forcePlay = false) {
+    if (!uiBtnClickAudioEl) return;
+    if (!audioEnabled && !forcePlay) return;
+    unlockGlobalAudio();
+    try {
+      uiBtnClickAudioEl.currentTime = 0;
+      uiBtnClickAudioEl.volume = 0.9;
+      const playPromise = uiBtnClickAudioEl.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((e) => console.warn('UI button click audio exception:', e));
+      }
+    } catch (e) {
+      console.warn('Error en playUiBtnClickAudio:', e);
     }
   }
 
@@ -898,15 +929,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnAudioToggle) {
     btnAudioToggle.addEventListener('click', () => {
       audioEnabled = !audioEnabled;
+      playUiBtnClickAudio(true);
       btnAudioToggle.classList.toggle('is-audio-on', audioEnabled);
       btnAudioToggle.classList.toggle('is-audio-off', !audioEnabled);
       const label = btnAudioToggle.querySelector('.lbl-audio');
       if (label) {
         label.textContent = audioEnabled ? 'SFX & VOCES: ON' : 'SFX & VOCES: OFF';
       }
-      if (audioEnabled) {
-        SFXEngine.play('triumph-chime');
-      } else {
+      if (!audioEnabled) {
         cancelAllSequences();
       }
     });
@@ -961,6 +991,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function closeLibro() {
+      playUiBtnClickAudio();
       libroPanel.style.display = 'none';
       document.body.style.overflow = '';
     }
@@ -1831,7 +1862,6 @@ document.addEventListener('DOMContentLoaded', () => {
             layerPistola.classList.remove('is-shooting');
             layerPistola.classList.add('is-charging', 'is-vibrating');
           }
-          SFXEngine.play('portal-star');
           SFXEngine.play('whoop');
         }
       },
@@ -1844,25 +1874,23 @@ document.addEventListener('DOMContentLoaded', () => {
             layerPistola.classList.remove('is-charging', 'is-vibrating');
             layerPistola.classList.add('is-shooting');
           }
-          playFreesoundPortal();
+          fadeInPortalAudio(600);
         }
       }
     ];
 
     function runScene04Step(step) {
-      const myToken = cancelAllSequences();
+      const myToken = cancelAllSequences(true);
 
       if (step >= scene04Steps.length) {
+        // Cuando se acaban todos los diálogos de la conversación, parar el audio con fade-out
         scene04CurrentStep = -1;
         scene04Active = false;
-        playFreesoundPortal();
+        fadeOutPortalAudio(1500);
         setSceneSubtitle('sub-escena-04', '¡Con tanto grito la pistola se encendió y abrió un portal! Desplaza hacia abajo...', 'destacat-cyan');
         setTimeout(() => {
           if (myToken !== activeSequenceToken) return;
-          if (portalAudioEl) {
-            portalAudioEl.pause();
-            portalAudioEl.currentTime = 0;
-          }
+          stopPortalAudioImmediate();
           resetScene04Boxes();
           setSceneSubtitle('sub-escena-04', '¡Haz clic en las cajas para volver a explorar el desván!', '');
         }, 3000);
