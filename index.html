@@ -19,8 +19,18 @@
 
 <body class="theme-paper">
 
-  <!-- Elemento de audio nativo para el sonido de portal de Freesound -->
-  <audio id="portal-audio-element" src="assets/audio/portal_sound.mp3" preload="auto"></audio>
+  <!-- Elemento de audio nativo para el sonido de portal -->
+  <audio id="portal-audio-element" preload="auto">
+    <source src="assets/audio/Portal/Portal.mp4" type="audio/mp4" />
+    <source src="assets/audio/Portal/Portal.mov" type="video/quicktime" />
+    <source src="assets/audio/Portal/407594-Door_-Teleport_05.wav" type="audio/wav" />
+  </audio>
+
+  <!-- Elemento de audio nativo para el sonido de la foto (Escena 02) -->
+  <audio id="foto-audio-element" preload="auto">
+    <source src="assets/audio/Foto/Foto.mp4" type="audio/mp4" />
+    <source src="assets/audio/Foto/Foto.mov" type="video/quicktime" />
+  </audio>
 
   <!-- Barra de progreso superior -->
   <div class="barra-progres" id="barra-progres" aria-hidden="true"></div>
