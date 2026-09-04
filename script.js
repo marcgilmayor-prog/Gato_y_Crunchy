@@ -1665,7 +1665,7 @@ document.addEventListener('DOMContentLoaded', () => {
       scene02Active = false;
       setTimeout(() => {
         if (myToken !== activeSequenceToken) return;
-        setSceneSubtitle('sub-escena-02', '¡Mueve el ratón para explorar el cuadro 3D o toca para volver a escuchar!', '');
+        setSceneSubtitle('sub-escena-02', '¡Desliza para explorar el cuadro 3D o tócalo para volver a escuchar!', '');
       }, 600);
       return;
     }
