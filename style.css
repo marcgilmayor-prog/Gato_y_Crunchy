@@ -3424,32 +3424,99 @@ body {
     height: 9px;
   }
 
-  /* Portada móvil */
+  /* Portada móvil: texto arriba y los dos personajes en una sola fila debajo, del mismo tamaño */
   .seccio-portada {
-    padding: 68px 12px 110px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: max(72px, env(safe-area-inset-top) + 38px) 14px 28px;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .bloc-central-cartoon {
+    order: 1;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    text-align: center;
   }
 
   .logo-official-img {
-    max-width: clamp(230px, 80vw, 360px);
+    max-width: clamp(230px, 78vw, 340px);
+    margin: 0 auto;
   }
 
   .descripcio-divertida {
     font-size: 0.95rem;
-    line-height: 1.42;
-    padding: 6px 8px;
+    line-height: 1.45;
+    padding: 6px 10px;
+    margin: 8px auto 0 auto;
+    max-width: 420px;
+  }
+
+  .portada-bg-characters {
+    order: 2;
+    position: relative !important;
+    inset: auto !important;
+    width: 100%;
+    max-width: 420px;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    gap: clamp(14px, 5vw, 28px) !important;
+    margin: 16px auto 0 auto !important;
+    height: clamp(170px, 46vw, 220px) !important;
+    pointer-events: auto !important;
+    z-index: 2;
   }
 
   .portada-char-art {
-    height: clamp(145px, 36vw, 195px);
-    width: clamp(105px, 26vw, 145px);
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    flex: 1 1 0 !important;
+    max-width: 175px !important;
+    height: 100% !important;
+    width: auto !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
   }
 
-  .char-crunchy-bg {
-    left: 2px;
-  }
-
+  .char-crunchy-bg,
   .char-gato-bg {
-    right: 2px;
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+  }
+
+  .char-crunchy-bg:hover,
+  .char-crunchy-bg.is-active-pose,
+  .char-gato-bg:hover,
+  .char-gato-bg.is-active-pose {
+    transform: scale(1.06) translateY(-4px) !important;
+  }
+
+  .char-crunchy-bg .char-img-normal,
+  .char-crunchy-bg .char-img-hover,
+  .char-gato-bg .char-img-normal,
+  .char-gato-bg .char-img-hover {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    height: 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    object-fit: contain !important;
   }
 
   /* Secciones editoriales del cuento: espaciado vertical equilibrado y limpio */
@@ -4018,12 +4085,13 @@ body {
   }
 
   .seccio-portada {
-    padding: 68px 10px 120px;
+    padding: max(68px, env(safe-area-inset-top) + 32px) 10px 24px;
   }
 
-  .portada-char-art {
-    height: 140px;
-    width: 105px;
+  .portada-bg-characters {
+    height: clamp(150px, 44vw, 185px) !important;
+    gap: 10px !important;
+    margin-top: 12px !important;
   }
 
   .cuadro-3d-stage {
