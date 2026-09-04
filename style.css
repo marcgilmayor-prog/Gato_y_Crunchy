@@ -1462,7 +1462,7 @@ body {
   width: 100%;
   max-width: 480px;
   aspect-ratio: 3 / 2;
-  perspective: 1600px;
+  perspective: 1100px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1480,7 +1480,10 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
+  -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   will-change: transform;
   filter: none;
 }
@@ -1503,7 +1506,10 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
+  -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   pointer-events: none;
   will-change: transform;
   display: flex;
@@ -1517,30 +1523,31 @@ body {
   object-fit: cover;
   display: block;
   pointer-events: none;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
-/* Capa 1: Fondo interior de la habitación con sangrado seguro (sin huecos blancos) */
+/* Capa 1: Fondo interior de la habitación */
 .cuadro-layer.layer-fondo {
-  transform: translate3d(calc(var(--norm-x, 0) * -0.8px), calc(var(--norm-y, 0) * -0.6px), 0px);
+  transform: translate3d(calc(var(--norm-x, 0) * -3.5px), calc(var(--norm-y, 0) * -2.5px), -10px);
   z-index: 1;
 }
 
 .layer-fondo .cuadro-img {
-  transform: scale(0.82);
+  transform: scale(0.87);
   transform-origin: center center;
 }
 
-/* Capa 2: Grupo de Personajes */
+/* Capa 2: Grupo de Personajes (Gato, Crunchy y Oti más grandes) */
 .cuadro-layer.layer-grupo {
-  top: 20px;
-  transform: translate3d(calc(var(--norm-x, 0) * 0.8px), calc(var(--norm-y, 0) * 0.6px), 5px) scale(0.96);
+  top: 7.8%;
+  transform: translate3d(calc(var(--norm-x, 0) * 2.2px), calc(var(--norm-y, 0) * 1.6px), 10px) scale(0.95);
   z-index: 2;
 }
 
-
-/* Capa 3: Marco exterior de madera (plano frontal) */
+/* Capa 3: Marco exterior de madera (plano frontal con profundidad equilibrada) */
 .cuadro-layer.layer-marco {
-  transform: translate3d(calc(var(--norm-x, 0) * 1.5px), calc(var(--norm-y, 0) * 1px), 8px);
+  transform: translate3d(calc(var(--norm-x, 0) * 6px), calc(var(--norm-y, 0) * 4.5px), 22px);
   z-index: 3;
 }
 
@@ -3430,8 +3437,8 @@ body {
   }
 
   .portada-char-art {
-    height: clamp(115px, 30vw, 155px);
-    width: clamp(85px, 22vw, 120px);
+    height: clamp(145px, 36vw, 195px);
+    width: clamp(105px, 26vw, 145px);
   }
 
   .char-crunchy-bg {
@@ -3528,12 +3535,26 @@ body {
 
   /* Escenario 02: Cuadro 3D */
   .cuadro-3d-stage {
-    width: min(330px, 86vw);
+    width: min(420px, 94vw);
     max-width: 100%;
     aspect-ratio: 3 / 2;
+    perspective: 1250px;
     height: auto;
     padding: 0;
     margin: 4px auto 6px auto;
+  }
+
+  .cuadro-layer.layer-fondo {
+    transform: translate3d(calc(var(--norm-x, 0) * -1.8px), calc(var(--norm-y, 0) * -1.3px), -6px);
+  }
+
+  .cuadro-layer.layer-grupo {
+    top: 7.8%;
+    transform: translate3d(calc(var(--norm-x, 0) * 1.2px), calc(var(--norm-y, 0) * 0.9px), 6px) scale(0.95);
+  }
+
+  .cuadro-layer.layer-marco {
+    transform: translate3d(calc(var(--norm-x, 0) * 3.0px), calc(var(--norm-y, 0) * 2.2px), 14px);
   }
 
   /* Escenario 03: Sartén */
@@ -3929,8 +3950,12 @@ body {
   }
 
   .portada-char-art {
-    height: 120px;
-    width: 88px;
+    height: 140px;
+    width: 105px;
+  }
+
+  .cuadro-3d-stage {
+    width: 96vw;
   }
 
   .seccio-pagina-cuento {

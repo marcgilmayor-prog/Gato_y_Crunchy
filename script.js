@@ -1556,12 +1556,12 @@ document.addEventListener('DOMContentLoaded', () => {
     cuadroCurTiltY += (cuadroTargetTiltY - cuadroCurTiltY) * 0.12;
 
     if (cuadroCardEl) {
-      cuadroCardEl.style.transform = `rotateX(${cuadroCurTiltX}deg) rotateY(${cuadroCurTiltY}deg)`;
+      cuadroCardEl.style.transform = `rotateX(${cuadroCurTiltX.toFixed(2)}deg) rotateY(${cuadroCurTiltY.toFixed(2)}deg)`;
     }
 
-    // Desplazamiento parallax sutil y suave relativo a la inclinación
-    const normX = Math.max(Math.min(cuadroCurTiltY / 6.5, 1), -1);
-    const normY = Math.max(Math.min(-cuadroCurTiltX / 5.5, 1), -1);
+    // Desplazamiento parallax suave y equilibrado relativo a la inclinación
+    const normX = Math.max(Math.min(cuadroCurTiltY / 9.5, 1), -1);
+    const normY = Math.max(Math.min(-cuadroCurTiltX / 8, 1), -1);
 
     // Pasar inclinación normalizada a CSS para que los tamaños y transforms se manejen directamente desde style.css
     if (cuadroCardEl) {
@@ -1581,7 +1581,7 @@ document.addEventListener('DOMContentLoaded', () => {
   requestAnimationFrame(updateCuadroParallax);
 
   if (cuadroStageEl) {
-    function handleCuadroMove(clientX, clientY) {
+    function handleCuadroMove(clientX, clientY, isTouch = false) {
       const rect = cuadroStageEl.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
@@ -1589,9 +1589,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const normX = Math.max(Math.min((clientX - centerX) / (rect.width / 2), 1), -1);
       const normY = Math.max(Math.min((clientY - centerY) / (rect.height / 2), 1), -1);
 
-      // Inclinación 3D realista con límites sutiles y contenidos
-      cuadroTargetTiltX = -normY * 5.5;
-      cuadroTargetTiltY = normX * 6.5;
+      // Inclinación 3D equilibrada (más suave al tacto para no desencajar capas)
+      const touchFactor = isTouch ? 0.65 : 1;
+      cuadroTargetTiltX = -normY * 8 * touchFactor;
+      cuadroTargetTiltY = normX * 9.5 * touchFactor;
     }
 
     cuadroStageEl.addEventListener('mouseenter', (e) => {
@@ -1607,13 +1608,18 @@ document.addEventListener('DOMContentLoaded', () => {
       cuadroTargetTiltY = 0;
     });
 
-    // Soporte táctil móvil
-    cuadroStageEl.addEventListener('touchmove', (e) => {
-      if (e.cancelable) e.preventDefault();
+    // Soporte táctil móvil suave y respetuoso con el scroll
+    cuadroStageEl.addEventListener('touchstart', (e) => {
       if (e.touches.length > 0) {
-        handleCuadroMove(e.touches[0].clientX, e.touches[0].clientY);
+        handleCuadroMove(e.touches[0].clientX, e.touches[0].clientY, true);
       }
-    }, { passive: false });
+    }, { passive: true });
+
+    cuadroStageEl.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        handleCuadroMove(e.touches[0].clientX, e.touches[0].clientY, true);
+      }
+    }, { passive: true });
 
     cuadroStageEl.addEventListener('touchend', () => {
       cuadroTargetTiltX = 0;
