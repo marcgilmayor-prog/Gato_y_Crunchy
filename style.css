@@ -1519,28 +1519,28 @@ body {
   pointer-events: none;
 }
 
-/* Capa 1: Fondo interior de la habitación (la casa) */
+/* Capa 1: Fondo interior de la habitación con sangrado seguro (sin huecos blancos) */
 .cuadro-layer.layer-fondo {
-  transform: translate3d(calc(var(--norm-x, 0) * -1px), calc(var(--norm-y, 0) * -0.8px), 0px);
+  transform: translate3d(calc(var(--norm-x, 0) * -0.8px), calc(var(--norm-y, 0) * -0.6px), 0px);
   z-index: 1;
 }
 
 .layer-fondo .cuadro-img {
-  transform: scale(1.02);
+  transform: scale(0.82);
   transform-origin: center center;
 }
 
 /* Capa 2: Grupo de Personajes */
 .cuadro-layer.layer-grupo {
   top: 20px;
-  transform: translate3d(calc(var(--norm-x, 0) * 1px), calc(var(--norm-y, 0) * 0.8px), 6px) scale(0.96);
+  transform: translate3d(calc(var(--norm-x, 0) * 0.8px), calc(var(--norm-y, 0) * 0.6px), 5px) scale(0.96);
   z-index: 2;
 }
 
 
 /* Capa 3: Marco exterior de madera (plano frontal) */
 .cuadro-layer.layer-marco {
-  transform: translate3d(calc(var(--norm-x, 0) * 2px), calc(var(--norm-y, 0) * 1.5px), 11px);
+  transform: translate3d(calc(var(--norm-x, 0) * 1.5px), calc(var(--norm-y, 0) * 1px), 8px);
   z-index: 3;
 }
 
@@ -3386,27 +3386,28 @@ body {
 /* --- BREAKPOINT 3: MÓVILES Y TABLETS PORTRAIT (<= 768px) --- */
 @media (max-width: 768px) {
 
-  /* Botones superiores flotantes más compactos */
+  /* Botones superiores flotantes destacados y accesibles en móvil */
   .audio-control-fixed {
-    top: max(6px, env(safe-area-inset-top));
-    right: max(6px, env(safe-area-inset-right));
-    gap: 4px;
+    top: max(8px, env(safe-area-inset-top) + 4px);
+    right: max(10px, env(safe-area-inset-right) + 4px);
+    gap: 8px;
     z-index: 1000;
   }
 
   .btn-floating-icon {
-    width: 44px;
-    height: 36px;
+    width: 78px;
+    height: 56px;
+    margin-top: 0;
   }
 
   .btn-cartoon-sound {
-    width: 36px;
-    height: 36px;
+    width: 54px;
+    height: 54px;
   }
 
   .audio-icon-slot {
-    width: 36px;
-    height: 36px;
+    width: 54px;
+    height: 54px;
   }
 
   .barra-progres {
@@ -3908,6 +3909,21 @@ body {
 
 /* --- BREAKPOINT 4: MÓVILES PEQUEÑOS (<= 380px) --- */
 @media (max-width: 380px) {
+  .btn-floating-icon {
+    width: 66px;
+    height: 48px;
+  }
+
+  .btn-cartoon-sound {
+    width: 48px;
+    height: 48px;
+  }
+
+  .audio-icon-slot {
+    width: 48px;
+    height: 48px;
+  }
+
   .seccio-portada {
     padding: 68px 10px 120px;
   }
