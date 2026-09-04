@@ -638,6 +638,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Interacción Táctil y Clic con Personajes de Portada (Crunchy y Gato)
+  const crunchyCover = document.getElementById('portada-crunchy-interactive');
+  const gatoCover = document.getElementById('portada-gato-interactive');
+
+  if (crunchyCover) {
+    crunchyCover.addEventListener('click', () => {
+      playDialogueAudio();
+      crunchyCover.classList.toggle('is-active-pose');
+      if (gatoCover) gatoCover.classList.remove('is-active-pose');
+    });
+  }
+
+  if (gatoCover) {
+    gatoCover.addEventListener('click', () => {
+      playDialogueAudio();
+      gatoCover.classList.toggle('is-active-pose');
+      if (crunchyCover) crunchyCover.classList.remove('is-active-pose');
+    });
+  }
+
   // Barra de progreso superior con punta redondeada y borde negro
   const barraProgres = document.getElementById('barra-progres');
   if (barraProgres) {
@@ -1131,11 +1151,20 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   if (btnLibroToggle && libroPanel) {
+    const btnLibroMobileClose = document.getElementById('btn-libro-mobile-close');
+    const mobileScrollContainer = document.getElementById('libro-mobile-scroll');
+
     function openLibro() {
       playLibroAudio();
       libroPanel.style.display = 'flex';
       document.body.style.overflow = 'hidden';
-      // Si no hay ninguno activo, seleccionar Gato por defecto
+
+      // Reset de scroll en móvil para empezar desde arriba
+      if (mobileScrollContainer) {
+        mobileScrollContainer.scrollTop = 0;
+      }
+
+      // Si no hay ninguno activo, seleccionar Gato por defecto (desktop)
       const activo = libroPanel.querySelector('.marcador.activo');
       if (!activo) {
         const primerMarcador = libroPanel.querySelector('.marcador[data-char="gato"]');
@@ -1153,6 +1182,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (btnLibroClose) {
       btnLibroClose.addEventListener('click', closeLibro);
+    }
+    if (btnLibroMobileClose) {
+      btnLibroMobileClose.addEventListener('click', closeLibro);
     }
 
     libroPanel.addEventListener('click', (e) => {
@@ -1608,13 +1640,13 @@ document.addEventListener('DOMContentLoaded', () => {
       speaker: 'crunchy',
       subSpeaker: 'sub-speaker-crunchy',
       text: '¡Ja, ja, ja! ¡Pero si tú siempre sales bizco en todas las fotos, Gato!',
-      action: () => {}
+      action: () => { }
     },
     {
       speaker: 'oti',
       subSpeaker: 'sub-speaker-oti',
       text: '¡Ja, ja, ja! La familia siempre unida. ¡Incluso con tus caras raras!',
-      action: () => {}
+      action: () => { }
     }
   ];
 
@@ -1873,1078 +1905,1134 @@ document.addEventListener('DOMContentLoaded', () => {
         fadeInSartenAudio(800);
       }
     });
+
+    // Soporte táctil móvil para la sartén de migas
+    activePanArea.addEventListener('touchstart', (e) => {
+      if (e.touches.length > 0) {
+        mouseLastX = e.touches[0].clientX;
+        mouseLastY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    activePanArea.addEventListener('touchmove', (e) => {
+      if (!fryingPanEl || e.touches.length === 0) return;
+      const touch = e.touches[0];
+      const rect = fryingPanEl.getBoundingClientRect();
+      const cX = rect.left + rect.width / 2;
+      const cY = rect.top + rect.height / 2;
+
+      const offsetX = touch.clientX - cX;
+      const offsetY = touch.clientY - cY;
+
+      mouseSpeedX = touch.clientX - mouseLastX;
+      mouseSpeedY = touch.clientY - mouseLastY;
+      mouseLastX = touch.clientX;
+      mouseLastY = touch.clientY;
+
+      const speed = Math.sqrt(mouseSpeedX * mouseSpeedX + mouseSpeedY * mouseSpeedY);
+
+      targetTiltX = Math.max(Math.min(-offsetY * 0.08, 14), -14);
+      targetTiltY = Math.max(Math.min(offsetX * 0.08, 14), -14);
+      targetShiftX = Math.max(Math.min(mouseSpeedX * 0.25, 10), -10);
+      targetShiftY = Math.max(Math.min(mouseSpeedY * 0.25, 10), -10);
+
+      migasArray.forEach((m) => {
+        m.vx += mouseSpeedX * 0.08;
+        m.vy += mouseSpeedY * 0.08;
+        m.vrot += (mouseSpeedX - mouseSpeedY) * 0.2;
+      });
+
+      const now = Date.now();
+      if (scene03Active && speed > 10 && now - lastSoundTime > 350) {
+        lastSoundTime = now;
+        fadeInSartenAudio(800);
+      }
+    }, { passive: true });
+
+    activePanArea.addEventListener('touchend', () => {
+      targetTiltX = 0;
+      targetTiltY = 0;
+      targetShiftX = 0;
+      targetShiftY = 0;
+    });
   }
 
-    const scene03Steps = [
-      {
-        speaker: 'oti',
-        subSpeaker: 'sub-speaker-oti',
-        text: '¡Mmm! ¡Estas migas huelen de maravilla! Pero qué cabeza la mía... ¡se me han olvidado las uvas dulces!',
-        action: () => {}
-      },
-      {
-        speaker: 'gato',
-        subSpeaker: 'sub-speaker-gato',
-        text: '¡Voy yo, voy yo! ¡A que llego al desván antes que tú, Crunchy!',
-        action: () => {}
-      },
-      {
-        speaker: 'crunchy',
-        subSpeaker: 'sub-speaker-crunchy',
-        text: '¡Eso lo veremos! ¡El último en subir recoge la mesa!',
-        action: () => {}
-      },
-      {
-        speaker: 'oti',
-        subSpeaker: 'sub-speaker-oti',
-        text: '¡Ja, ja, ja! ¡No corráis tanto por las escaleras, cabras locas!',
-        action: () => {}
-      }
-    ];
+  const scene03Steps = [
+    {
+      speaker: 'oti',
+      subSpeaker: 'sub-speaker-oti',
+      text: '¡Mmm! ¡Estas migas huelen de maravilla! Pero qué cabeza la mía... ¡se me han olvidado las uvas dulces!',
+      action: () => { }
+    },
+    {
+      speaker: 'gato',
+      subSpeaker: 'sub-speaker-gato',
+      text: '¡Voy yo, voy yo! ¡A que llego al desván antes que tú, Crunchy!',
+      action: () => { }
+    },
+    {
+      speaker: 'crunchy',
+      subSpeaker: 'sub-speaker-crunchy',
+      text: '¡Eso lo veremos! ¡El último en subir recoge la mesa!',
+      action: () => { }
+    },
+    {
+      speaker: 'oti',
+      subSpeaker: 'sub-speaker-oti',
+      text: '¡Ja, ja, ja! ¡No corráis tanto por las escaleras, cabras locas!',
+      action: () => { }
+    }
+  ];
 
-    function runScene03Step(step) {
-      const myToken = cancelAllSequences(false, true);
+  function runScene03Step(step) {
+    const myToken = cancelAllSequences(false, true);
 
-      // Iniciar el sonido de fritura de las migas con fade-in suave si no está sonando
-      fadeInSartenAudio(1000);
+    // Iniciar el sonido de fritura de las migas con fade-in suave si no está sonando
+    fadeInSartenAudio(1000);
 
-      if (step >= scene03Steps.length) {
-        // Cuando se acaban todos los diálogos de la conversación, hacer fade-out suave del audio
-        scene03CurrentStep = -1;
-        scene03Active = false;
-        fadeOutSartenAudio(1500);
-        setTimeout(() => {
-          if (myToken !== activeSequenceToken) return;
-          setSceneSubtitle('sub-escena-03', '¡Toca la sartén para saltear las migas y volver a escuchar!', '');
-        }, 600);
-        return;
-      }
-
-      scene03CurrentStep = step;
-      scene03Active = true;
-      const stepData = scene03Steps[step];
-      stepData.action();
-      setSceneSubtitle('sub-escena-03', `«${stepData.text}»`, stepData.subSpeaker);
-
-      VoiceEngine.speak(stepData.text, stepData.speaker, () => {
+    if (step >= scene03Steps.length) {
+      // Cuando se acaban todos los diálogos de la conversación, hacer fade-out suave del audio
+      scene03CurrentStep = -1;
+      scene03Active = false;
+      fadeOutSartenAudio(1500);
+      setTimeout(() => {
         if (myToken !== activeSequenceToken) return;
-        if (step === scene03Steps.length - 1) {
-          // Al terminar de hablar el último diálogo de la conversación, desvanecer audio suavemente
-          fadeOutSartenAudio(1600);
-        }
-      });
+        setSceneSubtitle('sub-escena-03', '¡Toca la sartén para saltear las migas y volver a escuchar!', '');
+      }, 600);
+      return;
     }
 
-    function advanceScene03() {
-      if (!scene03Active || scene03CurrentStep === -1) {
-        runScene03Step(0);
-      } else {
-        runScene03Step(scene03CurrentStep + 1);
+    scene03CurrentStep = step;
+    scene03Active = true;
+    const stepData = scene03Steps[step];
+    stepData.action();
+    setSceneSubtitle('sub-escena-03', `«${stepData.text}»`, stepData.subSpeaker);
+
+    VoiceEngine.speak(stepData.text, stepData.speaker, () => {
+      if (myToken !== activeSequenceToken) return;
+      if (step === scene03Steps.length - 1) {
+        // Al terminar de hablar el último diálogo de la conversación, desvanecer audio suavemente
+        fadeOutSartenAudio(1600);
       }
-    }
+    });
+  }
 
-    if (activePanArea) {
-      activePanArea.addEventListener('click', (e) => {
-        e.stopPropagation();
-        migasArray.forEach((m) => {
-          m.vy += -5 - Math.random() * 4;
-          m.vx += (Math.random() - 0.5) * 4;
-          m.vrot += (Math.random() - 0.5) * 20;
-        });
-        advanceScene03();
-      });
+  function advanceScene03() {
+    if (!scene03Active || scene03CurrentStep === -1) {
+      runScene03Step(0);
+    } else {
+      runScene03Step(scene03CurrentStep + 1);
     }
+  }
 
-    const pillEscena03 = document.getElementById('sub-escena-03');
-    if (cardEscena03) cardEscena03.addEventListener('click', advanceScene03);
-    if (pillEscena03) pillEscena03.addEventListener('click', (e) => {
+  if (activePanArea) {
+    activePanArea.addEventListener('click', (e) => {
       e.stopPropagation();
+      migasArray.forEach((m) => {
+        m.vy += -5 - Math.random() * 4;
+        m.vx += (Math.random() - 0.5) * 4;
+        m.vrot += (Math.random() - 0.5) * 20;
+      });
       advanceScene03();
     });
+  }
 
-    // ========================================================
-    // ESCENA 04: EL DESVÁN Y EL BAÚL DE OBJETOS SUPERPUESTOS
-    // ========================================================
-    const cardEscena04 = document.getElementById('card-escena-04');
-    const pillEscena04 = document.getElementById('sub-escena-04');
-    const chestLayers = document.querySelectorAll('.chest-item-layer');
-    const layerPistola = document.getElementById('item-pistola');
+  const pillEscena03 = document.getElementById('sub-escena-03');
+  if (cardEscena03) cardEscena03.addEventListener('click', advanceScene03);
+  if (pillEscena03) pillEscena03.addEventListener('click', (e) => {
+    e.stopPropagation();
+    advanceScene03();
+  });
 
-    let lastTossTimestamp = 0;
-    let allBoxesTossedAt = 0;
+  // ========================================================
+  // ESCENA 04: EL DESVÁN Y EL BAÚL DE OBJETOS SUPERPUESTOS
+  // ========================================================
+  const cardEscena04 = document.getElementById('card-escena-04');
+  const pillEscena04 = document.getElementById('sub-escena-04');
+  const chestLayers = document.querySelectorAll('.chest-item-layer');
+  const layerPistola = document.getElementById('item-pistola');
 
-    // Diálogos narrativos al apartar cada caja
-    const boxNarrativeSteps = {
-      3: '«¡Aaaatchís! ¡Cuántos trastos viejos tiene Oti aquí guardados!»',
-      2: '«¡Por aquí no hay nada! Solo juguetes viejos y cachivaches...»',
-      1: '«¡Ya casi llego al fondo! ¿Dónde habrá metido las uvas?»',
-      0: '«¡Halaaa! ¡Mira qué pasada de cacharro con luces!»'
-    };
+  let lastTossTimestamp = 0;
+  let allBoxesTossedAt = 0;
 
-    function getRemainingBoxes() {
-      const boxIds = ['item-caja-1', 'item-caja-2', 'item-caja-3', 'item-caja-4'];
-      return boxIds
-        .map(id => document.getElementById(id))
-        .filter(box => box && !box.classList.contains('is-tossed-left') && !box.classList.contains('is-tossed-right'));
+  // Diálogos narrativos al apartar cada caja
+  const boxNarrativeSteps = {
+    3: '«¡Aaaatchís! ¡Cuántos trastos viejos tiene Oti aquí guardados!»',
+    2: '«¡Por aquí no hay nada! Solo juguetes viejos y cachivaches...»',
+    1: '«¡Ya casi llego al fondo! ¿Dónde habrá metido las uvas?»',
+    0: '«¡Halaaa! ¡Mira qué pasada de cacharro con luces!»'
+  };
+
+  function getRemainingBoxes() {
+    const boxIds = ['item-caja-1', 'item-caja-2', 'item-caja-3', 'item-caja-4'];
+    return boxIds
+      .map(id => document.getElementById(id))
+      .filter(box => box && !box.classList.contains('is-tossed-left') && !box.classList.contains('is-tossed-right'));
+  }
+
+  function tossNextBox() {
+    const now = Date.now();
+    if (now - lastTossTimestamp < 320) return false;
+    lastTossTimestamp = now;
+
+    const remaining = getRemainingBoxes();
+    if (remaining.length > 0) {
+      const nextBox = remaining[0];
+      const tossDir = (nextBox.id === 'item-caja-1' || nextBox.id === 'item-caja-4') ? 'is-tossed-left' : 'is-tossed-right';
+      nextBox.classList.add(tossDir);
+      SFXEngine.play('whoop');
+
+      const afterCount = remaining.length - 1;
+      const stepText = boxNarrativeSteps[afterCount] || '¡Apartando trastos del desván!';
+
+      if (afterCount === 0) {
+        allBoxesTossedAt = Date.now();
+        setSceneSubtitle('sub-escena-04', stepText, 'sub-speaker-gato sorprendido');
+      } else {
+        setSceneSubtitle('sub-escena-04', stepText, 'sub-speaker-gato');
+      }
+      return true;
+    }
+    return false;
+  }
+
+  function resetScene04Boxes() {
+    ['item-caja-1', 'item-caja-2', 'item-caja-3', 'item-caja-4'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('is-tossed-left', 'is-tossed-right');
+    });
+    if (layerPistola) {
+      layerPistola.classList.remove('is-charging', 'is-shooting', 'is-vibrating');
+    }
+    scene04PortalPlayed = false;
+    allBoxesTossedAt = 0;
+    SFXEngine.play('pop');
+    setSceneSubtitle('sub-escena-04', '«¡Busquemos por el desván! Haz clic para apartar las cajas y ver qué hay...»', 'sub-speaker-gato');
+  }
+
+  let scene04CurrentStep = -1;
+  let scene04Active = false;
+  let scene04PortalPlayed = false;
+
+  const scene04Steps = [
+    {
+      speaker: 'crunchy',
+      subSpeaker: 'sub-speaker-crunchy shout-rage',
+      text: '¡Gato, no toques eso! ¡Que nos conocemos y siempre la lías!',
+      action: () => {
+        if (layerPistola) {
+          layerPistola.classList.remove('is-shooting');
+          layerPistola.classList.add('is-charging', 'is-vibrating');
+        }
+        SFXEngine.play('whoop');
+      }
+    },
+    {
+      speaker: 'gato',
+      subSpeaker: 'sub-speaker-gato shout-rage',
+      text: '¡Que no lo iba a romper, aguafiestas! ¡No me mandes!',
+      action: () => {
+        if (layerPistola) {
+          layerPistola.classList.remove('is-charging', 'is-vibrating');
+          layerPistola.classList.add('is-shooting');
+        }
+        if (!scene04PortalPlayed) {
+          fadeInPortalAudio(600);
+          scene04PortalPlayed = true;
+        }
+      }
+    }
+  ];
+
+  function runScene04Step(step) {
+    const myToken = cancelAllSequences(true);
+
+    if (step >= scene04Steps.length) {
+      // Cuando se acaban todos los diálogos de la conversación, parar el audio con fade-out
+      scene04CurrentStep = -1;
+      scene04Active = false;
+      scene04PortalPlayed = false;
+      fadeOutPortalAudio(1500);
+      setSceneSubtitle('sub-escena-04', '¡Con tanto grito la pistola se encendió y abrió un portal! Desplaza hacia abajo...', 'destacat-cyan');
+      setTimeout(() => {
+        if (myToken !== activeSequenceToken) return;
+        stopPortalAudioImmediate();
+        resetScene04Boxes();
+        setSceneSubtitle('sub-escena-04', '¡Haz clic en las cajas para volver a explorar el desván!', '');
+      }, 3000);
+      return;
     }
 
-    function tossNextBox() {
-      const now = Date.now();
-      if (now - lastTossTimestamp < 320) return false;
-      lastTossTimestamp = now;
+    scene04CurrentStep = step;
+    scene04Active = true;
+    const stepData = scene04Steps[step];
+    stepData.action();
+    setSceneSubtitle('sub-escena-04', `«${stepData.text}»`, stepData.subSpeaker);
 
-      const remaining = getRemainingBoxes();
-      if (remaining.length > 0) {
-        const nextBox = remaining[0];
-        const tossDir = (nextBox.id === 'item-caja-1' || nextBox.id === 'item-caja-4') ? 'is-tossed-left' : 'is-tossed-right';
-        nextBox.classList.add(tossDir);
+    VoiceEngine.speak(stepData.text, stepData.speaker, () => {
+      if (myToken !== activeSequenceToken) return;
+    });
+  }
+
+  function advanceScene04Dialogue() {
+    const remaining = getRemainingBoxes();
+    if (remaining.length > 0) {
+      tossNextBox();
+      return;
+    }
+    if (!scene04Active || scene04CurrentStep === -1) {
+      runScene04Step(0);
+    } else {
+      runScene04Step(scene04CurrentStep + 1);
+    }
+  }
+
+  chestLayers.forEach((layer) => {
+    layer.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const itemType = layer.getAttribute('data-item');
+
+      if (itemType === 'pistola') {
+        advanceScene04Dialogue();
+      } else {
+        const now = Date.now();
+        if (now - lastTossTimestamp < 280) return;
+        lastTossTimestamp = now;
+
+        const boxId = layer.id;
+        const tossDir = (boxId === 'item-caja-1' || boxId === 'item-caja-4') ? 'is-tossed-left' : 'is-tossed-right';
+        layer.classList.add(tossDir);
         SFXEngine.play('whoop');
 
-        const afterCount = remaining.length - 1;
-        const stepText = boxNarrativeSteps[afterCount] || '¡Apartando trastos del desván!';
-
-        if (afterCount === 0) {
+        const remaining = getRemainingBoxes();
+        const stepText = boxNarrativeSteps[remaining.length] || '¡Apartando trastos del desván!';
+        if (remaining.length === 0) {
           allBoxesTossedAt = Date.now();
           setSceneSubtitle('sub-escena-04', stepText, 'sub-speaker-gato sorprendido');
         } else {
           setSceneSubtitle('sub-escena-04', stepText, 'sub-speaker-gato');
         }
-        return true;
       }
-      return false;
+    });
+  });
+
+  if (pillEscena04) {
+    pillEscena04.addEventListener('click', (e) => {
+      e.stopPropagation();
+      advanceScene04Dialogue();
+    });
+  }
+
+  if (cardEscena04) {
+    cardEscena04.addEventListener('click', (e) => {
+      if (e.target.closest('.chest-item-layer') || e.target.closest('#sub-escena-04')) {
+        return;
+      }
+      advanceScene04Dialogue();
+    });
+  }
+
+  // ========================================================
+  // ESCENA 05: EL SALTO DIMENSIONAL (VÓRTICE Y MUNDO VOLCÁNICO)
+  // ========================================================
+  const cardEscena05 = document.getElementById('card-escena-05');
+  const portalStage = document.getElementById('portal-stage');
+  const portalAperture = document.getElementById('portal-aperture');
+  const portalWorldImg = document.getElementById('portal-world-img');
+
+  const targetFireHover = portalAperture || portalStage;
+
+  if (targetFireHover) {
+    targetFireHover.addEventListener('mouseenter', () => {
+      fadeInFuegoAudio(800);
+    });
+
+    targetFireHover.addEventListener('mouseleave', () => {
+      fadeOutFuegoAudio(900);
+      if (portalWorldImg) {
+        portalWorldImg.style.transform = 'translate(0px, 0px) scale(1)';
+      }
+    });
+
+    targetFireHover.addEventListener('mousemove', (e) => {
+      const rect = targetFireHover.getBoundingClientRect();
+      const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+      const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+      if (portalWorldImg) {
+        portalWorldImg.style.transform = `translate(${nx * 14}px, ${ny * 14}px) scale(1.08)`;
+      }
+    });
+
+    // Dispositivos táctiles móviles
+    let fireTouchTimer = null;
+    targetFireHover.addEventListener('touchstart', () => {
+      if (fireTouchTimer) clearTimeout(fireTouchTimer);
+      targetFireHover.classList.add('is-revealed');
+      fadeInFuegoAudio(800);
+    }, { passive: true });
+
+    targetFireHover.addEventListener('touchend', () => {
+      fireTouchTimer = setTimeout(() => {
+        targetFireHover.classList.remove('is-revealed');
+        fadeOutFuegoAudio(900);
+        if (portalWorldImg) {
+          portalWorldImg.style.transform = 'translate(0px, 0px) scale(1)';
+        }
+      }, 1200);
+    }, { passive: true });
+  }
+
+  let scene05CurrentStep = -1;
+  let scene05Active = false;
+  let scene05FuegoPlayed = false;
+
+  const scene05Steps = [
+    {
+      speaker: 'crunchy',
+      subSpeaker: 'sub-speaker-crunchy asustada shout-rage',
+      text: '¡Gato! ¡Nos absorbe el portal! ¡¿Ves lo que pasa por tocar?!',
+      action: () => {
+        if (cardEscena05) cardEscena05.classList.add('is-transporting');
+        if (!scene05FuegoPlayed) {
+          fadeInFuegoAudio(800);
+          scene05FuegoPlayed = true;
+        }
+      }
+    },
+    {
+      speaker: 'gato',
+      subSpeaker: 'sub-speaker-gato asustado shout-rage',
+      text: '¡Agarra mi mano y no me sueltes! ¡Aaaaah!',
+      action: () => { }
+    }
+  ];
+
+  function runScene05Step(step) {
+    const myToken = cancelAllSequences(false, false, true);
+
+    if (step >= scene05Steps.length) {
+      scene05CurrentStep = -1;
+      scene05Active = false;
+      scene05FuegoPlayed = false;
+      fadeOutFuegoAudio(1200);
+      setSceneSubtitle('sub-escena-05', '¡Aterrizaje forzoso en un mundo de lava! Desplaza hacia abajo...', 'destacat-orange');
+      setTimeout(() => {
+        if (cardEscena05) cardEscena05.classList.remove('is-transporting');
+        stopFuegoAudioImmediate();
+        if (myToken !== activeSequenceToken) return;
+        setSceneSubtitle('sub-escena-05', '¡Toca el portal para revivir el salto dimensional!', '');
+      }, 2500);
+      return;
     }
 
-    function resetScene04Boxes() {
-      ['item-caja-1', 'item-caja-2', 'item-caja-3', 'item-caja-4'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.classList.remove('is-tossed-left', 'is-tossed-right');
-      });
-      if (layerPistola) {
-        layerPistola.classList.remove('is-charging', 'is-shooting', 'is-vibrating');
+    scene05CurrentStep = step;
+    scene05Active = true;
+    const stepData = scene05Steps[step];
+    stepData.action();
+    setSceneSubtitle('sub-escena-05', `«${stepData.text}»`, stepData.subSpeaker);
+
+    VoiceEngine.speak(stepData.text, stepData.speaker, () => {
+      if (myToken !== activeSequenceToken) return;
+    });
+  }
+
+  function advanceScene05() {
+    if (!scene05Active || scene05CurrentStep === -1) {
+      runScene05Step(0);
+    } else {
+      runScene05Step(scene05CurrentStep + 1);
+    }
+  }
+
+  if (cardEscena05) {
+    cardEscena05.addEventListener('click', advanceScene05);
+  }
+  const pillEscena05 = document.getElementById('sub-escena-05');
+  if (pillEscena05) {
+    pillEscena05.addEventListener('click', (e) => {
+      e.stopPropagation();
+      advanceScene05();
+    });
+  }
+
+  // ========================================================
+  // ESCENA 06: EL MUNDO DE ROCA Y LAVA (PRISMÁTICOS)
+  // ========================================================
+  const cardEscena06 = document.getElementById('card-escena-06');
+  const binocularsStage = document.getElementById('binoculars-stage');
+  const disputeRoundRock = document.getElementById('dispute-round-rock');
+  const speakerRiolitaCard = document.getElementById('speaker-carbon-card');
+  const speakerBasaltoCard = document.getElementById('speaker-basalto-card');
+  const imgRiolitaDispute = document.getElementById('img-riolita-dispute');
+  const imgBasaltoDispute = document.getElementById('img-basalto-dispute');
+
+  function closeScene06Binoculars() {
+    if (binocularsStage && binocularsStage.classList.contains('is-opened')) {
+      cancelAllSequences();
+      stopRocaRodandoAudio();
+      binocularsStage.classList.remove('is-opened');
+      if (disputeRoundRock) {
+        disputeRoundRock.classList.remove('is-rolling-away');
       }
-      scene04PortalPlayed = false;
-      allBoxesTossedAt = 0;
+      if (speakerRiolitaCard) speakerRiolitaCard.classList.remove('is-speaking');
+      if (speakerBasaltoCard) speakerBasaltoCard.classList.remove('is-speaking');
+
+      if (imgRiolitaDispute) imgRiolitaDispute.src = 'assets/personajes/riolita/Riolita-3.png';
+      if (imgBasaltoDispute) imgBasaltoDispute.src = 'assets/personajes/basalto/Basalto-1.png';
+
       SFXEngine.play('pop');
-      setSceneSubtitle('sub-escena-04', '«¡Busquemos por el desván! Haz clic para apartar las cajas y ver qué hay...»', 'sub-speaker-gato');
+      setSceneSubtitle('sub-escena-06', '¡Toca los prismáticos para observar la discusión de Riolita y Basalto!', '');
     }
+  }
 
-    let scene04CurrentStep = -1;
-    let scene04Active = false;
-    let scene04PortalPlayed = false;
+  let scene06CurrentStep = -1;
+  let scene06Active = false;
 
-    const scene04Steps = [
-      {
-        speaker: 'crunchy',
-        subSpeaker: 'sub-speaker-crunchy shout-rage',
-        text: '¡Gato, no toques eso! ¡Que nos conocemos y siempre la lías!',
-        action: () => {
-          if (layerPistola) {
-            layerPistola.classList.remove('is-shooting');
-            layerPistola.classList.add('is-charging', 'is-vibrating');
-          }
-          SFXEngine.play('whoop');
-        }
-      },
-      {
-        speaker: 'gato',
-        subSpeaker: 'sub-speaker-gato shout-rage',
-        text: '¡Que no lo iba a romper, aguafiestas! ¡No me mandes!',
-        action: () => {
-          if (layerPistola) {
-            layerPistola.classList.remove('is-charging', 'is-vibrating');
-            layerPistola.classList.add('is-shooting');
-          }
-          if (!scene04PortalPlayed) {
-            fadeInPortalAudio(600);
-            scene04PortalPlayed = true;
-          }
-        }
-      }
-    ];
-
-    function runScene04Step(step) {
-      const myToken = cancelAllSequences(true);
-
-      if (step >= scene04Steps.length) {
-        // Cuando se acaban todos los diálogos de la conversación, parar el audio con fade-out
-        scene04CurrentStep = -1;
-        scene04Active = false;
-        scene04PortalPlayed = false;
-        fadeOutPortalAudio(1500);
-        setSceneSubtitle('sub-escena-04', '¡Con tanto grito la pistola se encendió y abrió un portal! Desplaza hacia abajo...', 'destacat-cyan');
-        setTimeout(() => {
-          if (myToken !== activeSequenceToken) return;
-          stopPortalAudioImmediate();
-          resetScene04Boxes();
-          setSceneSubtitle('sub-escena-04', '¡Haz clic en las cajas para volver a explorar el desván!', '');
-        }, 3000);
-        return;
-      }
-
-      scene04CurrentStep = step;
-      scene04Active = true;
-      const stepData = scene04Steps[step];
-      stepData.action();
-      setSceneSubtitle('sub-escena-04', `«${stepData.text}»`, stepData.subSpeaker);
-
-      VoiceEngine.speak(stepData.text, stepData.speaker, () => {
-        if (myToken !== activeSequenceToken) return;
-      });
-    }
-
-    function advanceScene04Dialogue() {
-      const remaining = getRemainingBoxes();
-      if (remaining.length > 0) {
-        tossNextBox();
-        return;
-      }
-      if (!scene04Active || scene04CurrentStep === -1) {
-        runScene04Step(0);
-      } else {
-        runScene04Step(scene04CurrentStep + 1);
-      }
-    }
-
-    chestLayers.forEach((layer) => {
-      layer.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const itemType = layer.getAttribute('data-item');
-
-        if (itemType === 'pistola') {
-          advanceScene04Dialogue();
-        } else {
-          const now = Date.now();
-          if (now - lastTossTimestamp < 280) return;
-          lastTossTimestamp = now;
-
-          const boxId = layer.id;
-          const tossDir = (boxId === 'item-caja-1' || boxId === 'item-caja-4') ? 'is-tossed-left' : 'is-tossed-right';
-          layer.classList.add(tossDir);
-          SFXEngine.play('whoop');
-
-          const remaining = getRemainingBoxes();
-          const stepText = boxNarrativeSteps[remaining.length] || '¡Apartando trastos del desván!';
-          if (remaining.length === 0) {
-            allBoxesTossedAt = Date.now();
-            setSceneSubtitle('sub-escena-04', stepText, 'sub-speaker-gato sorprendido');
-          } else {
-            setSceneSubtitle('sub-escena-04', stepText, 'sub-speaker-gato');
-          }
-        }
-      });
-    });
-
-    if (pillEscena04) {
-      pillEscena04.addEventListener('click', (e) => {
-        e.stopPropagation();
-        advanceScene04Dialogue();
-      });
-    }
-
-    if (cardEscena04) {
-      cardEscena04.addEventListener('click', (e) => {
-        if (e.target.closest('.chest-item-layer') || e.target.closest('#sub-escena-04')) {
-          return;
-        }
-        advanceScene04Dialogue();
-      });
-    }
-
-    // ========================================================
-    // ESCENA 05: EL SALTO DIMENSIONAL (VÓRTICE Y MUNDO VOLCÁNICO)
-    // ========================================================
-    const cardEscena05 = document.getElementById('card-escena-05');
-    const portalStage = document.getElementById('portal-stage');
-    const portalAperture = document.getElementById('portal-aperture');
-    const portalWorldImg = document.getElementById('portal-world-img');
-
-    const targetFireHover = portalAperture || portalStage;
-
-    if (targetFireHover) {
-      targetFireHover.addEventListener('mouseenter', () => {
-        fadeInFuegoAudio(800);
-      });
-
-      targetFireHover.addEventListener('mouseleave', () => {
-        fadeOutFuegoAudio(900);
-        if (portalWorldImg) {
-          portalWorldImg.style.transform = 'translate(0px, 0px) scale(1)';
-        }
-      });
-
-      targetFireHover.addEventListener('mousemove', (e) => {
-        const rect = targetFireHover.getBoundingClientRect();
-        const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-        const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-        if (portalWorldImg) {
-          portalWorldImg.style.transform = `translate(${nx * 14}px, ${ny * 14}px) scale(1.08)`;
-        }
-      });
-
-      // Dispositivos táctiles móviles
-      targetFireHover.addEventListener('touchstart', () => {
-        fadeInFuegoAudio(800);
-      }, { passive: true });
-
-      targetFireHover.addEventListener('touchend', () => {
-        fadeOutFuegoAudio(900);
-        if (portalWorldImg) {
-          portalWorldImg.style.transform = 'translate(0px, 0px) scale(1)';
-        }
-      }, { passive: true });
-    }
-
-    let scene05CurrentStep = -1;
-    let scene05Active = false;
-    let scene05FuegoPlayed = false;
-
-    const scene05Steps = [
-      {
-        speaker: 'crunchy',
-        subSpeaker: 'sub-speaker-crunchy asustada shout-rage',
-        text: '¡Gato! ¡Nos absorbe el portal! ¡¿Ves lo que pasa por tocar?!',
-        action: () => {
-          if (cardEscena05) cardEscena05.classList.add('is-transporting');
-          if (!scene05FuegoPlayed) {
-            fadeInFuegoAudio(800);
-            scene05FuegoPlayed = true;
-          }
-        }
-      },
-      {
-        speaker: 'gato',
-        subSpeaker: 'sub-speaker-gato asustado shout-rage',
-        text: '¡Agarra mi mano y no me sueltes! ¡Aaaaah!',
-        action: () => {}
-      }
-    ];
-
-    function runScene05Step(step) {
-      const myToken = cancelAllSequences(false, false, true);
-
-      if (step >= scene05Steps.length) {
-        scene05CurrentStep = -1;
-        scene05Active = false;
-        scene05FuegoPlayed = false;
-        fadeOutFuegoAudio(1200);
-        setSceneSubtitle('sub-escena-05', '¡Aterrizaje forzoso en un mundo de lava! Desplaza hacia abajo...', 'destacat-orange');
-        setTimeout(() => {
-          if (cardEscena05) cardEscena05.classList.remove('is-transporting');
-          stopFuegoAudioImmediate();
-          if (myToken !== activeSequenceToken) return;
-          setSceneSubtitle('sub-escena-05', '¡Toca el portal para revivir el salto dimensional!', '');
-        }, 2500);
-        return;
-      }
-
-      scene05CurrentStep = step;
-      scene05Active = true;
-      const stepData = scene05Steps[step];
-      stepData.action();
-      setSceneSubtitle('sub-escena-05', `«${stepData.text}»`, stepData.subSpeaker);
-
-      VoiceEngine.speak(stepData.text, stepData.speaker, () => {
-        if (myToken !== activeSequenceToken) return;
-      });
-    }
-
-    function advanceScene05() {
-      if (!scene05Active || scene05CurrentStep === -1) {
-        runScene05Step(0);
-      } else {
-        runScene05Step(scene05CurrentStep + 1);
-      }
-    }
-
-    if (cardEscena05) {
-      cardEscena05.addEventListener('click', advanceScene05);
-    }
-    const pillEscena05 = document.getElementById('sub-escena-05');
-    if (pillEscena05) {
-      pillEscena05.addEventListener('click', (e) => {
-        e.stopPropagation();
-        advanceScene05();
-      });
-    }
-
-    // ========================================================
-    // ESCENA 06: EL MUNDO DE ROCA Y LAVA (PRISMÁTICOS)
-    // ========================================================
-    const cardEscena06 = document.getElementById('card-escena-06');
-    const binocularsStage = document.getElementById('binoculars-stage');
-    const disputeRoundRock = document.getElementById('dispute-round-rock');
-    const speakerRiolitaCard = document.getElementById('speaker-carbon-card');
-    const speakerBasaltoCard = document.getElementById('speaker-basalto-card');
-    const imgRiolitaDispute = document.getElementById('img-riolita-dispute');
-    const imgBasaltoDispute = document.getElementById('img-basalto-dispute');
-
-    function closeScene06Binoculars() {
-      if (binocularsStage && binocularsStage.classList.contains('is-opened')) {
-        cancelAllSequences();
-        stopRocaRodandoAudio();
-        binocularsStage.classList.remove('is-opened');
+  const scene06Steps = [
+    {
+      speaker: 'riolita',
+      subSpeaker: 'sub-speaker-riolita angry',
+      text: '¡Esta roca la vi yo primero! ¡Suéltala, Basalto, que es mía!',
+      action: () => {
         if (disputeRoundRock) {
           disputeRoundRock.classList.remove('is-rolling-away');
         }
-        if (speakerRiolitaCard) speakerRiolitaCard.classList.remove('is-speaking');
-        if (speakerBasaltoCard) speakerBasaltoCard.classList.remove('is-speaking');
-
         if (imgRiolitaDispute) imgRiolitaDispute.src = 'assets/personajes/riolita/Riolita-3.png';
         if (imgBasaltoDispute) imgBasaltoDispute.src = 'assets/personajes/basalto/Basalto-1.png';
-
-        SFXEngine.play('pop');
-        setSceneSubtitle('sub-escena-06', '¡Toca los prismáticos para observar la discusión de Riolita y Basalto!', '');
+        if (speakerRiolitaCard) speakerRiolitaCard.classList.add('is-speaking');
+        if (speakerBasaltoCard) speakerBasaltoCard.classList.remove('is-speaking');
+      }
+    },
+    {
+      speaker: 'basalto',
+      subSpeaker: 'sub-speaker-basalto angry',
+      text: '¡De eso nada, que la he picado yo! ¡Búscate otra!',
+      action: () => {
+        if (speakerRiolitaCard) speakerRiolitaCard.classList.remove('is-speaking');
+        if (speakerBasaltoCard) speakerBasaltoCard.classList.add('is-speaking');
+      }
+    },
+    {
+      speaker: 'riolita',
+      subSpeaker: 'sub-speaker-riolita surprised',
+      text: '¡Cuidado, bruto, que se nos resbala cuesta abajo!',
+      action: () => {
+        if (speakerRiolitaCard) speakerRiolitaCard.classList.add('is-speaking');
+        if (speakerBasaltoCard) speakerBasaltoCard.classList.add('is-speaking');
+        if (disputeRoundRock) {
+          disputeRoundRock.classList.add('is-rolling-away');
+          playRocaRodandoAudio(2800);
+        }
+        if (imgRiolitaDispute) imgRiolitaDispute.src = 'assets/personajes/riolita/Riolita-2.png';
+        if (imgBasaltoDispute) imgBasaltoDispute.src = 'assets/personajes/basalto/Basalto-2.png';
       }
     }
+  ];
 
-    let scene06CurrentStep = -1;
-    let scene06Active = false;
+  function runScene06Step(step) {
+    const myToken = cancelAllSequences();
 
-    const scene06Steps = [
-      {
-        speaker: 'riolita',
-        subSpeaker: 'sub-speaker-riolita angry',
-        text: '¡Esta roca la vi yo primero! ¡Suéltala, Basalto, que es mía!',
-        action: () => {
-          if (disputeRoundRock) {
-            disputeRoundRock.classList.remove('is-rolling-away');
-          }
-          if (imgRiolitaDispute) imgRiolitaDispute.src = 'assets/personajes/riolita/Riolita-3.png';
-          if (imgBasaltoDispute) imgBasaltoDispute.src = 'assets/personajes/basalto/Basalto-1.png';
-          if (speakerRiolitaCard) speakerRiolitaCard.classList.add('is-speaking');
-          if (speakerBasaltoCard) speakerBasaltoCard.classList.remove('is-speaking');
-        }
-      },
-      {
-        speaker: 'basalto',
-        subSpeaker: 'sub-speaker-basalto angry',
-        text: '¡De eso nada, que la he picado yo! ¡Búscate otra!',
-        action: () => {
-          if (speakerRiolitaCard) speakerRiolitaCard.classList.remove('is-speaking');
-          if (speakerBasaltoCard) speakerBasaltoCard.classList.add('is-speaking');
-        }
-      },
-      {
-        speaker: 'riolita',
-        subSpeaker: 'sub-speaker-riolita surprised',
-        text: '¡Cuidado, bruto, que se nos resbala cuesta abajo!',
-        action: () => {
-          if (speakerRiolitaCard) speakerRiolitaCard.classList.add('is-speaking');
-          if (speakerBasaltoCard) speakerBasaltoCard.classList.add('is-speaking');
-          if (disputeRoundRock) {
-            disputeRoundRock.classList.add('is-rolling-away');
-            playRocaRodandoAudio(2800);
-          }
-          if (imgRiolitaDispute) imgRiolitaDispute.src = 'assets/personajes/riolita/Riolita-2.png';
-          if (imgBasaltoDispute) imgBasaltoDispute.src = 'assets/personajes/basalto/Basalto-2.png';
-        }
+    if (step >= scene06Steps.length) {
+      scene06CurrentStep = -1;
+      scene06Active = false;
+      if (speakerRiolitaCard) speakerRiolitaCard.classList.remove('is-speaking');
+      if (speakerBasaltoCard) speakerBasaltoCard.classList.remove('is-speaking');
+      SFXEngine.play('explosion');
+      setSceneSubtitle('sub-escena-06', '«¡La roca rodó y taponó la entrada de la cueva! Desplaza hacia abajo...', 'destacat-orange');
+      setTimeout(() => {
+        if (myToken !== activeSequenceToken) return;
+        closeScene06Binoculars();
+        setSceneSubtitle('sub-escena-06', '¡Toca los prismáticos para volver a observar la discusión!', '');
+      }, 3500);
+      return;
+    }
+
+    scene06CurrentStep = step;
+    scene06Active = true;
+    const stepData = scene06Steps[step];
+    stepData.action();
+    setSceneSubtitle('sub-escena-06', `«${stepData.text}»`, stepData.subSpeaker);
+
+    VoiceEngine.speak(stepData.text, stepData.speaker, () => {
+      if (myToken !== activeSequenceToken) return;
+    });
+  }
+
+  function advanceScene06(e) {
+    const isCurrentlyOpened = binocularsStage && binocularsStage.classList.contains('is-opened');
+
+    if (isCurrentlyOpened) {
+      const clickedInsideVisor = e && e.target && e.target.closest('#binoculars-visor-elem');
+      const clickedSubtitle = e && e.target && e.target.closest('#sub-escena-06');
+      if (!clickedInsideVisor && !clickedSubtitle) {
+        closeScene06Binoculars();
+        return;
       }
-    ];
+    } else {
+      if (binocularsStage) {
+        binocularsStage.classList.add('is-opened');
+        SFXEngine.play('whoop');
+      }
+      if (disputeRoundRock) {
+        disputeRoundRock.classList.remove('is-rolling-away');
+        void disputeRoundRock.offsetWidth;
+      }
+      if (imgRiolitaDispute) imgRiolitaDispute.src = 'assets/personajes/riolita/Riolita-3.png';
+      if (imgBasaltoDispute) imgBasaltoDispute.src = 'assets/personajes/basalto/Basalto-1.png';
+    }
 
-    function runScene06Step(step) {
-      const myToken = cancelAllSequences();
+    if (!scene06Active || scene06CurrentStep === -1) {
+      runScene06Step(0);
+    } else {
+      runScene06Step(scene06CurrentStep + 1);
+    }
+  }
 
-      if (step >= scene06Steps.length) {
-        scene06CurrentStep = -1;
-        scene06Active = false;
-        if (speakerRiolitaCard) speakerRiolitaCard.classList.remove('is-speaking');
-        if (speakerBasaltoCard) speakerBasaltoCard.classList.remove('is-speaking');
-        SFXEngine.play('explosion');
-        setSceneSubtitle('sub-escena-06', '«¡La roca rodó y taponó la entrada de la cueva! Desplaza hacia abajo...', 'destacat-orange');
+  if (cardEscena06) cardEscena06.addEventListener('click', advanceScene06);
+  const pillEscena06 = document.getElementById('sub-escena-06');
+  if (pillEscena06) {
+    pillEscena06.addEventListener('click', (e) => {
+      e.stopPropagation();
+      advanceScene06(e);
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    if (binocularsStage && binocularsStage.classList.contains('is-opened')) {
+      if (!e.target.closest('#card-escena-06')) {
+        closeScene06Binoculars();
+      }
+    }
+  });
+
+  // ========================================================
+  // ESCENA 07: EL PACTO DE EQUIPO Y LAS MANOS PROGRESIVAS
+  // ========================================================
+  const cardEscena07 = document.getElementById('card-escena-07');
+  const teamHandsBox = document.getElementById('team-hands-box');
+  let currentHandsCount = 0;
+  const maxHands = 4;
+
+  const handStepData = [
+    {
+      handId: 'arm-hand-1',
+      text: '«Vaya... por pelearnos hemos tapado la cueva entera...»',
+      speaker: 'sub-speaker-riolita',
+      voiceChar: 'riolita'
+    },
+    {
+      handId: 'arm-hand-2',
+      text: '«La verdad es que nos hemos pasado de cabezotas...»',
+      speaker: 'sub-speaker-basalto',
+      voiceChar: 'basalto'
+    },
+    {
+      handId: 'arm-hand-3',
+      text: '«¡Pues si golpeamos los cuatro a la vez, seguro que la rompemos!»',
+      speaker: 'sub-speaker-crunchy',
+      voiceChar: 'crunchy'
+    },
+    {
+      handId: 'arm-hand-4',
+      text: '«¡Venga, manos al centro! ¡A la de tres todos a una!»',
+      speaker: 'sub-speaker-gato',
+      voiceChar: 'gato',
+      isFinal: true
+    }
+  ];
+
+  function placeNextTeamHand(e) {
+    if (e && e.target && e.target.closest('#sub-escena-07')) {
+      return;
+    }
+
+    const myToken = cancelAllSequences();
+
+    if (currentHandsCount >= maxHands) {
+      currentHandsCount = 0;
+      for (let i = 1; i <= maxHands; i++) {
+        const hand = document.getElementById(`arm-hand-${i}`);
+        if (hand) hand.classList.remove('is-in-center');
+      }
+      if (teamHandsBox) teamHandsBox.classList.remove('is-all-united');
+      setSceneSubtitle('sub-escena-07', '¡Toca para que los cuatro amigos unan sus manos una a una!', '');
+      return;
+    }
+
+    currentHandsCount++;
+    const step = handStepData[currentHandsCount - 1];
+
+    const currentHandElem = document.getElementById(step.handId);
+    if (currentHandElem) {
+      currentHandElem.classList.add('is-in-center');
+    }
+
+    if (step.isFinal) {
+      if (teamHandsBox) teamHandsBox.classList.add('is-all-united');
+      SFXEngine.play('triumph-chime');
+    }
+
+    setSceneSubtitle('sub-escena-07', step.text, step.speaker);
+    VoiceEngine.speak(step.text.replace(/[«»¡!]/g, ''), step.voiceChar, () => {
+      if (myToken !== activeSequenceToken) return;
+      if (step.isFinal) {
+        setSceneSubtitle('sub-escena-07', '¡Pacto de equipo sellado! Los cuatro amigos unen sus fuerzas para solucionar el problema.', 'destacat-orange');
+
         setTimeout(() => {
           if (myToken !== activeSequenceToken) return;
-          closeScene06Binoculars();
-          setSceneSubtitle('sub-escena-06', '¡Toca los prismáticos para volver a observar la discusión!', '');
-        }, 3500);
-        return;
-      }
-
-      scene06CurrentStep = step;
-      scene06Active = true;
-      const stepData = scene06Steps[step];
-      stepData.action();
-      setSceneSubtitle('sub-escena-06', `«${stepData.text}»`, stepData.subSpeaker);
-
-      VoiceEngine.speak(stepData.text, stepData.speaker, () => {
-        if (myToken !== activeSequenceToken) return;
-      });
-    }
-
-    function advanceScene06(e) {
-      const isCurrentlyOpened = binocularsStage && binocularsStage.classList.contains('is-opened');
-
-      if (isCurrentlyOpened) {
-        const clickedInsideVisor = e && e.target && e.target.closest('#binoculars-visor-elem');
-        const clickedSubtitle = e && e.target && e.target.closest('#sub-escena-06');
-        if (!clickedInsideVisor && !clickedSubtitle) {
-          closeScene06Binoculars();
-          return;
-        }
-      } else {
-        if (binocularsStage) {
-          binocularsStage.classList.add('is-opened');
-          SFXEngine.play('whoop');
-        }
-        if (disputeRoundRock) {
-          disputeRoundRock.classList.remove('is-rolling-away');
-          void disputeRoundRock.offsetWidth;
-        }
-        if (imgRiolitaDispute) imgRiolitaDispute.src = 'assets/personajes/riolita/Riolita-3.png';
-        if (imgBasaltoDispute) imgBasaltoDispute.src = 'assets/personajes/basalto/Basalto-1.png';
-      }
-
-      if (!scene06Active || scene06CurrentStep === -1) {
-        runScene06Step(0);
-      } else {
-        runScene06Step(scene06CurrentStep + 1);
-      }
-    }
-
-    if (cardEscena06) cardEscena06.addEventListener('click', advanceScene06);
-    const pillEscena06 = document.getElementById('sub-escena-06');
-    if (pillEscena06) {
-      pillEscena06.addEventListener('click', (e) => {
-        e.stopPropagation();
-        advanceScene06(e);
-      });
-    }
-
-    document.addEventListener('click', (e) => {
-      if (binocularsStage && binocularsStage.classList.contains('is-opened')) {
-        if (!e.target.closest('#card-escena-06')) {
-          closeScene06Binoculars();
-        }
+          currentHandsCount = 0;
+          for (let i = 1; i <= maxHands; i++) {
+            const hand = document.getElementById(`arm-hand-${i}`);
+            if (hand) hand.classList.remove('is-in-center');
+          }
+          if (teamHandsBox) teamHandsBox.classList.remove('is-all-united');
+          setSceneSubtitle('sub-escena-07', '¡Toca para que los cuatro amigos unan sus manos una a una!', '');
+        }, 4000);
       }
     });
+  }
 
-    // ========================================================
-    // ESCENA 07: EL PACTO DE EQUIPO Y LAS MANOS PROGRESIVAS
-    // ========================================================
-    const cardEscena07 = document.getElementById('card-escena-07');
-    const teamHandsBox = document.getElementById('team-hands-box');
-    let currentHandsCount = 0;
-    const maxHands = 4;
+  if (cardEscena07) cardEscena07.addEventListener('click', placeNextTeamHand);
 
-    const handStepData = [
-      {
-        handId: 'arm-hand-1',
-        text: '«Vaya... por pelearnos hemos tapado la cueva entera...»',
-        speaker: 'sub-speaker-riolita',
-        voiceChar: 'riolita'
-      },
-      {
-        handId: 'arm-hand-2',
-        text: '«La verdad es que nos hemos pasado de cabezotas...»',
-        speaker: 'sub-speaker-basalto',
-        voiceChar: 'basalto'
-      },
-      {
-        handId: 'arm-hand-3',
-        text: '«¡Pues si golpeamos los cuatro a la vez, seguro que la rompemos!»',
-        speaker: 'sub-speaker-crunchy',
-        voiceChar: 'crunchy'
-      },
-      {
-        handId: 'arm-hand-4',
-        text: '«¡Venga, manos al centro! ¡A la de tres todos a una!»',
-        speaker: 'sub-speaker-gato',
-        voiceChar: 'gato',
-        isFinal: true
+  // ========================================================
+  // ESCENA 08: DESTRUCCIÓN COOPERATIVA DE LA ROCA (4 GOLPES)
+  // ========================================================
+  const cardEscena08 = document.getElementById('card-escena-08');
+  const volcanicBoulder = document.getElementById('volcanic-boulder');
+  const volcanicRockArt = document.getElementById('volcanic-rock-art');
+
+  let rockSmashStep = 0;
+
+  function handleRockSmashClick(e) {
+    if (e && e.target && e.target.closest('#sub-escena-08')) {
+      return;
+    }
+
+    const myToken = cancelAllSequences();
+
+    if (rockSmashStep >= 4) {
+      rockSmashStep = 0;
+      if (volcanicRockArt) volcanicRockArt.src = 'assets/objetos/roca/Roca-5.png';
+      if (volcanicBoulder) volcanicBoulder.classList.remove('is-shattered', 'is-punch-struck');
+      setSceneSubtitle('sub-escena-08', '¡Toca la roca para golpear todos juntos en equipo!', '');
+      return;
+    }
+
+    rockSmashStep++;
+
+    if (volcanicBoulder) {
+      volcanicBoulder.classList.remove('is-punch-struck');
+      void volcanicBoulder.offsetWidth;
+      volcanicBoulder.classList.add('is-punch-struck');
+    }
+
+    if (rockSmashStep === 1) {
+      if (volcanicRockArt) volcanicRockArt.src = 'assets/objetos/roca/Roca-4.png';
+      playRocaHitAudio(1);
+      setSceneSubtitle('sub-escena-08', '«¡Buen primer golpe entre todos! ¡Seguid dándole juntos!»', 'sub-speaker-riolita');
+      VoiceEngine.speak('¡Buen primer golpe entre todos! ¡Seguid dándole juntos!', 'riolita');
+
+    } else if (rockSmashStep === 2) {
+      if (volcanicRockArt) volcanicRockArt.src = 'assets/objetos/roca/Roca-3.png';
+      playRocaHitAudio(2);
+      setSceneSubtitle('sub-escena-08', '«¡Eso es! ¡Otro golpe juntos con todas nuestras fuerzas!»', 'sub-speaker-basalto');
+      VoiceEngine.speak('¡Eso es! ¡Otro golpe juntos con todas nuestras fuerzas!', 'basalto');
+
+    } else if (rockSmashStep === 3) {
+      if (volcanicRockArt) volcanicRockArt.src = 'assets/objetos/roca/Roca-2.png';
+      playRocaHitAudio(3);
+      setSceneSubtitle('sub-escena-08', '«¡Ya se está agrietando! ¡El último esfuerzo entre todos!»', 'sub-speaker-crunchy');
+      VoiceEngine.speak('¡Ya se está agrietando! ¡El último esfuerzo entre todos!', 'crunchy');
+
+    } else if (rockSmashStep === 4) {
+      if (volcanicRockArt) volcanicRockArt.src = 'assets/objetos/roca/Roca-1.png';
+      if (volcanicBoulder) volcanicBoulder.classList.add('is-shattered');
+
+      playRocaBreakAudio();
+      setSceneSubtitle('sub-escena-08', '«¡¡TOMA YA!! ¡¡La rompimos entre todos!! ¡Camino libre!»', 'sub-speaker-gato');
+
+      VoiceEngine.speak('¡Toma ya! ¡La rompimos entre todos! ¡Camino libre!', 'gato', () => {
+        if (myToken !== activeSequenceToken) return;
+        setSceneSubtitle('sub-escena-08', '¡Roca rota en equipo! El camino hacia el portal vuelve a estar despejado.', 'destacat-cyan');
+
+        setTimeout(() => {
+          if (myToken !== activeSequenceToken) return;
+          rockSmashStep = 0;
+          if (volcanicRockArt) volcanicRockArt.src = 'assets/objetos/roca/Roca-5.png';
+          if (volcanicBoulder) volcanicBoulder.classList.remove('is-shattered', 'is-punch-struck');
+          setSceneSubtitle('sub-escena-08', '¡Toca la roca para golpear todos juntos en equipo!', '');
+        }, 4000);
+      });
+    }
+  }
+
+  if (cardEscena08) {
+    cardEscena08.addEventListener('click', handleRockSmashClick);
+  }
+
+  // ========================================================
+  // ESCENA 09: LA BOLSA DE CRUNCHY Y EL REGALO DE FUEGO
+  // ========================================================
+  const cardEscena09 = document.getElementById('card-escena-09');
+  const bolsaGiftBox = document.getElementById('bolsa-gift-box');
+  let isBagOpen = false;
+  let collectedGrapesCount = 0;
+  const maxBolsaGrapes = 6;
+
+  const bolsaGrapeDialogueSteps = [
+    {
+      text: '«¡Aquí tenéis una bien calentita y dulce!»',
+      speaker: 'sub-speaker-riolita',
+      voiceChar: 'riolita'
+    },
+    {
+      text: '«¡Cuidado que queman un poco, métela rápido!»',
+      speaker: 'sub-speaker-basalto',
+      voiceChar: 'basalto'
+    },
+    {
+      text: '«¡Madre mía qué ricas van a quedar con las migas!»',
+      speaker: 'sub-speaker-crunchy',
+      voiceChar: 'crunchy'
+    },
+    {
+      text: '«¡Nos van a saber a gloria después del susto que nos hemos llevado!»',
+      speaker: 'sub-speaker-gato',
+      voiceChar: 'gato'
+    },
+    {
+      text: '«¡Ya casi las tenéis todas dentro!»',
+      speaker: 'sub-speaker-riolita',
+      voiceChar: 'riolita'
+    },
+    {
+      text: '«¡Listo! ¡Buen viaje de vuelta a casa, amigos!»',
+      speaker: 'sub-speaker-basalto',
+      voiceChar: 'basalto',
+      isFinal: true
+    }
+  ];
+
+  function animateGrapeToBag(fromElement, toElement, onComplete) {
+    const flyingLayer = document.getElementById('bag-flying-layer') || document.getElementById('crunchy-bag-box');
+
+    if (!fromElement || !toElement || !flyingLayer) {
+      if (onComplete) onComplete();
+      return;
+    }
+
+    const layerRect = flyingLayer.getBoundingClientRect();
+    const fromRect = fromElement.getBoundingClientRect();
+    const toRect = toElement.getBoundingClientRect();
+
+    const startX = fromRect.left - layerRect.left;
+    const startY = fromRect.top - layerRect.top;
+    const endX = (toRect.left + toRect.width / 2) - layerRect.left - (fromRect.width / 2);
+    const endY = (toRect.top + toRect.height / 2) - layerRect.top - (fromRect.height / 2);
+
+    const flyingGrape = document.createElement('img');
+    const sourceImg = fromElement.querySelector('img');
+    flyingGrape.src = sourceImg ? sourceImg.src : 'assets/objetos/migas/uva_1.png';
+    flyingGrape.className = 'grape-flying-projectile';
+    flyingGrape.style.left = `${startX}px`;
+    flyingGrape.style.top = `${startY}px`;
+    flyingGrape.style.width = `${fromRect.width}px`;
+    flyingGrape.style.height = `${fromRect.height}px`;
+    flyingGrape.style.transform = 'translate(0, 0) scale(1) rotate(0deg)';
+    flyingLayer.appendChild(flyingGrape);
+
+    fromElement.classList.add('is-collected');
+
+    void flyingGrape.offsetWidth;
+
+    const deltaX = endX - startX;
+    const deltaY = endY - startY;
+    flyingGrape.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1) rotate(0deg)`;
+
+    setTimeout(() => {
+      flyingGrape.remove();
+      if (onComplete) onComplete();
+    }, 380);
+  }
+
+  function handleBolsaInteraction(e) {
+    if (e && e.target && e.target.closest('#sub-escena-09')) {
+      return;
+    }
+
+    const myToken = cancelAllSequences();
+
+    if (collectedGrapesCount >= maxBolsaGrapes) {
+      isBagOpen = false;
+      collectedGrapesCount = 0;
+      if (cardEscena09) {
+        cardEscena09.classList.remove('is-bag-open');
+        cardEscena09.classList.add('is-bag-closed');
       }
-    ];
+      if (bolsaGiftBox) {
+        bolsaGiftBox.classList.remove('is-all-collected');
+      }
+      const allFloatingSlots = document.querySelectorAll('.bolsa-floating-grapes .bolsa-grape-slot');
+      allFloatingSlots.forEach(slot => slot.classList.remove('is-collected'));
+      const allInsideDots = document.querySelectorAll('.inside-grape-dot');
+      allInsideDots.forEach(dot => dot.classList.remove('is-filled'));
 
-    function placeNextTeamHand(e) {
-      if (e && e.target && e.target.closest('#sub-escena-07')) {
-        return;
+      SFXEngine.play('pop');
+      setSceneSubtitle('sub-escena-09', '¡Toca la bolsa de Crunchy para abrirla y guardar las uvas ígneas!', '');
+      return;
+    }
+
+    if (!isBagOpen) {
+      isBagOpen = true;
+      if (cardEscena09) {
+        cardEscena09.classList.remove('is-bag-closed');
+        cardEscena09.classList.add('is-bag-open');
       }
 
-      const myToken = cancelAllSequences();
-
-      if (currentHandsCount >= maxHands) {
-        currentHandsCount = 0;
-        for (let i = 1; i <= maxHands; i++) {
-          const hand = document.getElementById(`arm-hand-${i}`);
-          if (hand) hand.classList.remove('is-in-center');
+      const openSpeech = '¡Abre la bolsa, a ver esas uvas de lava!';
+      setSceneSubtitle('sub-escena-09', '«¡Abre la bolsa, a ver esas uvas de lava!»', 'sub-speaker-crunchy');
+      VoiceEngine.speak(openSpeech, 'crunchy', () => {
+        if (myToken !== activeSequenceToken) return;
+        if (collectedGrapesCount === 0) {
+          setSceneSubtitle('sub-escena-09', '¡Bolsa abierta! Toca las uvas flotantes para guardarlas dentro una a una.', 'destacat-orange');
         }
-        if (teamHandsBox) teamHandsBox.classList.remove('is-all-united');
-        setSceneSubtitle('sub-escena-07', '¡Toca para que los cuatro amigos unan sus manos una a una!', '');
-        return;
+      });
+      return;
+    }
+
+    const clickedSlot = e ? e.target.closest('.bolsa-grape-slot') : null;
+    let targetSlot = clickedSlot;
+    if (!targetSlot || targetSlot.classList.contains('is-collected')) {
+      targetSlot = document.querySelector('.bolsa-floating-grapes .bolsa-grape-slot:not(.is-collected)');
+    }
+
+    if (!targetSlot) return;
+
+    collectedGrapesCount++;
+    const nextGrapeIndex = collectedGrapesCount;
+    const insideDot = document.getElementById(`inside-grape-${nextGrapeIndex}`);
+
+    for (let i = 1; i < nextGrapeIndex; i++) {
+      const prevDot = document.getElementById(`inside-grape-${i}`);
+      if (prevDot) prevDot.classList.add('is-filled');
+    }
+
+    animateGrapeToBag(targetSlot, insideDot, () => {
+      if (insideDot) {
+        insideDot.classList.add('is-filled');
       }
 
-      currentHandsCount++;
-      const step = handStepData[currentHandsCount - 1];
+      if (myToken !== activeSequenceToken) return;
 
-      const currentHandElem = document.getElementById(step.handId);
-      if (currentHandElem) {
-        currentHandElem.classList.add('is-in-center');
-      }
+      playGrapeCollectAudio();
+
+      const step = bolsaGrapeDialogueSteps[nextGrapeIndex - 1];
 
       if (step.isFinal) {
-        if (teamHandsBox) teamHandsBox.classList.add('is-all-united');
-        SFXEngine.play('triumph-chime');
+        if (bolsaGiftBox) {
+          bolsaGiftBox.classList.add('is-all-collected');
+        }
       }
 
-      setSceneSubtitle('sub-escena-07', step.text, step.speaker);
+      setSceneSubtitle('sub-escena-09', step.text, step.speaker, true);
       VoiceEngine.speak(step.text.replace(/[«»¡!]/g, ''), step.voiceChar, () => {
         if (myToken !== activeSequenceToken) return;
         if (step.isFinal) {
-          setSceneSubtitle('sub-escena-07', '¡Pacto de equipo sellado! Los cuatro amigos unen sus fuerzas para solucionar el problema.', 'destacat-orange');
+          setSceneSubtitle('sub-escena-09', '¡Todas las uvas están guardadas! Cruza el portal para volver a casa...', 'destacat-orange', true);
 
           setTimeout(() => {
             if (myToken !== activeSequenceToken) return;
-            currentHandsCount = 0;
-            for (let i = 1; i <= maxHands; i++) {
-              const hand = document.getElementById(`arm-hand-${i}`);
-              if (hand) hand.classList.remove('is-in-center');
+            isBagOpen = false;
+            collectedGrapesCount = 0;
+            if (cardEscena09) {
+              cardEscena09.classList.remove('is-bag-open');
+              cardEscena09.classList.add('is-bag-closed');
             }
-            if (teamHandsBox) teamHandsBox.classList.remove('is-all-united');
-            setSceneSubtitle('sub-escena-07', '¡Toca para que los cuatro amigos unan sus manos una a una!', '');
+            if (bolsaGiftBox) {
+              bolsaGiftBox.classList.remove('is-all-collected');
+            }
+            const allFloatingSlots = document.querySelectorAll('.bolsa-floating-grapes .bolsa-grape-slot');
+            allFloatingSlots.forEach(slot => slot.classList.remove('is-collected'));
+            const allInsideDots = document.querySelectorAll('.inside-grape-dot');
+            allInsideDots.forEach(dot => dot.classList.remove('is-filled'));
+            setSceneSubtitle('sub-escena-09', '¡Toca la bolsa de Crunchy para abrirla y guardar las uvas!', '', true);
           }, 4000);
         }
       });
+    });
+  }
+
+  if (cardEscena09) cardEscena09.addEventListener('click', handleBolsaInteraction);
+
+  // ========================================================
+  // ESCENA 10: EL FESTÍN Y EL PLATO DE MIGAS CON 6 UVAS
+  // ========================================================
+  const cardEscena10 = document.getElementById('card-escena-10');
+  const migasGrapeCountElem = document.getElementById('migas-grape-count');
+  let currentGrapeCount = 0;
+  const maxGrapes = 6;
+
+  const grapeDialogueSteps = [
+    {
+      text: '«¡Oti, ya estamos aquí! ¡Mira qué uvas más raras y ricas hemos traído!»',
+      speaker: 'sub-speaker-gato',
+      voiceChar: 'gato'
+    },
+    {
+      text: '«¡Menudo susto me habéis dado! ¡No pensaba que ese viejo trasto del desván aún funcionaba!»',
+      speaker: 'sub-speaker-oti',
+      voiceChar: 'oti'
+    },
+    {
+      text: '«¡Casi nos quedamos atrapados, pero al final hicimos amigos y todo!»',
+      speaker: 'sub-speaker-crunchy',
+      voiceChar: 'crunchy'
+    },
+    {
+      text: '«¡Ja, ja, ja! Pues huelen de maravilla. ¡Echemos las uvas al plato!»',
+      speaker: 'sub-speaker-oti',
+      voiceChar: 'oti'
+    },
+    {
+      text: '«¡Y gracias por acompañarnos en esta aventura y ayudarnos a volver!»',
+      speaker: 'sub-speaker-gato',
+      voiceChar: 'gato'
+    },
+    {
+      text: '«¡Venga, a la mesa todos, que las migas se enfrían!»',
+      speaker: 'sub-speaker-crunchy',
+      voiceChar: 'crunchy',
+      isFinal: true
+    }
+  ];
+
+  const grapeRotations = {
+    1: -12,
+    2: 35,
+    3: -22,
+    4: 18,
+    5: -35,
+    6: 10
+  };
+
+  function animateGrapeToPlate(targetSlot, grapeSrc, grapeIndex, onComplete) {
+    const dishTarget = document.getElementById('migas-dish-target');
+    if (!dishTarget || !targetSlot) {
+      if (onComplete) onComplete();
+      return;
     }
 
-    if (cardEscena07) cardEscena07.addEventListener('click', placeNextTeamHand);
+    const dishRect = dishTarget.getBoundingClientRect();
+    const rot = grapeRotations[grapeIndex] || 0;
 
-    // ========================================================
-    // ESCENA 08: DESTRUCCIÓN COOPERATIVA DE LA ROCA (4 GOLPES)
-    // ========================================================
-    const cardEscena08 = document.getElementById('card-escena-08');
-    const volcanicBoulder = document.getElementById('volcanic-boulder');
-    const volcanicRockArt = document.getElementById('volcanic-rock-art');
+    // Posición inicial: en el centro en primer plano (grande con su rotación propia)
+    const startLeft = (dishRect.width / 2) - 17;
+    const startTop = (dishRect.height / 2) - 19 - 25;
 
-    let rockSmashStep = 0;
+    // Posición final: dentro del slot exacto en el plato
+    const endLeft = targetSlot.offsetLeft;
+    const endTop = targetSlot.offsetTop;
 
-    function handleRockSmashClick(e) {
-      if (e && e.target && e.target.closest('#sub-escena-08')) {
-        return;
-      }
+    const flyer = document.createElement('div');
+    flyer.className = 'grape-zoom-projectile is-intro';
+    flyer.style.left = `${startLeft}px`;
+    flyer.style.top = `${startTop}px`;
+    flyer.style.transform = `translate(0, -15px) scale(0.6) rotate(${rot}deg)`;
+    flyer.style.opacity = '0';
 
-      const myToken = cancelAllSequences();
+    const img = document.createElement('img');
+    img.src = grapeSrc;
+    img.alt = 'Uva ígnea zoom';
+    flyer.appendChild(img);
+    dishTarget.appendChild(flyer);
 
-      if (rockSmashStep >= 4) {
-        rockSmashStep = 0;
-        if (volcanicRockArt) volcanicRockArt.src = 'assets/objetos/roca/Roca-5.png';
-        if (volcanicBoulder) volcanicBoulder.classList.remove('is-shattered', 'is-punch-struck');
-        setSceneSubtitle('sub-escena-08', '¡Toca la roca para golpear todos juntos en equipo!', '');
-        return;
-      }
+    // Forzar reflow del navegador
+    void flyer.offsetWidth;
 
-      rockSmashStep++;
+    // Fase 1: Pop in en primer plano (aparece grande con su rotación única y flota medio segundo)
+    flyer.style.opacity = '1';
+    flyer.style.transform = `translate(0, 0) scale(2.8) rotate(${rot}deg)`;
 
-      if (volcanicBoulder) {
-        volcanicBoulder.classList.remove('is-punch-struck');
-        void volcanicBoulder.offsetWidth;
-        volcanicBoulder.classList.add('is-punch-struck');
-      }
+    // Fase 2: Tras ~480ms de exhibición, vuela fluidamente hacia el plato encogiéndose en perspectiva con su rotación
+    setTimeout(() => {
+      const deltaX = endLeft - startLeft;
+      const deltaY = endTop - startTop;
 
-      if (rockSmashStep === 1) {
-        if (volcanicRockArt) volcanicRockArt.src = 'assets/objetos/roca/Roca-4.png';
-        playRocaHitAudio(1);
-        setSceneSubtitle('sub-escena-08', '«¡Buen primer golpe entre todos! ¡Seguid dándole juntos!»', 'sub-speaker-riolita');
-        VoiceEngine.speak('¡Buen primer golpe entre todos! ¡Seguid dándole juntos!', 'riolita');
+      flyer.className = 'grape-zoom-projectile is-flying';
+      flyer.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1) rotate(${rot}deg)`;
 
-      } else if (rockSmashStep === 2) {
-        if (volcanicRockArt) volcanicRockArt.src = 'assets/objetos/roca/Roca-3.png';
-        playRocaHitAudio(2);
-        setSceneSubtitle('sub-escena-08', '«¡Eso es! ¡Otro golpe juntos con todas nuestras fuerzas!»', 'sub-speaker-basalto');
-        VoiceEngine.speak('¡Eso es! ¡Otro golpe juntos con todas nuestras fuerzas!', 'basalto');
-
-      } else if (rockSmashStep === 3) {
-        if (volcanicRockArt) volcanicRockArt.src = 'assets/objetos/roca/Roca-2.png';
-        playRocaHitAudio(3);
-        setSceneSubtitle('sub-escena-08', '«¡Ya se está agrietando! ¡El último esfuerzo entre todos!»', 'sub-speaker-crunchy');
-        VoiceEngine.speak('¡Ya se está agrietando! ¡El último esfuerzo entre todos!', 'crunchy');
-
-      } else if (rockSmashStep === 4) {
-        if (volcanicRockArt) volcanicRockArt.src = 'assets/objetos/roca/Roca-1.png';
-        if (volcanicBoulder) volcanicBoulder.classList.add('is-shattered');
-
-        playRocaBreakAudio();
-        setSceneSubtitle('sub-escena-08', '«¡¡TOMA YA!! ¡¡La rompimos entre todos!! ¡Camino libre!»', 'sub-speaker-gato');
-
-        VoiceEngine.speak('¡Toma ya! ¡La rompimos entre todos! ¡Camino libre!', 'gato', () => {
-          if (myToken !== activeSequenceToken) return;
-          setSceneSubtitle('sub-escena-08', '¡Roca rota en equipo! El camino hacia el portal vuelve a estar despejado.', 'destacat-cyan');
-
-          setTimeout(() => {
-            if (myToken !== activeSequenceToken) return;
-            rockSmashStep = 0;
-            if (volcanicRockArt) volcanicRockArt.src = 'assets/objetos/roca/Roca-5.png';
-            if (volcanicBoulder) volcanicBoulder.classList.remove('is-shattered', 'is-punch-struck');
-            setSceneSubtitle('sub-escena-08', '¡Toca la roca para golpear todos juntos en equipo!', '');
-          }, 4000);
-        });
-      }
-    }
-
-    if (cardEscena08) {
-      cardEscena08.addEventListener('click', handleRockSmashClick);
-    }
-
-    // ========================================================
-    // ESCENA 09: LA BOLSA DE CRUNCHY Y EL REGALO DE FUEGO
-    // ========================================================
-    const cardEscena09 = document.getElementById('card-escena-09');
-    const bolsaGiftBox = document.getElementById('bolsa-gift-box');
-    let isBagOpen = false;
-    let collectedGrapesCount = 0;
-    const maxBolsaGrapes = 6;
-
-    const bolsaGrapeDialogueSteps = [
-      {
-        text: '«¡Aquí tenéis una bien calentita y dulce!»',
-        speaker: 'sub-speaker-riolita',
-        voiceChar: 'riolita'
-      },
-      {
-        text: '«¡Cuidado que queman un poco, métela rápido!»',
-        speaker: 'sub-speaker-basalto',
-        voiceChar: 'basalto'
-      },
-      {
-        text: '«¡Madre mía qué ricas van a quedar con las migas!»',
-        speaker: 'sub-speaker-crunchy',
-        voiceChar: 'crunchy'
-      },
-      {
-        text: '«¡Nos van a saber a gloria después del susto que nos hemos llevado!»',
-        speaker: 'sub-speaker-gato',
-        voiceChar: 'gato'
-      },
-      {
-        text: '«¡Ya casi las tenéis todas dentro!»',
-        speaker: 'sub-speaker-riolita',
-        voiceChar: 'riolita'
-      },
-      {
-        text: '«¡Listo! ¡Buen viaje de vuelta a casa, amigos!»',
-        speaker: 'sub-speaker-basalto',
-        voiceChar: 'basalto',
-        isFinal: true
-      }
-    ];
-
-    function animateGrapeToBag(fromElement, toElement, onComplete) {
-      const flyingLayer = document.getElementById('bag-flying-layer') || document.getElementById('crunchy-bag-box');
-
-      if (!fromElement || !toElement || !flyingLayer) {
-        if (onComplete) onComplete();
-        return;
-      }
-
-      const layerRect = flyingLayer.getBoundingClientRect();
-      const fromRect = fromElement.getBoundingClientRect();
-      const toRect = toElement.getBoundingClientRect();
-
-      const startX = fromRect.left - layerRect.left;
-      const startY = fromRect.top - layerRect.top;
-      const endX = (toRect.left + toRect.width / 2) - layerRect.left - (fromRect.width / 2);
-      const endY = (toRect.top + toRect.height / 2) - layerRect.top - (fromRect.height / 2);
-
-      const flyingGrape = document.createElement('img');
-      const sourceImg = fromElement.querySelector('img');
-      flyingGrape.src = sourceImg ? sourceImg.src : 'assets/objetos/migas/uva_1.png';
-      flyingGrape.className = 'grape-flying-projectile';
-      flyingGrape.style.left = `${startX}px`;
-      flyingGrape.style.top = `${startY}px`;
-      flyingGrape.style.width = `${fromRect.width}px`;
-      flyingGrape.style.height = `${fromRect.height}px`;
-      flyingGrape.style.transform = 'translate(0, 0) scale(1) rotate(0deg)';
-      flyingLayer.appendChild(flyingGrape);
-
-      fromElement.classList.add('is-collected');
-
-      void flyingGrape.offsetWidth;
-
-      const deltaX = endX - startX;
-      const deltaY = endY - startY;
-      flyingGrape.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1) rotate(0deg)`;
-
+      // Al aterrizar en su posición del plato
       setTimeout(() => {
-        flyingGrape.remove();
+        flyer.remove();
         if (onComplete) onComplete();
-      }, 380);
+      }, 530);
+    }, 480);
+  }
+
+  function placeNextGrape(e) {
+    if (e && e.target && e.target.closest('#sub-escena-10')) {
+      return;
     }
 
-    function handleBolsaInteraction(e) {
-      if (e && e.target && e.target.closest('#sub-escena-09')) {
-        return;
+    const myToken = cancelAllSequences();
+
+    if (currentGrapeCount >= maxGrapes) {
+      currentGrapeCount = 0;
+      for (let i = 1; i <= maxGrapes; i++) {
+        const slot = document.getElementById(`grape-item-${i}`);
+        if (slot) slot.classList.remove('is-placed');
+      }
+      const allFlyers = document.querySelectorAll('.grape-zoom-projectile');
+      allFlyers.forEach(f => f.remove());
+      if (migasGrapeCountElem) migasGrapeCountElem.textContent = '0';
+      setSceneSubtitle('sub-escena-10', '¡Toca el plato para añadir las uvas ígneas a las migas!', '', true);
+      return;
+    }
+
+    currentGrapeCount++;
+    const nextGrapeIndex = currentGrapeCount;
+    if (migasGrapeCountElem) migasGrapeCountElem.textContent = nextGrapeIndex;
+
+    for (let i = 1; i < nextGrapeIndex; i++) {
+      const prevSlot = document.getElementById(`grape-item-${i}`);
+      if (prevSlot) prevSlot.classList.add('is-placed');
+    }
+    const oldFlyers = document.querySelectorAll('.grape-zoom-projectile');
+    oldFlyers.forEach(f => f.remove());
+
+    const slot = document.getElementById(`grape-item-${nextGrapeIndex}`);
+    const grapeImg = slot ? slot.querySelector('img') : null;
+    const grapeSrc = grapeImg ? grapeImg.src : `assets/objetos/migas/uva_single_${nextGrapeIndex}.png`;
+
+    animateGrapeToPlate(slot, grapeSrc, nextGrapeIndex, () => {
+      if (slot) {
+        slot.classList.add('is-placed');
       }
 
-      const myToken = cancelAllSequences();
+      if (myToken !== activeSequenceToken) return;
 
-      if (collectedGrapesCount >= maxBolsaGrapes) {
-        isBagOpen = false;
-        collectedGrapesCount = 0;
-        if (cardEscena09) {
-          cardEscena09.classList.remove('is-bag-open');
-          cardEscena09.classList.add('is-bag-closed');
-        }
-        if (bolsaGiftBox) {
-          bolsaGiftBox.classList.remove('is-all-collected');
-        }
-        const allFloatingSlots = document.querySelectorAll('.bolsa-floating-grapes .bolsa-grape-slot');
-        allFloatingSlots.forEach(slot => slot.classList.remove('is-collected'));
-        const allInsideDots = document.querySelectorAll('.inside-grape-dot');
-        allInsideDots.forEach(dot => dot.classList.remove('is-filled'));
+      playGrapeCollectAudio();
 
-        SFXEngine.play('pop');
-        setSceneSubtitle('sub-escena-09', '¡Toca la bolsa de Crunchy para abrirla y guardar las uvas ígneas!', '');
-        return;
-      }
-
-      if (!isBagOpen) {
-        isBagOpen = true;
-        if (cardEscena09) {
-          cardEscena09.classList.remove('is-bag-closed');
-          cardEscena09.classList.add('is-bag-open');
-        }
-
-        const openSpeech = '¡Abre la bolsa, a ver esas uvas de lava!';
-        setSceneSubtitle('sub-escena-09', '«¡Abre la bolsa, a ver esas uvas de lava!»', 'sub-speaker-crunchy');
-        VoiceEngine.speak(openSpeech, 'crunchy', () => {
+      const stepData = grapeDialogueSteps[nextGrapeIndex - 1];
+      if (stepData) {
+        setSceneSubtitle('sub-escena-10', stepData.text, stepData.speaker, true);
+        VoiceEngine.speak(stepData.text.replace(/[«»¡!]/g, ''), stepData.voiceChar, () => {
           if (myToken !== activeSequenceToken) return;
-          if (collectedGrapesCount === 0) {
-            setSceneSubtitle('sub-escena-09', '¡Bolsa abierta! Toca las uvas flotantes para guardarlas dentro una a una.', 'destacat-orange');
-          }
-        });
-        return;
-      }
-
-      const clickedSlot = e ? e.target.closest('.bolsa-grape-slot') : null;
-      let targetSlot = clickedSlot;
-      if (!targetSlot || targetSlot.classList.contains('is-collected')) {
-        targetSlot = document.querySelector('.bolsa-floating-grapes .bolsa-grape-slot:not(.is-collected)');
-      }
-
-      if (!targetSlot) return;
-
-      collectedGrapesCount++;
-      const nextGrapeIndex = collectedGrapesCount;
-      const insideDot = document.getElementById(`inside-grape-${nextGrapeIndex}`);
-
-      for (let i = 1; i < nextGrapeIndex; i++) {
-        const prevDot = document.getElementById(`inside-grape-${i}`);
-        if (prevDot) prevDot.classList.add('is-filled');
-      }
-
-      animateGrapeToBag(targetSlot, insideDot, () => {
-        if (insideDot) {
-          insideDot.classList.add('is-filled');
-        }
-
-        if (myToken !== activeSequenceToken) return;
-
-        playGrapeCollectAudio();
-
-        const step = bolsaGrapeDialogueSteps[nextGrapeIndex - 1];
-
-        if (step.isFinal) {
-          if (bolsaGiftBox) {
-            bolsaGiftBox.classList.add('is-all-collected');
-          }
-        }
-
-        setSceneSubtitle('sub-escena-09', step.text, step.speaker, true);
-        VoiceEngine.speak(step.text.replace(/[«»¡!]/g, ''), step.voiceChar, () => {
-          if (myToken !== activeSequenceToken) return;
-          if (step.isFinal) {
-            setSceneSubtitle('sub-escena-09', '¡Todas las uvas están guardadas! Cruza el portal para volver a casa...', 'destacat-orange', true);
-
+          if (stepData.isFinal) {
             setTimeout(() => {
               if (myToken !== activeSequenceToken) return;
-              isBagOpen = false;
-              collectedGrapesCount = 0;
-              if (cardEscena09) {
-                cardEscena09.classList.remove('is-bag-open');
-                cardEscena09.classList.add('is-bag-closed');
+              currentGrapeCount = 0;
+              for (let i = 1; i <= maxGrapes; i++) {
+                const grapeEl = document.getElementById(`grape-item-${i}`);
+                if (grapeEl) grapeEl.classList.remove('is-placed');
               }
-              if (bolsaGiftBox) {
-                bolsaGiftBox.classList.remove('is-all-collected');
-              }
-              const allFloatingSlots = document.querySelectorAll('.bolsa-floating-grapes .bolsa-grape-slot');
-              allFloatingSlots.forEach(slot => slot.classList.remove('is-collected'));
-              const allInsideDots = document.querySelectorAll('.inside-grape-dot');
-              allInsideDots.forEach(dot => dot.classList.remove('is-filled'));
-              setSceneSubtitle('sub-escena-09', '¡Toca la bolsa de Crunchy para abrirla y guardar las uvas!', '', true);
+              setSceneSubtitle('sub-escena-10', '¡Toca el plato para añadir las uvas ígneas a las migas de Oti!', '', true);
             }, 4000);
           }
         });
-      });
-    }
-
-    if (cardEscena09) cardEscena09.addEventListener('click', handleBolsaInteraction);
-
-    // ========================================================
-    // ESCENA 10: EL FESTÍN Y EL PLATO DE MIGAS CON 6 UVAS
-    // ========================================================
-    const cardEscena10 = document.getElementById('card-escena-10');
-    const migasGrapeCountElem = document.getElementById('migas-grape-count');
-    let currentGrapeCount = 0;
-    const maxGrapes = 6;
-
-    const grapeDialogueSteps = [
-      {
-        text: '«¡Oti, ya estamos aquí! ¡Mira qué uvas más raras y ricas hemos traído!»',
-        speaker: 'sub-speaker-gato',
-        voiceChar: 'gato'
-      },
-      {
-        text: '«¡Menudo susto me habéis dado! ¡No pensaba que ese viejo trasto del desván aún funcionaba!»',
-        speaker: 'sub-speaker-oti',
-        voiceChar: 'oti'
-      },
-      {
-        text: '«¡Casi nos quedamos atrapados, pero al final hicimos amigos y todo!»',
-        speaker: 'sub-speaker-crunchy',
-        voiceChar: 'crunchy'
-      },
-      {
-        text: '«¡Ja, ja, ja! Pues huelen de maravilla. ¡Echemos las uvas al plato!»',
-        speaker: 'sub-speaker-oti',
-        voiceChar: 'oti'
-      },
-      {
-        text: '«¡Y gracias por acompañarnos en esta aventura y ayudarnos a volver!»',
-        speaker: 'sub-speaker-gato',
-        voiceChar: 'gato'
-      },
-      {
-        text: '«¡Venga, a la mesa todos, que las migas se enfrían!»',
-        speaker: 'sub-speaker-crunchy',
-        voiceChar: 'crunchy',
-        isFinal: true
       }
-    ];
+    });
+  }
 
-    const grapeRotations = {
-      1: -12,
-      2: 35,
-      3: -22,
-      4: 18,
-      5: -35,
-      6: 10
-    };
-
-    function animateGrapeToPlate(targetSlot, grapeSrc, grapeIndex, onComplete) {
-      const dishTarget = document.getElementById('migas-dish-target');
-      if (!dishTarget || !targetSlot) {
-        if (onComplete) onComplete();
-        return;
-      }
-
-      const dishRect = dishTarget.getBoundingClientRect();
-      const rot = grapeRotations[grapeIndex] || 0;
-
-      // Posición inicial: en el centro en primer plano (grande con su rotación propia)
-      const startLeft = (dishRect.width / 2) - 17;
-      const startTop = (dishRect.height / 2) - 19 - 25;
-
-      // Posición final: dentro del slot exacto en el plato
-      const endLeft = targetSlot.offsetLeft;
-      const endTop = targetSlot.offsetTop;
-
-      const flyer = document.createElement('div');
-      flyer.className = 'grape-zoom-projectile is-intro';
-      flyer.style.left = `${startLeft}px`;
-      flyer.style.top = `${startTop}px`;
-      flyer.style.transform = `translate(0, -15px) scale(0.6) rotate(${rot}deg)`;
-      flyer.style.opacity = '0';
-
-      const img = document.createElement('img');
-      img.src = grapeSrc;
-      img.alt = 'Uva ígnea zoom';
-      flyer.appendChild(img);
-      dishTarget.appendChild(flyer);
-
-      // Forzar reflow del navegador
-      void flyer.offsetWidth;
-
-      // Fase 1: Pop in en primer plano (aparece grande con su rotación única y flota medio segundo)
-      flyer.style.opacity = '1';
-      flyer.style.transform = `translate(0, 0) scale(2.8) rotate(${rot}deg)`;
-
-      // Fase 2: Tras ~480ms de exhibición, vuela fluidamente hacia el plato encogiéndose en perspectiva con su rotación
-      setTimeout(() => {
-        const deltaX = endLeft - startLeft;
-        const deltaY = endTop - startTop;
-
-        flyer.className = 'grape-zoom-projectile is-flying';
-        flyer.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1) rotate(${rot}deg)`;
-
-        // Al aterrizar en su posición del plato
-        setTimeout(() => {
-          flyer.remove();
-          if (onComplete) onComplete();
-        }, 530);
-      }, 480);
-    }
-
-    function placeNextGrape(e) {
-      if (e && e.target && e.target.closest('#sub-escena-10')) {
-        return;
-      }
-
-      const myToken = cancelAllSequences();
-
-      if (currentGrapeCount >= maxGrapes) {
-        currentGrapeCount = 0;
-        for (let i = 1; i <= maxGrapes; i++) {
-          const slot = document.getElementById(`grape-item-${i}`);
-          if (slot) slot.classList.remove('is-placed');
-        }
-        const allFlyers = document.querySelectorAll('.grape-zoom-projectile');
-        allFlyers.forEach(f => f.remove());
-        if (migasGrapeCountElem) migasGrapeCountElem.textContent = '0';
-        setSceneSubtitle('sub-escena-10', '¡Toca el plato para añadir las uvas ígneas a las migas!', '', true);
-        return;
-      }
-
-      currentGrapeCount++;
-      const nextGrapeIndex = currentGrapeCount;
-      if (migasGrapeCountElem) migasGrapeCountElem.textContent = nextGrapeIndex;
-
-      for (let i = 1; i < nextGrapeIndex; i++) {
-        const prevSlot = document.getElementById(`grape-item-${i}`);
-        if (prevSlot) prevSlot.classList.add('is-placed');
-      }
-      const oldFlyers = document.querySelectorAll('.grape-zoom-projectile');
-      oldFlyers.forEach(f => f.remove());
-
-      const slot = document.getElementById(`grape-item-${nextGrapeIndex}`);
-      const grapeImg = slot ? slot.querySelector('img') : null;
-      const grapeSrc = grapeImg ? grapeImg.src : `assets/objetos/migas/uva_single_${nextGrapeIndex}.png`;
-
-      animateGrapeToPlate(slot, grapeSrc, nextGrapeIndex, () => {
-        if (slot) {
-          slot.classList.add('is-placed');
-        }
-
-        if (myToken !== activeSequenceToken) return;
-
-        playGrapeCollectAudio();
-
-        const stepData = grapeDialogueSteps[nextGrapeIndex - 1];
-        if (stepData) {
-          setSceneSubtitle('sub-escena-10', stepData.text, stepData.speaker, true);
-          VoiceEngine.speak(stepData.text.replace(/[«»¡!]/g, ''), stepData.voiceChar, () => {
-            if (myToken !== activeSequenceToken) return;
-            if (stepData.isFinal) {
-              setTimeout(() => {
-                if (myToken !== activeSequenceToken) return;
-                currentGrapeCount = 0;
-                for (let i = 1; i <= maxGrapes; i++) {
-                  const grapeEl = document.getElementById(`grape-item-${i}`);
-                  if (grapeEl) grapeEl.classList.remove('is-placed');
-                }
-                setSceneSubtitle('sub-escena-10', '¡Toca el plato para añadir las uvas ígneas a las migas de Oti!', '', true);
-              }, 4000);
-            }
-          });
-        }
-      });
-    }
-
-    if (cardEscena10) cardEscena10.addEventListener('click', placeNextGrape);
-  });
+  if (cardEscena10) cardEscena10.addEventListener('click', placeNextGrape);
+});
