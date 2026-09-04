@@ -1146,7 +1146,7 @@ document.addEventListener('DOMContentLoaded', () => {
     basalto: {
       nombre: 'Basalto',
       img: 'assets/personajes/basalto/Basalto_CuerpoEntero.png',
-      desc: 'Basalto es un oso trabajador, resistente y de gran fortaleza, inspirado en la roca que lleva su nombre. Aunque puede parecer serio y rudo, esconde un corazón noble y siempre está dispuesto a ayudar. Conoce todos los secretos subterráneos y destaca por su experiencia y conocimiento de las profundidades.'
+      desc: 'Basalto es un oso trabajador, resistente y de gran fortaleza, inspirado en la roca que lleva su nombre. Aunque puede parecer serio y rudo, esconde un corazón noble y siempre está dispuesto a ayudar. Conoce todos los secretos subterráneos y destaca por su experiencia y conocimiento de las profundidades del mundo volcánico.'
     }
   };
 
@@ -2343,7 +2343,7 @@ document.addEventListener('DOMContentLoaded', () => {
       scene05Active = false;
       scene05FuegoPlayed = false;
       fadeOutFuegoAudio(1200);
-      setSceneSubtitle('sub-escena-05', '¡Aterrizaje forzoso en un mundo de lava! Desplaza hacia abajo...', 'destacat-orange');
+      setSceneSubtitle('sub-escena-05', '¡Aterrizaje forzoso en el Mundo Volcánico! Desplaza hacia abajo...', 'destacat-orange');
       setTimeout(() => {
         if (cardEscena05) cardEscena05.classList.remove('is-transporting');
         stopFuegoAudioImmediate();

@@ -101,7 +101,7 @@ Este documento contiene la recopilación integral del texto narrativo (presente 
 
 ---
 
-### 🌋 Escena 06: El mundo de lava
+### 🌋 Escena 06: Mundo Volcánico
 *Llegada a la dimensión volcánica y la observación con prismáticos de Riolita y Basalto.*
 
 #### 📜 Texto Narrativo (`index.html`):
