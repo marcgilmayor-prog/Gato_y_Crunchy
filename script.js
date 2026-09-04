@@ -1560,8 +1560,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Desplazamiento parallax sutil y suave relativo a la inclinación
-    const normX = cuadroCurTiltY / 22; // -1 a 1
-    const normY = -cuadroCurTiltX / 18; // -1 a 1
+    const normX = Math.max(Math.min(cuadroCurTiltY / 11, 1), -1);
+    const normY = Math.max(Math.min(-cuadroCurTiltX / 9, 1), -1);
 
     // Pasar inclinación normalizada a CSS para que los tamaños y transforms se manejen directamente desde style.css
     if (cuadroCardEl) {
@@ -1589,9 +1589,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const normX = Math.max(Math.min((clientX - centerX) / (rect.width / 2), 1), -1);
       const normY = Math.max(Math.min((clientY - centerY) / (rect.height / 2), 1), -1);
 
-      // Inclinación 3D realista
-      cuadroTargetTiltX = -normY * 18;
-      cuadroTargetTiltY = normX * 22;
+      // Inclinación 3D realista con límites suaves y controlados
+      cuadroTargetTiltX = -normY * 9;
+      cuadroTargetTiltY = normX * 11;
     }
 
     cuadroStageEl.addEventListener('mouseenter', (e) => {
