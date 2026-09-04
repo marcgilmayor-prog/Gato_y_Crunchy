@@ -2146,7 +2146,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       speaker: 'crunchy',
       subSpeaker: 'sub-speaker-crunchy shout-rage',
-      text: '¡Gato, no toques eso! ¡Que nos conocemos y siempre la lías!',
+      text: '¡Gato, no toques eso! ¡Que nos conocemos y lo acabarás rompiendo!',
       action: () => {
         if (layerPistola) {
           layerPistola.classList.remove('is-shooting');
@@ -2330,7 +2330,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       speaker: 'gato',
       subSpeaker: 'sub-speaker-gato asustado shout-rage',
-      text: '¡Agarra mi mano y no me sueltes! ¡Aaaaah!',
+      text: '¡Agarra mi pata y no me sueltes! ¡Aaaaah!',
       action: () => { }
     }
   ];

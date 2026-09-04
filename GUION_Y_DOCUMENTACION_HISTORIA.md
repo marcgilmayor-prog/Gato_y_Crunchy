@@ -82,7 +82,7 @@ Este documento contiene la recopilación integral del texto narrativo (presente 
 - 🐱 **Gato** *(4ª caja apartada)*: «¡Halaaa! ¡Mira qué pasada de cacharro con luces!»
 
 #### 💬 Diálogos del disparo de la pistola (`script.js`):
-1. 🐷 **Crunchy** *(enfadada)*: «¡Gato, no toques eso! ¡Que nos conocemos y siempre la lías!»
+1. 🐷 **Crunchy** *(enfadada)*: «¡Gato, no toques eso! ¡Que nos conocemos y lo acabarás rompiendo!»
 2. 🐱 **Gato** *(picado)*: «¡Que no lo iba a romper, aguafiestas! ¡No me mandes!»
 
 ---
@@ -97,7 +97,7 @@ Este documento contiene la recopilación integral del texto narrativo (presente 
 
 #### 💬 Diálogos Interactivos (`script.js`):
 1. 🐷 **Crunchy** *(gritando en el vórtice)*: «¡Gatoooo! ¡Nos absorbe el portal! ¡¿Ves lo que pasa por tocar?!»
-2. 🐱 **Gato** *(gritando en el vórtice)*: «¡¡Agarra mi mano y no me sueltes!! ¡¡Aaaaah!!»
+2. 🐱 **Gato** *(gritando en el vórtice)*: «¡¡Agarra mi pata y no me sueltes!! ¡¡Aaaaah!!»
 
 ---
 
