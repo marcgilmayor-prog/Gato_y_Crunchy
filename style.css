@@ -844,11 +844,14 @@ body {
   border: 4px solid #373432 !important;
 }
 
-.character-speech-bubble.bubble-ready-cta:hover,
 .character-speech-bubble:hover {
   transform: translateY(-2px);
-  border-color: #373432 !important;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  background: #ffffff !important;
+}
+
+.character-speech-bubble.bubble-ready-cta:hover {
+  border-color: #373432 !important;
 }
 
 .character-speech-bubble .live-subtitle-text,
