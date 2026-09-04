@@ -16,9 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const rocaHit1AudioEl = document.getElementById('roca-hit1-audio-element');
   const rocaHit2AudioEl = document.getElementById('roca-hit2-audio-element');
   const rocaHit3AudioEl = document.getElementById('roca-hit3-audio-element');
+  const rocaBreakAudioEl = document.getElementById('roca-break-audio-element');
   const libroAudioEl = document.getElementById('libro-audio-element');
   const libroTabClickAudioEl = document.getElementById('libro-tab-click-audio-element');
   const uiBtnClickAudioEl = document.getElementById('ui-btn-click-audio-element');
+  const logoBoingAudioEl = document.getElementById('logo-boing-audio-element');
+  const dialogueClickAudioEl = document.getElementById('dialogue-click-audio-element');
 
   // Inicialización de Web Audio API con desbloqueo robusto
   function getAudioContext() {
@@ -63,6 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (rocaHit3AudioEl && rocaHit3AudioEl.readyState === 0) {
         rocaHit3AudioEl.load();
       }
+      if (rocaBreakAudioEl && rocaBreakAudioEl.readyState === 0) {
+        rocaBreakAudioEl.load();
+      }
       if (libroAudioEl && libroAudioEl.readyState === 0) {
         libroAudioEl.load();
       }
@@ -71,6 +77,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (uiBtnClickAudioEl && uiBtnClickAudioEl.readyState === 0) {
         uiBtnClickAudioEl.load();
+      }
+      if (logoBoingAudioEl && logoBoingAudioEl.readyState === 0) {
+        logoBoingAudioEl.load();
+      }
+      if (dialogueClickAudioEl && dialogueClickAudioEl.readyState === 0) {
+        dialogueClickAudioEl.load();
       }
     } catch (e) {
       console.warn('Audio unlock warning:', e);
@@ -464,6 +476,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function playRocaBreakAudio() {
+    if (!audioEnabled || !rocaBreakAudioEl) return;
+    unlockGlobalAudio();
+    try {
+      rocaBreakAudioEl.currentTime = 0;
+      rocaBreakAudioEl.volume = 1.0;
+      const playPromise = rocaBreakAudioEl.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((e) => console.warn('Roca break play exception:', e));
+      }
+    } catch (e) {
+      console.warn('Error en playRocaBreakAudio:', e);
+    }
+  }
+
   // ========================================================
   // REPRODUCCIÓN DEL SONIDO DE ABRIR EL LIBRO DE PERSONAJES
   // ========================================================
@@ -519,11 +546,93 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // ========================================================
+  // REPRODUCCIÓN DEL SONIDO DE BOING / RESORTE DEL LOGOTIPO
+  // ========================================================
+  function playLogoBoingAudio() {
+    if (!audioEnabled || !logoBoingAudioEl) return;
+    unlockGlobalAudio();
+    try {
+      logoBoingAudioEl.currentTime = 0;
+      logoBoingAudioEl.volume = 0.9;
+      const playPromise = logoBoingAudioEl.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((e) => console.warn('Logo boing audio play exception:', e));
+      }
+    } catch (e) {
+      console.warn('Error en playLogoBoingAudio:', e);
+    }
+  }
+
+  // ========================================================
+  // REPRODUCCIÓN DEL SONIDO DE POMPA / BURBUJA CARTOON (POP SUAVE)
+  // ========================================================
+  function playDialogueAudio() {
+    if (!audioEnabled) return;
+    unlockGlobalAudio();
+    try {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'sine';
+      // Curva de tono elástica y dulce de burbuja de cómic
+      osc.frequency.setValueAtTime(320, now);
+      osc.frequency.exponentialRampToValueAtTime(740, now + 0.075);
+
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.085);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.085);
+    } catch (e) {
+      console.warn('Error en playDialogueAudio (pop suave):', e);
+    }
+  }
+
+  // ========================================================
+  // REPRODUCCIÓN DEL SONIDO DE RECOGER OBJETO / UVA (ESCENA 09)
+  // ========================================================
+  function playGrapeCollectAudio() {
+    if (!audioEnabled) return;
+    unlockGlobalAudio();
+    try {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+
+      // Sonido limpio, nítido y ligero de recogida de objeto / item collect
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(587.33, now); // D5
+      osc.frequency.exponentialRampToValueAtTime(1174.66, now + 0.08); // D6
+
+      gain.gain.setValueAtTime(0.01, now);
+      gain.gain.linearRampToValueAtTime(0.32, now + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.11);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.11);
+    } catch (e) {
+      console.warn('Error en playGrapeCollectAudio:', e);
+    }
+  }
+
   // Interacción Dinámica con el Logotipo Oficial de Portada
   const logoContainer = document.querySelector('.logo-official-container');
   if (logoContainer) {
     logoContainer.addEventListener('click', () => {
-      SFXEngine.play('portal-star');
+      playLogoBoingAudio();
       logoContainer.style.transform = 'scale(1.08) translateY(-12px)';
       setTimeout(() => { logoContainer.style.transform = ''; }, 350);
     });
@@ -835,6 +944,50 @@ document.addEventListener('DOMContentLoaded', () => {
             break;
           }
 
+          case 'magic-grape-reward': {
+            const bellNotes = [659.25, 880.00, 987.77, 1318.51, 1567.98, 1975.53];
+            bellNotes.forEach((freq, idx) => {
+              const osc = ctx.createOscillator();
+              const gain = ctx.createGain();
+              osc.type = 'sine';
+              osc.frequency.setValueAtTime(freq, now + idx * 0.07);
+              gain.gain.setValueAtTime(0.15, now + idx * 0.07);
+              gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.07 + 1.4);
+              osc.connect(gain);
+              gain.connect(ctx.destination);
+              osc.start(now + idx * 0.07);
+              osc.stop(now + idx * 0.07 + 1.4);
+            });
+            const glock = ctx.createOscillator();
+            const glockGain = ctx.createGain();
+            glock.type = 'triangle';
+            glock.frequency.setValueAtTime(2637.02, now + 0.42);
+            glockGain.gain.setValueAtTime(0.12, now + 0.42);
+            glockGain.gain.exponentialRampToValueAtTime(0.001, now + 1.6);
+            glock.connect(glockGain);
+            glockGain.connect(ctx.destination);
+            glock.start(now + 0.42);
+            glock.stop(now + 1.6);
+            break;
+          }
+
+          case 'banquet-complete': {
+            const chordNotes = [349.23, 440.00, 523.25, 659.25];
+            chordNotes.forEach((freq, idx) => {
+              const osc = ctx.createOscillator();
+              const gain = ctx.createGain();
+              osc.type = 'triangle';
+              osc.frequency.setValueAtTime(freq, now + idx * 0.09);
+              gain.gain.setValueAtTime(0.16, now + idx * 0.09);
+              gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.09 + 1.8);
+              osc.connect(gain);
+              gain.connect(ctx.destination);
+              osc.start(now + idx * 0.09);
+              osc.stop(now + idx * 0.09 + 1.8);
+            });
+            break;
+          }
+
           case 'voice-gato': {
             [392, 523.25, 659.25, 523.25].forEach((freq, idx) => {
               const osc = ctx.createOscillator();
@@ -1044,7 +1197,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ========================================================
   // FUNCIÓN AUXILIAR PARA ACTUALIZAR BURBUJAS DE DIÁLOGO OFICIALES
   // ========================================================
-  function setSceneSubtitle(subId, textContent, speakerType = '') {
+  function setSceneSubtitle(subId, textContent, speakerType = '', skipAudio = false) {
     const pill = document.getElementById(subId);
     if (!pill) return;
     pill.classList.remove('is-ready-cta');
@@ -1072,18 +1225,35 @@ document.addEventListener('DOMContentLoaded', () => {
       speakerType.includes('sorprendid') ||
       speakerType.includes('shock');
 
+    const isScared = speakerType.includes('asustad') ||
+      speakerType.includes('scared') ||
+      speakerType.includes('fear') ||
+      speakerType.includes('panic');
+
     let bubbleClass = 'bubble-system';
     let avatarHtml = `<div class="bubble-avatar-slot"><img src="assets/ui/Guante.png" alt="Toca" class="bubble-avatar-img bubble-glove-img" /></div>`;
 
     if (speakerType.includes('gato') || cleanText.startsWith('Gato:')) {
       bubbleClass = 'bubble-gato';
       cleanText = cleanText.replace(/^Gato:\s*/i, '').replace(/^«[—\-]\s*/, '«');
-      const avatarSrc = isAngry ? 'assets/dialogos/Dialogo_Gato_Enfadado.png' : 'assets/dialogos/Dialogo_Gato.png';
+      let avatarSrc = 'assets/dialogos/Dialogo_Gato.png';
+      if (isScared) {
+        avatarSrc = 'assets/dialogos/Dialogo_Gato_Asustado.png?v=3.0';
+      } else if (isSurprised) {
+        avatarSrc = 'assets/dialogos/Dialogo_Gato_Sorprendido.png?v=3.0';
+      } else if (isAngry) {
+        avatarSrc = 'assets/dialogos/Dialogo_Gato_Enfadado.png';
+      }
       avatarHtml = `<div class="bubble-avatar-slot"><img src="${avatarSrc}" alt="Gato" class="bubble-avatar-img" /></div>`;
     } else if (speakerType.includes('crunchy') || cleanText.startsWith('Crunchy:')) {
       bubbleClass = 'bubble-crunchy';
       cleanText = cleanText.replace(/^Crunchy:\s*/i, '').replace(/^«[—\-]\s*/, '«');
-      const avatarSrc = isAngry ? 'assets/dialogos/Dialogo_Crunchy_Enfadada.png' : 'assets/dialogos/Dialogo_Crunchy.png';
+      let avatarSrc = 'assets/dialogos/Dialogo_Crunchy.png';
+      if (isScared) {
+        avatarSrc = 'assets/dialogos/Dialogo_Crunchy_Asustada.png?v=3.0';
+      } else if (isAngry) {
+        avatarSrc = 'assets/dialogos/Dialogo_Crunchy_Enfadada.png';
+      }
       avatarHtml = `<div class="bubble-avatar-slot"><img src="${avatarSrc}" alt="Crunchy" class="bubble-avatar-img" /></div>`;
     } else if (speakerType.includes('oti') || cleanText.startsWith('Oti') || cleanText.startsWith('Oti Reboti:')) {
       bubbleClass = 'bubble-oti';
@@ -1094,7 +1264,7 @@ document.addEventListener('DOMContentLoaded', () => {
       cleanText = cleanText.replace(/^(Riolita|Carbón):\s*/i, '').replace(/^«[—\-]\s*/, '«');
       let avatarSrc = 'assets/dialogos/Dialogo_Riolita.png';
       if (isSurprised) {
-        avatarSrc = 'assets/dialogos/Dialogo_Riolita_Sorprendida.png?v=2.0';
+        avatarSrc = 'assets/dialogos/Dialogo_Riolita_Sorprendida.png?v=3.0';
       } else if (isAngry) {
         avatarSrc = 'assets/dialogos/Dialogo_Riolita_Enfadada.png';
       }
@@ -1110,6 +1280,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const isShout = speakerType.includes('shout') || speakerType.includes('rage');
+
+    // Reproducir sonido de clic/aparición de diálogo en toda la historia
+    if (!skipAudio && bubbleClass.startsWith('bubble-') && bubbleClass !== 'bubble-system' && bubbleClass !== 'bubble-replay') {
+      playDialogueAudio();
+    }
 
     pill.innerHTML = `
       <div class="character-speech-bubble ${bubbleClass}">
@@ -1128,7 +1303,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ========================================================
   let activeSequenceToken = 0;
 
-  function cancelAllSequences(keepPortalAudio = false, keepSartenAudio = false) {
+  function cancelAllSequences(keepPortalAudio = false, keepSartenAudio = false, keepFuegoAudio = false) {
     activeSequenceToken++;
     VoiceEngine.stop();
     stopGatoPortalSpeaking();
@@ -1139,7 +1314,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!keepSartenAudio) {
       stopSartenAudio();
     }
-    stopFuegoAudioImmediate();
+    if (!keepFuegoAudio) {
+      stopFuegoAudioImmediate();
+    }
     stopRocaRodandoAudio();
     const pistolaEl = document.getElementById('item-pistola');
     if (pistolaEl) {
@@ -1216,6 +1393,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ========================================================
   let scene01CurrentStep = -1;
   let scene01Active = false;
+  let scene01PortalPlayed = false;
 
   const scene01Steps = [
     {
@@ -1271,13 +1449,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const myToken = cancelAllSequences(true);
     if (portalStarDisc) portalStarDisc.classList.add('is-portal-opened');
 
-    // Iniciar portal audio suavemente si no está sonando ya
-    fadeInPortalAudio(1200);
+    // Iniciar portal audio solo una vez al arrancar la conversación
+    if (step === 0 || !scene01PortalPlayed) {
+      fadeInPortalAudio(1200);
+      scene01PortalPlayed = true;
+    }
 
     if (step >= scene01Steps.length) {
       // Fin de la conversación: Gato entra en el portal
       scene01CurrentStep = -1;
       scene01Active = false;
+      scene01PortalPlayed = false;
       stopGatoPortalSpeaking();
       SFXEngine.play('whoop');
       if (portalMembranePulse) portalMembranePulse.classList.remove('is-crunchy-vibrating');
@@ -1426,17 +1608,13 @@ document.addEventListener('DOMContentLoaded', () => {
       speaker: 'crunchy',
       subSpeaker: 'sub-speaker-crunchy',
       text: '¡Ja, ja, ja! ¡Pero si tú siempre sales bizco en todas las fotos, Gato!',
-      action: () => {
-        SFXEngine.play('whoop');
-      }
+      action: () => {}
     },
     {
       speaker: 'oti',
       subSpeaker: 'sub-speaker-oti',
       text: '¡Ja, ja, ja! La familia siempre unida. ¡Incluso con tus caras raras!',
-      action: () => {
-        SFXEngine.play('banjo-sarten');
-      }
+      action: () => {}
     }
   ];
 
@@ -1827,7 +2005,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (afterCount === 0) {
           allBoxesTossedAt = Date.now();
-          setSceneSubtitle('sub-escena-04', stepText, 'sub-speaker-gato');
+          setSceneSubtitle('sub-escena-04', stepText, 'sub-speaker-gato sorprendido');
         } else {
           setSceneSubtitle('sub-escena-04', stepText, 'sub-speaker-gato');
         }
@@ -1844,6 +2022,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (layerPistola) {
         layerPistola.classList.remove('is-charging', 'is-shooting', 'is-vibrating');
       }
+      scene04PortalPlayed = false;
       allBoxesTossedAt = 0;
       SFXEngine.play('pop');
       setSceneSubtitle('sub-escena-04', '«¡Busquemos por el desván! Haz clic para apartar las cajas y ver qué hay...»', 'sub-speaker-gato');
@@ -1851,6 +2030,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let scene04CurrentStep = -1;
     let scene04Active = false;
+    let scene04PortalPlayed = false;
 
     const scene04Steps = [
       {
@@ -1874,7 +2054,10 @@ document.addEventListener('DOMContentLoaded', () => {
             layerPistola.classList.remove('is-charging', 'is-vibrating');
             layerPistola.classList.add('is-shooting');
           }
-          fadeInPortalAudio(600);
+          if (!scene04PortalPlayed) {
+            fadeInPortalAudio(600);
+            scene04PortalPlayed = true;
+          }
         }
       }
     ];
@@ -1886,6 +2069,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Cuando se acaban todos los diálogos de la conversación, parar el audio con fade-out
         scene04CurrentStep = -1;
         scene04Active = false;
+        scene04PortalPlayed = false;
         fadeOutPortalAudio(1500);
         setSceneSubtitle('sub-escena-04', '¡Con tanto grito la pistola se encendió y abrió un portal! Desplaza hacia abajo...', 'destacat-cyan');
         setTimeout(() => {
@@ -1942,7 +2126,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const stepText = boxNarrativeSteps[remaining.length] || '¡Apartando trastos del desván!';
           if (remaining.length === 0) {
             allBoxesTossedAt = Date.now();
-            setSceneSubtitle('sub-escena-04', stepText, 'sub-speaker-gato');
+            setSceneSubtitle('sub-escena-04', stepText, 'sub-speaker-gato sorprendido');
           } else {
             setSceneSubtitle('sub-escena-04', stepText, 'sub-speaker-gato');
           }
@@ -2012,42 +2196,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let scene05CurrentStep = -1;
     let scene05Active = false;
+    let scene05FuegoPlayed = false;
 
     const scene05Steps = [
       {
         speaker: 'crunchy',
-        subSpeaker: 'sub-speaker-crunchy shout-rage',
+        subSpeaker: 'sub-speaker-crunchy asustada shout-rage',
         text: '¡Gato! ¡Nos absorbe el portal! ¡¿Ves lo que pasa por tocar?!',
         action: () => {
           if (cardEscena05) cardEscena05.classList.add('is-transporting');
-          playFreesoundPortal();
-          SFXEngine.play('whoop');
+          if (!scene05FuegoPlayed) {
+            fadeInFuegoAudio(800);
+            scene05FuegoPlayed = true;
+          }
         }
       },
       {
         speaker: 'gato',
-        subSpeaker: 'sub-speaker-gato shout-rage',
+        subSpeaker: 'sub-speaker-gato asustado shout-rage',
         text: '¡Agarra mi mano y no me sueltes! ¡Aaaaah!',
-        action: () => {
-          SFXEngine.play('whoop');
-        }
+        action: () => {}
       }
     ];
 
     function runScene05Step(step) {
-      const myToken = cancelAllSequences();
+      const myToken = cancelAllSequences(false, false, true);
 
       if (step >= scene05Steps.length) {
         scene05CurrentStep = -1;
         scene05Active = false;
-        playFreesoundPortal();
+        scene05FuegoPlayed = false;
+        fadeOutFuegoAudio(1200);
         setSceneSubtitle('sub-escena-05', '¡Aterrizaje forzoso en un mundo de lava! Desplaza hacia abajo...', 'destacat-orange');
         setTimeout(() => {
           if (cardEscena05) cardEscena05.classList.remove('is-transporting');
-          if (portalAudioEl) {
-            portalAudioEl.pause();
-            portalAudioEl.currentTime = 0;
-          }
+          stopFuegoAudioImmediate();
           if (myToken !== activeSequenceToken) return;
           setSceneSubtitle('sub-escena-05', '¡Toca el portal para revivir el salto dimensional!', '');
         }, 2500);
@@ -2130,7 +2313,6 @@ document.addEventListener('DOMContentLoaded', () => {
           if (imgBasaltoDispute) imgBasaltoDispute.src = 'assets/personajes/basalto/Basalto-1.png';
           if (speakerRiolitaCard) speakerRiolitaCard.classList.add('is-speaking');
           if (speakerBasaltoCard) speakerBasaltoCard.classList.remove('is-speaking');
-          SFXEngine.play('lava-bubble');
         }
       },
       {
@@ -2140,7 +2322,6 @@ document.addEventListener('DOMContentLoaded', () => {
         action: () => {
           if (speakerRiolitaCard) speakerRiolitaCard.classList.remove('is-speaking');
           if (speakerBasaltoCard) speakerBasaltoCard.classList.add('is-speaking');
-          SFXEngine.play('lava-bubble');
         }
       },
       {
@@ -2249,22 +2430,19 @@ document.addEventListener('DOMContentLoaded', () => {
         handId: 'arm-hand-1',
         text: '«Vaya... por pelearnos hemos tapado la cueva entera...»',
         speaker: 'sub-speaker-riolita',
-        voiceChar: 'riolita',
-        sfx: 'lava-bubble'
+        voiceChar: 'riolita'
       },
       {
         handId: 'arm-hand-2',
         text: '«La verdad es que nos hemos pasado de cabezotas...»',
         speaker: 'sub-speaker-basalto',
-        voiceChar: 'basalto',
-        sfx: 'rock-rumble'
+        voiceChar: 'basalto'
       },
       {
         handId: 'arm-hand-3',
         text: '«¡Pues si golpeamos los cuatro a la vez, seguro que la rompemos!»',
         speaker: 'sub-speaker-crunchy',
-        voiceChar: 'crunchy',
-        sfx: 'pop'
+        voiceChar: 'crunchy'
       },
       {
         handId: 'arm-hand-4',
@@ -2289,7 +2467,6 @@ document.addEventListener('DOMContentLoaded', () => {
           if (hand) hand.classList.remove('is-in-center');
         }
         if (teamHandsBox) teamHandsBox.classList.remove('is-all-united');
-        SFXEngine.play('pop');
         setSceneSubtitle('sub-escena-07', '¡Toca para que los cuatro amigos unan sus manos una a una!', '');
         return;
       }
@@ -2304,12 +2481,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (step.isFinal) {
         if (teamHandsBox) teamHandsBox.classList.add('is-all-united');
-        SFXEngine.play('tada');
         SFXEngine.play('triumph-chime');
-        SFXEngine.play('sparkle');
-      } else {
-        SFXEngine.play('pop');
-        if (step.sfx) SFXEngine.play(step.sfx);
       }
 
       setSceneSubtitle('sub-escena-07', step.text, step.speaker);
@@ -2388,8 +2560,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (volcanicRockArt) volcanicRockArt.src = 'assets/objetos/roca/Roca-1.png';
         if (volcanicBoulder) volcanicBoulder.classList.add('is-shattered');
 
-        SFXEngine.play('explosion');
-        SFXEngine.play('triumph-chime');
+        playRocaBreakAudio();
         setSceneSubtitle('sub-escena-08', '«¡¡TOMA YA!! ¡¡La rompimos entre todos!! ¡Camino libre!»', 'sub-speaker-gato');
 
         VoiceEngine.speak('¡Toma ya! ¡La rompimos entre todos! ¡Camino libre!', 'gato', () => {
@@ -2529,8 +2700,6 @@ document.addEventListener('DOMContentLoaded', () => {
           cardEscena09.classList.remove('is-bag-closed');
           cardEscena09.classList.add('is-bag-open');
         }
-        SFXEngine.play('pop');
-        SFXEngine.play('sparkle');
 
         const openSpeech = '¡Abre la bolsa, a ver esas uvas de lava!';
         setSceneSubtitle('sub-escena-09', '«¡Abre la bolsa, a ver esas uvas de lava!»', 'sub-speaker-crunchy');
@@ -2560,8 +2729,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (prevDot) prevDot.classList.add('is-filled');
       }
 
-      SFXEngine.play('sparkle');
-
       animateGrapeToBag(targetSlot, insideDot, () => {
         if (insideDot) {
           insideDot.classList.add('is-filled');
@@ -2569,24 +2736,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (myToken !== activeSequenceToken) return;
 
+        playGrapeCollectAudio();
+
         const step = bolsaGrapeDialogueSteps[nextGrapeIndex - 1];
 
         if (step.isFinal) {
           if (bolsaGiftBox) {
             bolsaGiftBox.classList.add('is-all-collected');
           }
-          SFXEngine.play('portal-star');
-          SFXEngine.play('triumph-chime');
-          SFXEngine.play('tada');
-        } else {
-          SFXEngine.play('pop');
         }
 
-        setSceneSubtitle('sub-escena-09', step.text, step.speaker);
+        setSceneSubtitle('sub-escena-09', step.text, step.speaker, true);
         VoiceEngine.speak(step.text.replace(/[«»¡!]/g, ''), step.voiceChar, () => {
           if (myToken !== activeSequenceToken) return;
           if (step.isFinal) {
-            setSceneSubtitle('sub-escena-09', '¡Todas las uvas están guardadas! Cruza el portal para volver a casa...', 'destacat-orange');
+            setSceneSubtitle('sub-escena-09', '¡Todas las uvas están guardadas! Cruza el portal para volver a casa...', 'destacat-orange', true);
 
             setTimeout(() => {
               if (myToken !== activeSequenceToken) return;
@@ -2603,7 +2767,7 @@ document.addEventListener('DOMContentLoaded', () => {
               allFloatingSlots.forEach(slot => slot.classList.remove('is-collected'));
               const allInsideDots = document.querySelectorAll('.inside-grape-dot');
               allInsideDots.forEach(dot => dot.classList.remove('is-filled'));
-              setSceneSubtitle('sub-escena-09', '¡Toca la bolsa de Crunchy para abrirla y guardar las uvas!', '');
+              setSceneSubtitle('sub-escena-09', '¡Toca la bolsa de Crunchy para abrirla y guardar las uvas!', '', true);
             }, 4000);
           }
         });
@@ -2733,8 +2897,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const allFlyers = document.querySelectorAll('.grape-zoom-projectile');
         allFlyers.forEach(f => f.remove());
         if (migasGrapeCountElem) migasGrapeCountElem.textContent = '0';
-        SFXEngine.play('pop');
-        setSceneSubtitle('sub-escena-10', '¡Toca el plato para añadir las uvas ígneas a las migas!', '');
+        setSceneSubtitle('sub-escena-10', '¡Toca el plato para añadir las uvas ígneas a las migas!', '', true);
         return;
       }
 
@@ -2753,9 +2916,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const grapeImg = slot ? slot.querySelector('img') : null;
       const grapeSrc = grapeImg ? grapeImg.src : `assets/objetos/migas/uva_single_${nextGrapeIndex}.png`;
 
-      SFXEngine.play('pop');
-      SFXEngine.play('lava-bubble');
-
       animateGrapeToPlate(slot, grapeSrc, nextGrapeIndex, () => {
         if (slot) {
           slot.classList.add('is-placed');
@@ -2763,15 +2923,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (myToken !== activeSequenceToken) return;
 
-        SFXEngine.play('sparkle');
+        playGrapeCollectAudio();
 
         const stepData = grapeDialogueSteps[nextGrapeIndex - 1];
         if (stepData) {
-          if (stepData.isFinal) {
-            SFXEngine.play('tada');
-            SFXEngine.play('triumph-chime');
-          }
-          setSceneSubtitle('sub-escena-10', stepData.text, stepData.speaker);
+          setSceneSubtitle('sub-escena-10', stepData.text, stepData.speaker, true);
           VoiceEngine.speak(stepData.text.replace(/[«»¡!]/g, ''), stepData.voiceChar, () => {
             if (myToken !== activeSequenceToken) return;
             if (stepData.isFinal) {
@@ -2782,7 +2938,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   const grapeEl = document.getElementById(`grape-item-${i}`);
                   if (grapeEl) grapeEl.classList.remove('is-placed');
                 }
-                setSceneSubtitle('sub-escena-10', '¡Toca el plato para añadir las uvas ígneas a las migas de Oti!', '');
+                setSceneSubtitle('sub-escena-10', '¡Toca el plato para añadir las uvas ígneas a las migas de Oti!', '', true);
               }, 4000);
             }
           });

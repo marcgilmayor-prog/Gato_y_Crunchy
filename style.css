@@ -167,8 +167,13 @@ body {
 }
 
 @keyframes libro-fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 /* Botón cerrar cartoon pegado a la esquina superior del libro */
@@ -215,8 +220,15 @@ body {
 }
 
 @keyframes libro-pop-in {
-  from { transform: scale(0.88) translateY(30px); opacity: 0; }
-  to   { transform: scale(1) translateY(0);        opacity: 1; }
+  from {
+    transform: scale(0.88) translateY(30px);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
 }
 
 /* Wrapper del libro: contiene marcadores detrás, imagen de fondo y overlay */
@@ -261,7 +273,9 @@ body {
   transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease;
 }
 
-.marcador:focus { outline: none; }
+.marcador:focus {
+  outline: none;
+}
 
 .marcador:active {
   transform: translateY(4px);
@@ -418,7 +432,6 @@ body {
 }
 
 .btn-cartoon-sound.is-audio-off {
-  background: #fffdf8;
   color: #373432;
 }
 
@@ -1932,6 +1945,7 @@ body {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -1988,8 +2002,13 @@ body {
 }
 
 @keyframes binoculars-float {
-  0% { transform: translateY(0) rotate(-2deg); }
-  100% { transform: translateY(-8px) rotate(2deg); }
+  0% {
+    transform: translateY(0) rotate(-2deg);
+  }
+
+  100% {
+    transform: translateY(-8px) rotate(2deg);
+  }
 }
 
 /* Visor de doble círculo entrelazado */
@@ -2012,8 +2031,15 @@ body {
 }
 
 @keyframes binoculars-pop-in {
-  0% { transform: scale(0.6); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* Contenido interior recortado exactamente con la forma de los dos círculos */
@@ -2056,7 +2082,8 @@ body {
   display: flex;
   align-items: flex-end;
   flex-shrink: 0;
-  pointer-events: none; /* Desactiva zoom en hover */
+  pointer-events: none;
+  /* Desactiva zoom en hover */
 }
 
 .binoculars-actor-char {
@@ -2064,14 +2091,16 @@ body {
   width: auto;
   object-fit: contain;
   filter: none;
-  pointer-events: none; /* Desactiva zoom en hover */
+  pointer-events: none;
+  /* Desactiva zoom en hover */
 }
 
 .binoculars-rock-wrap {
   display: flex;
   align-items: flex-end;
   flex-shrink: 0;
-  pointer-events: none; /* Desactiva zoom en hover */
+  pointer-events: none;
+  /* Desactiva zoom en hover */
   margin-bottom: 2px;
 }
 
@@ -2080,7 +2109,8 @@ body {
   height: 140px;
   object-fit: contain;
   filter: none;
-  pointer-events: none; /* Desactiva zoom en hover */
+  pointer-events: none;
+  /* Desactiva zoom en hover */
 }
 
 /* Animación de rodadura recta hacia la derecha con velocidad lineal constante */
@@ -2093,9 +2123,11 @@ body {
     transform: translateX(0) rotate(0deg);
     opacity: 1;
   }
+
   85% {
     opacity: 1;
   }
+
   100% {
     transform: translateX(360px) rotate(320deg);
     opacity: 0;
@@ -2221,9 +2253,17 @@ body {
 }
 
 @keyframes hand-cheer-bounce {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.08); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* ========================================================
@@ -2284,12 +2324,29 @@ body {
 }
 
 @keyframes rock-clean-impact {
-  0% { transform: translate(0, 0) scale(1.04); }
-  20% { transform: translate(-6px, 3px) scale(0.98); }
-  40% { transform: translate(6px, -3px) scale(1.02); }
-  60% { transform: translate(-4px, 2px) scale(0.99); }
-  80% { transform: translate(3px, -1px) scale(1.01); }
-  100% { transform: translate(0, 0) scale(1); }
+  0% {
+    transform: translate(0, 0) scale(1.04);
+  }
+
+  20% {
+    transform: translate(-6px, 3px) scale(0.98);
+  }
+
+  40% {
+    transform: translate(6px, -3px) scale(1.02);
+  }
+
+  60% {
+    transform: translate(-4px, 2px) scale(0.99);
+  }
+
+  80% {
+    transform: translate(3px, -1px) scale(1.01);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
 }
 
 /* ========================================================
@@ -2338,8 +2395,13 @@ body {
 }
 
 @keyframes portal-spin-gentle {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .portal-glow-aura {
@@ -2351,8 +2413,15 @@ body {
 }
 
 @keyframes portal-aura-pulse {
-  0% { transform: scale(0.92); opacity: 0.5; }
-  100% { transform: scale(1.1); opacity: 0.9; }
+  0% {
+    transform: scale(0.92);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: scale(1.1);
+    opacity: 0.9;
+  }
 }
 
 /* ========================================================
@@ -2425,16 +2494,50 @@ body {
 }
 
 /* Posiciones flotantes en arco */
-.grape-float-1 { left: 10px;  top: 42px; animation: grape-hover 2.2s ease-in-out infinite alternate; }
-.grape-float-2 { left: 60px;  top: 14px; animation: grape-hover 2.6s ease-in-out infinite alternate 0.3s; }
-.grape-float-3 { left: 115px; top: 0px;  animation: grape-hover 2.4s ease-in-out infinite alternate 0.6s; }
-.grape-float-4 { left: 165px; top: 0px;  animation: grape-hover 2.5s ease-in-out infinite alternate 0.9s; }
-.grape-float-5 { left: 220px; top: 14px; animation: grape-hover 2.7s ease-in-out infinite alternate 0.4s; }
-.grape-float-6 { left: 268px; top: 42px; animation: grape-hover 2.3s ease-in-out infinite alternate 0.7s; }
+.grape-float-1 {
+  left: 10px;
+  top: 42px;
+  animation: grape-hover 2.2s ease-in-out infinite alternate;
+}
+
+.grape-float-2 {
+  left: 60px;
+  top: 14px;
+  animation: grape-hover 2.6s ease-in-out infinite alternate 0.3s;
+}
+
+.grape-float-3 {
+  left: 115px;
+  top: 0px;
+  animation: grape-hover 2.4s ease-in-out infinite alternate 0.6s;
+}
+
+.grape-float-4 {
+  left: 165px;
+  top: 0px;
+  animation: grape-hover 2.5s ease-in-out infinite alternate 0.9s;
+}
+
+.grape-float-5 {
+  left: 220px;
+  top: 14px;
+  animation: grape-hover 2.7s ease-in-out infinite alternate 0.4s;
+}
+
+.grape-float-6 {
+  left: 268px;
+  top: 42px;
+  animation: grape-hover 2.3s ease-in-out infinite alternate 0.7s;
+}
 
 @keyframes grape-hover {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-8px); }
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-8px);
+  }
 }
 
 /* Animación cuando la uva se introduce en la bolsa */
@@ -2562,12 +2665,47 @@ body {
 }
 
 /* Disposición con perspectiva realista: tamaño uniforme 1:1 idéntico */
-.dot-pos-1 { left: 6%;  top: 18%; transform: rotate(-8deg); z-index: 1; }
-.dot-pos-2 { left: 22%; top: 4%;  transform: rotate(6deg);  z-index: 1; }
-.dot-pos-3 { left: 22%; top: 32%; transform: rotate(-4deg); z-index: 2; }
-.dot-pos-6 { left: 42%; top: 14%; transform: rotate(0deg);  z-index: 2; }
-.dot-pos-4 { left: 46%; top: 40%; transform: rotate(-6deg); z-index: 3; }
-.dot-pos-5 { left: 66%; top: 44%; transform: rotate(10deg); z-index: 3; }
+.dot-pos-1 {
+  left: 6%;
+  top: 18%;
+  transform: rotate(-8deg);
+  z-index: 1;
+}
+
+.dot-pos-2 {
+  left: 22%;
+  top: 4%;
+  transform: rotate(6deg);
+  z-index: 1;
+}
+
+.dot-pos-3 {
+  left: 22%;
+  top: 32%;
+  transform: rotate(-4deg);
+  z-index: 2;
+}
+
+.dot-pos-6 {
+  left: 42%;
+  top: 14%;
+  transform: rotate(0deg);
+  z-index: 2;
+}
+
+.dot-pos-4 {
+  left: 46%;
+  top: 40%;
+  transform: rotate(-6deg);
+  z-index: 3;
+}
+
+.dot-pos-5 {
+  left: 66%;
+  top: 44%;
+  transform: rotate(10deg);
+  z-index: 3;
+}
 
 /* Rebote festivo cuando la bolsa está llena */
 .bolsa-gift-stage.is-all-collected .crunchy-bag-assembly {
@@ -2575,17 +2713,31 @@ body {
 }
 
 @keyframes bag-cheer-bounce {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.12) rotate(-3deg); }
-  75% { transform: scale(1.08) rotate(3deg); }
-  100% { transform: scale(1); }
-};
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.12) rotate(-3deg);
+  }
+
+  75% {
+    transform: scale(1.08) rotate(3deg);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+;
 
 @keyframes grape-fire-pulse {
   0% {
     transform: scale(0.9);
     opacity: 0.6;
   }
+
   100% {
     transform: scale(1.3);
     opacity: 1;
@@ -2679,12 +2831,53 @@ body {
 }
 
 /* Posiciones gourmet espaciosas, orgánicas y desordenadas por todo el plato */
-.grape-spot-1 { top: 18%; left: 30%; --rot: -12deg; width: 33px; height: 38px; }
-.grape-spot-2 { top: 40%; left: 16%; --rot: 35deg;  width: 30px; height: 35px; }
-.grape-spot-3 { top: 66%; left: 35%; --rot: -22deg; width: 34px; height: 39px; }
-.grape-spot-4 { top: 22%; left: 63%; --rot: 18deg;  width: 32px; height: 37px; }
-.grape-spot-5 { top: 46%; left: 70%; --rot: -35deg; width: 35px; height: 40px; }
-.grape-spot-6 { top: 48%; left: 42%; --rot: 10deg;  width: 31px; height: 36px; }
+.grape-spot-1 {
+  top: 18%;
+  left: 30%;
+  --rot: -12deg;
+  width: 33px;
+  height: 38px;
+}
+
+.grape-spot-2 {
+  top: 40%;
+  left: 16%;
+  --rot: 35deg;
+  width: 30px;
+  height: 35px;
+}
+
+.grape-spot-3 {
+  top: 66%;
+  left: 35%;
+  --rot: -22deg;
+  width: 34px;
+  height: 39px;
+}
+
+.grape-spot-4 {
+  top: 22%;
+  left: 63%;
+  --rot: 18deg;
+  width: 32px;
+  height: 37px;
+}
+
+.grape-spot-5 {
+  top: 46%;
+  left: 70%;
+  --rot: -35deg;
+  width: 35px;
+  height: 40px;
+}
+
+.grape-spot-6 {
+  top: 48%;
+  left: 42%;
+  --rot: 10deg;
+  width: 31px;
+  height: 36px;
+}
 
 /* Screen Shake */
 @keyframes shake-screen {
