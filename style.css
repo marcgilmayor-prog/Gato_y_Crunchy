@@ -828,7 +828,7 @@ body {
   width: 100%;
   max-width: 640px;
   margin: 0 auto !important;
-  background: #fffdf8;
+  background: #ffffff;
   border-radius: 42px;
   padding: 12px 22px 12px 65px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
@@ -908,28 +908,31 @@ body {
   border: 3px solid currentColor;
 }
 
-/* Colores de bordes uniformes por personaje (sin sombras de bloque pesadas) */
+/* Colores de bordes uniformes por personaje (fondo siempre blanco puro) */
 .character-speech-bubble.bubble-gato {
   border-color: #FE7A01;
+  background: #ffffff;
 }
 
 .character-speech-bubble.bubble-crunchy {
   border-color: #FB467D;
+  background: #ffffff;
 }
 
 .character-speech-bubble.bubble-oti {
   border-color: #883F22;
+  background: #ffffff;
 }
 
 .character-speech-bubble.bubble-carbon,
 .character-speech-bubble.bubble-riolita {
   border-color: #c42e4d;
-  background: #fff5f7;
+  background: #ffffff;
 }
 
 .character-speech-bubble.bubble-basalto {
   border-color: #3d393e;
-  background: #f8fafc;
+  background: #ffffff;
 }
 
 .character-speech-bubble.bubble-system,
@@ -937,7 +940,7 @@ body {
   margin-left: 70px;
   padding: 16px 32px 16px 85px;
   border-color: #373432 !important;
-  background: #fffdf8;
+  background: #ffffff;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   text-align: left;
   justify-content: flex-start;
@@ -3572,12 +3575,16 @@ body {
   }
 
   /* Escenario 04: Desván y cajas */
+  #card-escena-04 {
+    margin-top: 14px;
+  }
+
   .attic-chest-stage {
-    max-width: min(340px, 86vw);
-    height: clamp(190px, 50vw, 230px);
+    max-width: min(330px, 88vw);
+    height: clamp(200px, 52vw, 240px);
     padding: 4px 0;
     overflow: visible;
-    margin: 4px auto 6px auto;
+    margin: 8px auto 10px auto;
   }
 
   .chest-item-layer.is-tossed-left {
@@ -3588,8 +3595,45 @@ body {
     transform: translate(90px, -40px) rotate(45deg) scale(0.45) !important;
   }
 
-  .layer-pistola.is-charging .slot-pistola {
-    transform: scale(1.2) translateY(-10px);
+  .layer-pistola {
+    bottom: 26px;
+  }
+
+  .slot-pistola {
+    width: 170px;
+    height: 122px;
+  }
+
+  .layer-pistola.is-charging .slot-pistola,
+  .layer-pistola.is-shooting .slot-pistola {
+    animation: gun-pure-smooth-float-mobile 3.2s ease-in-out infinite alternate !important;
+    filter: drop-shadow(0 0 16px #00e5ff) drop-shadow(0 0 32px rgba(2, 132, 199, 0.7)) !important;
+  }
+
+  .layer-pistola.is-charging.is-vibrating .slot-pistola {
+    animation: gun-charging-vibrate-mobile 0.08s infinite alternate ease-in-out !important;
+    filter: drop-shadow(0 0 20px #00e5ff) drop-shadow(0 0 40px rgba(0, 229, 255, 0.85)) !important;
+  }
+
+  @keyframes gun-pure-smooth-float-mobile {
+    0% {
+      transform: scale(1.10) translateY(0px) rotate(-2deg);
+    }
+    50% {
+      transform: scale(1.14) translateY(-6px) rotate(-1deg);
+    }
+    100% {
+      transform: scale(1.10) translateY(0px) rotate(-2deg);
+    }
+  }
+
+  @keyframes gun-charging-vibrate-mobile {
+    0% {
+      transform: scale(1.12) translateY(-4px) translateX(-1.5px) rotate(-2deg);
+    }
+    100% {
+      transform: scale(1.12) translateY(-2px) translateX(1.5px) rotate(-1deg);
+    }
   }
 
   /* Escenario 05: Salto dimensional */
@@ -3607,24 +3651,52 @@ body {
   /* Escenario 06: Prismáticos interactivos */
   .binoculars-interactive-stage {
     width: 100%;
+    max-width: 100%;
     min-height: auto;
     overflow: visible;
-    padding: 4px 0 6px;
-    margin: 4px auto 6px auto;
+    padding: 0;
+    margin: 6px auto 10px auto;
   }
 
   .binoculars-cover-box {
-    padding: 12px 0;
+    width: 100%;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .binoculars-cover-img {
-    width: min(210px, 65vw);
+    width: min(220px, 60vw);
+    max-height: 100%;
   }
 
   .binoculars-dual-circles-container {
-    transform: scale(calc(min(400px, 100vw - 32px) / 490));
-    transform-origin: center center;
-    margin: calc((280px * (calc(min(400px, 100vw - 32px) / 490) - 1)) / 2) auto;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 490px;
+    height: 280px;
+    margin-left: calc((100% - 490px) / 2) !important;
+    margin-right: calc((100% - 490px) / 2) !important;
+    margin-top: -38px !important;
+    margin-bottom: -36px !important;
+    transform: scale(0.72) !important;
+    transform-origin: center center !important;
+  }
+
+  .binoculars-interactive-stage.is-opened .binoculars-dual-circles-container {
+    display: block;
+    animation: binoculars-fade-in 0.35s ease forwards;
+  }
+
+  @keyframes binoculars-fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 
   /* Escenario 07: Manos de equipo */
@@ -3988,6 +4060,12 @@ body {
 
   .frying-pan-topview {
     width: 96vw;
+  }
+
+  .binoculars-dual-circles-container {
+    margin-top: -46px !important;
+    margin-bottom: -44px !important;
+    transform: scale(0.65) !important;
   }
 
   .crunchy-bag-assembly {
