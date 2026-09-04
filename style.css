@@ -1372,15 +1372,17 @@ body {
   pointer-events: none;
 }
 
-/* Gato dentro del portal: oculto al inicio (no aparece con el portal, sino al hacer clic) */
+/* Gato dentro del portal: proporcional al vórtice para no salirse de los límites */
 .actor-gato-portal-wrap {
   position: absolute;
-  width: 250px;
-  height: 290px;
+  width: 58%;
+  height: 68%;
+  max-width: 200px;
+  max-height: 230px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: scale(0.4) translateY(30px);
+  transform: scale(0.35) translateY(20px);
   opacity: 0;
   transition: transform 0.65s var(--transition-bounce), opacity 0.4s ease;
   pointer-events: none;
@@ -1400,14 +1402,14 @@ body {
   filter: none;
 }
 
-/* Efecto de levitación sutil dentro del portal */
+/* Efecto de levitación sutil contenido dentro del portal */
 @keyframes gato-portal-subtle-levitate {
   0% {
     transform: scale(1) translateY(0px) rotate(0deg);
   }
 
   50% {
-    transform: scale(1.025) translateY(-10px) rotate(1.2deg);
+    transform: scale(1.02) translateY(-6px) rotate(1.2deg);
   }
 
   100% {
@@ -1460,7 +1462,7 @@ body {
   width: 100%;
   max-width: 480px;
   aspect-ratio: 3 / 2;
-  perspective: 1100px;
+  perspective: 1600px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1517,23 +1519,28 @@ body {
   pointer-events: none;
 }
 
-/* Capa 1: Fondo interior de la habitación */
+/* Capa 1: Fondo interior de la habitación (la casa) */
 .cuadro-layer.layer-fondo {
-  transform: translate3d(calc(var(--norm-x, 0) * -3px), calc(var(--norm-y, 0) * -2.5px), -8px) scale(0.85);
+  transform: translate3d(calc(var(--norm-x, 0) * -1px), calc(var(--norm-y, 0) * -0.8px), 0px);
   z-index: 1;
+}
+
+.layer-fondo .cuadro-img {
+  transform: scale(1.02);
+  transform-origin: center center;
 }
 
 /* Capa 2: Grupo de Personajes */
 .cuadro-layer.layer-grupo {
   top: 20px;
-  transform: translate3d(calc(var(--norm-x, 0) * 1.5px), calc(var(--norm-y, 0) * 1.2px), 8px) scale(0.96);
+  transform: translate3d(calc(var(--norm-x, 0) * 1px), calc(var(--norm-y, 0) * 0.8px), 6px) scale(0.96);
   z-index: 2;
 }
 
 
 /* Capa 3: Marco exterior de madera (plano frontal) */
 .cuadro-layer.layer-marco {
-  transform: translate3d(calc(var(--norm-x, 0) * 3px), calc(var(--norm-y, 0) * 2px), 16px);
+  transform: translate3d(calc(var(--norm-x, 0) * 2px), calc(var(--norm-y, 0) * 1.5px), 11px);
   z-index: 3;
 }
 
@@ -1555,6 +1562,9 @@ body {
   gap: 16px;
   padding: 10px;
   perspective: 900px;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .frying-pan-topview {
@@ -1569,6 +1579,8 @@ body {
   transform-style: preserve-3d;
   filter: none;
   user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
   will-change: transform;
 }
 
@@ -3528,11 +3540,13 @@ body {
     padding: 4px 0 6px;
     max-width: 100%;
     margin: 4px auto 6px auto;
+    touch-action: none;
   }
 
   .frying-pan-topview {
     width: min(310px, 82vw);
     max-width: 100%;
+    touch-action: none;
   }
 
   /* Escenario 04: Desván y cajas */

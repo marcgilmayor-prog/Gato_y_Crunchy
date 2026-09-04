@@ -1560,8 +1560,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Desplazamiento parallax sutil y suave relativo a la inclinación
-    const normX = Math.max(Math.min(cuadroCurTiltY / 11, 1), -1);
-    const normY = Math.max(Math.min(-cuadroCurTiltX / 9, 1), -1);
+    const normX = Math.max(Math.min(cuadroCurTiltY / 6.5, 1), -1);
+    const normY = Math.max(Math.min(-cuadroCurTiltX / 5.5, 1), -1);
 
     // Pasar inclinación normalizada a CSS para que los tamaños y transforms se manejen directamente desde style.css
     if (cuadroCardEl) {
@@ -1589,9 +1589,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const normX = Math.max(Math.min((clientX - centerX) / (rect.width / 2), 1), -1);
       const normY = Math.max(Math.min((clientY - centerY) / (rect.height / 2), 1), -1);
 
-      // Inclinación 3D realista con límites suaves y controlados
-      cuadroTargetTiltX = -normY * 9;
-      cuadroTargetTiltY = normX * 11;
+      // Inclinación 3D realista con límites sutiles y contenidos
+      cuadroTargetTiltX = -normY * 5.5;
+      cuadroTargetTiltY = normX * 6.5;
     }
 
     cuadroStageEl.addEventListener('mouseenter', (e) => {
@@ -1609,10 +1609,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Soporte táctil móvil
     cuadroStageEl.addEventListener('touchmove', (e) => {
+      if (e.cancelable) e.preventDefault();
       if (e.touches.length > 0) {
         handleCuadroMove(e.touches[0].clientX, e.touches[0].clientY);
       }
-    }, { passive: true });
+    }, { passive: false });
 
     cuadroStageEl.addEventListener('touchend', () => {
       cuadroTargetTiltX = 0;
@@ -1906,17 +1907,31 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Soporte táctil móvil para la sartén de migas
+    // Soporte táctil móvil para la sartén de migas: bloquea el scroll de pantalla durante la interacción
+    let touchPanStartX = 0;
+    let touchPanStartY = 0;
+    let isDraggingPan = false;
+
     activePanArea.addEventListener('touchstart', (e) => {
       if (e.touches.length > 0) {
-        mouseLastX = e.touches[0].clientX;
-        mouseLastY = e.touches[0].clientY;
+        touchPanStartX = e.touches[0].clientX;
+        touchPanStartY = e.touches[0].clientY;
+        mouseLastX = touchPanStartX;
+        mouseLastY = touchPanStartY;
+        isDraggingPan = false;
       }
     }, { passive: true });
 
     activePanArea.addEventListener('touchmove', (e) => {
       if (!fryingPanEl || e.touches.length === 0) return;
+      if (e.cancelable) {
+        e.preventDefault();
+      }
       const touch = e.touches[0];
+      const distFromStart = Math.hypot(touch.clientX - touchPanStartX, touch.clientY - touchPanStartY);
+      if (distFromStart > 6) {
+        isDraggingPan = true;
+      }
       const rect = fryingPanEl.getBoundingClientRect();
       const cX = rect.left + rect.width / 2;
       const cY = rect.top + rect.height / 2;
@@ -1947,13 +1962,16 @@ document.addEventListener('DOMContentLoaded', () => {
         lastSoundTime = now;
         fadeInSartenAudio(800);
       }
-    }, { passive: true });
+    }, { passive: false });
 
-    activePanArea.addEventListener('touchend', () => {
+    activePanArea.addEventListener('touchend', (e) => {
       targetTiltX = 0;
       targetTiltY = 0;
       targetShiftX = 0;
       targetShiftY = 0;
+      if (isDraggingPan && e.cancelable) {
+        e.preventDefault();
+      }
     });
   }
 
@@ -2028,6 +2046,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (activePanArea) {
     activePanArea.addEventListener('click', (e) => {
       e.stopPropagation();
+      if (isDraggingPan) {
+        isDraggingPan = false;
+        return;
+      }
       migasArray.forEach((m) => {
         m.vy += -5 - Math.random() * 4;
         m.vx += (Math.random() - 0.5) * 4;
