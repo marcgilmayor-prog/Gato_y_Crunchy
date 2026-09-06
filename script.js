@@ -1187,11 +1187,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btnLibroMobileClose.addEventListener('click', closeLibro);
     }
 
-    libroPanel.addEventListener('click', (e) => {
-      if (e.target === libroPanel) {
-        closeLibro();
-      }
-    });
+    // El libro solo se cierra explícitamente mediante el botón de la cruz (X) para evitar cierres accidentales
 
     // Lógica de marcadores
     const marcadores = libroPanel.querySelectorAll('.marcador');
